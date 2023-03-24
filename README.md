@@ -1,9 +1,9 @@
-<h1 align="center">Sistem Inventori Polindra</h1>
-<h3 align="center">Kien Skripi jeh Lurr :v</h3>
+<h1 align="center">Skripsi jeh Lurr :v</h1>
+<h3 align="center">Sistem Inventori Polindra</h3>
 
-- 🔭 SKRIPSI !!! [SKRIPSI](SKRIPSI)
+- 🔭 SKRIPSI !!!
 
-<h3 align="left">Connect with me:</h3>
+<h3 align="left">Maul & Iso</h3>
 <p align="left">
 </p>
 

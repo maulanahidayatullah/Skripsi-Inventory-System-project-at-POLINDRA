@@ -1,7 +1,7 @@
 <h1 align="center">Sistem Inventori Polindra</h1>
 <h3 align="center">Skripsi jeh Lurr :v</h3>
-
-<h3 align="left">Maul & Iso</h3>
+<br/>
+<h3 align="center">Maul & Iso</h3>
 <p align="left">
 </p>
 

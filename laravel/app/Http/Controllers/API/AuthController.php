@@ -22,7 +22,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'silahkan ulang',
+                'message' => 'Silahkan Ulangi',
                 'data'    => $validator->errors()
             ]);
         }
@@ -52,15 +52,26 @@ class AuthController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'login sukses',
+                'message' => 'Login Sukses',
                 'data' => $success
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'login gagal',
+                'message' => 'Login Gagal',
                 'data' => null
             ]);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhail Logout',
+            'data' => null
+        ]);
     }
 }

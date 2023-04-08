@@ -2,19 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'loginPage.dart';
-import 'signup.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class WelcomePage extends StatefulWidget {
-  WelcomePage({Key? key, this.title}) : super(key: key);
+class Splash extends StatefulWidget {
+  Splash({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _SplashState createState() => _SplashState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _SplashState extends State<Splash> {
   void initState() {
     // TODO: implement initState
     super.initState();

@@ -39,7 +39,7 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Sukses',
             'data'    => $success
-        ]);
+        ], 200);
     }
 
     public function login(Request $request)
@@ -54,13 +54,13 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'Login Sukses',
                 'data' => $success
-            ]);
+            ], 200);
         } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Login Gagal',
                 'data' => null
-            ]);
+            ], 400);
         }
     }
 

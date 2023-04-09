@@ -48,6 +48,7 @@ class BottomNav extends StatelessWidget {
             animType: AnimType.scale,
             headerAnimationLoop: true,
             title: 'Bener',
+            btnOkOnPress: () {},
             btnOkIcon: Icons.cancel,
             btnOkColor: Colors.blue,
           ).show();

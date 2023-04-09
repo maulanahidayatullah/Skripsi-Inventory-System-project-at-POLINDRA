@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class peminjaman extends StatefulWidget {
-  const peminjaman({super.key});
+class Peminjaman extends StatefulWidget {
+  const Peminjaman({super.key});
 
   @override
-  State<peminjaman> createState() => _peminjamanState();
+  State<Peminjaman> createState() => _PeminjamanState();
 }
 
-class _peminjamanState extends State<peminjaman> {
+class _PeminjamanState extends State<Peminjaman> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,7 +82,7 @@ class _peminjamanState extends State<peminjaman> {
           DraggableScrollableSheet(
             builder: (context, scrollController) {
               return Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Color.fromRGBO(243, 245, 248, 1),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
@@ -116,7 +116,8 @@ class _peminjamanState extends State<peminjaman> {
                       ListView.builder(
                         itemBuilder: (context, index) {
                           return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 32),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 6),
                             padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
                                 color: Colors.white,
@@ -136,7 +137,7 @@ class _peminjamanState extends State<peminjaman> {
                                   padding: EdgeInsets.all(12),
                                 ),
                                 SizedBox(
-                                  width: 16,
+                                  width: 12,
                                 ),
                                 Expanded(
                                   child: Column(
@@ -144,14 +145,14 @@ class _peminjamanState extends State<peminjaman> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        "Payment",
+                                        "Lemari",
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w700,
                                             color: Colors.grey[900]),
                                       ),
                                       Text(
-                                        "Payment from Saad",
+                                        "09-04-2023",
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w700,

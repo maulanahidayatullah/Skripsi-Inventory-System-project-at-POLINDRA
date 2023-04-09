@@ -99,7 +99,7 @@ class _MobilitasState extends State<Mobilitas> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "Riwayat mobilitas",
+                              "Riwayat Mobilitas",
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontSize: 24,

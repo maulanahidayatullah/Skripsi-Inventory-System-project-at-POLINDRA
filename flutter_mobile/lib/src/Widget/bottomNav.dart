@@ -3,6 +3,8 @@ import 'package:flutter_mobile/src/pages/dashboard.dart';
 import 'package:flutter_mobile/src/pages/mobilitas.dart';
 import 'package:flutter_mobile/src/pages/peminjaman.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class BottomNav extends StatelessWidget {
   const BottomNav({super.key});
@@ -12,12 +14,12 @@ class BottomNav extends StatelessWidget {
       Dashboard(),
       Mobilitas(),
       Screen3(),
-      peminjaman(),
+      Peminjaman(),
       Screen3(),
     ];
   }
 
-  List<PersistentBottomNavBarItem> _navBarsItems() {
+  List<PersistentBottomNavBarItem> _navBarsItems(BuildContext context) {
     return [
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
@@ -39,6 +41,17 @@ class BottomNav extends StatelessWidget {
         title: ("Check"),
         activeColorPrimary: Color(0xff4d87b7),
         inactiveColorPrimary: Colors.grey,
+        onPressed: (p0) {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.success,
+            animType: AnimType.scale,
+            headerAnimationLoop: true,
+            title: 'Bener',
+            btnOkIcon: Icons.cancel,
+            btnOkColor: Colors.blue,
+          ).show();
+        },
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.inventory),
@@ -65,7 +78,7 @@ class BottomNav extends StatelessWidget {
       context,
       controller: _controller,
       screens: _buildScreens(),
-      items: _navBarsItems(),
+      items: _navBarsItems(context),
       confineInSafeArea: true,
       backgroundColor: Colors.white, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
@@ -79,7 +92,7 @@ class BottomNav extends StatelessWidget {
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
-      popActionScreens: PopActionScreensType.all,
+      popActionScreens: PopActionScreensType.once,
       itemAnimationProperties: const ItemAnimationProperties(
         // Navigation Bar's items animation properties.
         duration: Duration(milliseconds: 200),
@@ -98,19 +111,6 @@ class BottomNav extends StatelessWidget {
   }
 }
 
-class Screen2 extends StatelessWidget {
-  const Screen2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('data'),
-      ),
-    );
-  }
-}
-
 class Screen3 extends StatelessWidget {
   const Screen3({super.key});
 
@@ -123,3 +123,45 @@ class Screen3 extends StatelessWidget {
     );
   }
 }
+
+// class BottomNav extends StatefulWidget {
+//   const BottomNav({super.key});
+
+//   @override
+//   State<BottomNav> createState() => _BottomNavState();
+// }
+
+// class _BottomNavState extends State<BottomNav> {
+//   var screens = [
+//     Mobilitas(),
+//     Peminjaman(),
+//   ]; //screens for each tab
+
+//   int selectedTab = 0;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Color.fromRGBO(38, 81, 158, 1),
+//       bottomNavigationBar: BottomNavigationBar(
+//         items: [
+//           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'asd'),
+//           BottomNavigationBarItem(icon: Icon(Icons.credit_card), label: 'www'),
+//         ],
+//         onTap: (index) {
+//           setState(() {
+//             selectedTab = index;
+//           });
+//         },
+//         showUnselectedLabels: true,
+//         iconSize: 30,
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () {},
+//         elevation: 0,
+//         child: Icon(Icons.add),
+//       ),
+//       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+//       body: screens[selectedTab],
+//     );
+//   }
+// }

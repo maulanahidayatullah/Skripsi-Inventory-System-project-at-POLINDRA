@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/pages/dashboard.dart';
+import 'package:flutter_mobile/src/pages/mobilitas.dart';
+import 'package:flutter_mobile/src/pages/peminjaman.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class BottomNav extends StatelessWidget {
@@ -8,7 +10,9 @@ class BottomNav extends StatelessWidget {
   List<Widget> _buildScreens() {
     return [
       Dashboard(),
-      Screen2(),
+      Mobilitas(),
+      Screen3(),
+      peminjaman(),
       Screen3(),
     ];
   }
@@ -18,19 +22,34 @@ class BottomNav extends StatelessWidget {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
         title: ("Home"),
-        activeColorPrimary: Colors.blue,
+        activeColorPrimary: Color(0xff4d87b7),
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        title: ("Home"),
-        activeColorPrimary: Colors.red,
+        icon: Icon(Icons.flip_camera_android),
+        title: ("Mobilitas"),
+        activeColorPrimary: Color(0xff4d87b7),
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        title: ("Home"),
-        activeColorPrimary: Colors.green,
+        icon: const Icon(
+          Icons.qr_code,
+          color: Colors.white,
+        ),
+        title: ("Check"),
+        activeColorPrimary: Color(0xff4d87b7),
+        inactiveColorPrimary: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(Icons.inventory),
+        title: ("Peminjaman"),
+        activeColorPrimary: Color(0xff4d87b7),
+        inactiveColorPrimary: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(Icons.person),
+        title: ("Profil"),
+        activeColorPrimary: Color(0xff4d87b7),
         inactiveColorPrimary: Colors.grey,
       ),
     ];
@@ -56,7 +75,7 @@ class BottomNav extends StatelessWidget {
       hideNavigationBarWhenKeyboardShows:
           false, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(50.0),
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
@@ -68,12 +87,13 @@ class BottomNav extends StatelessWidget {
       ),
       screenTransitionAnimation: const ScreenTransitionAnimation(
         // Screen transition animation on change of selected tab.
-        animateTabTransition: true,
-        curve: Curves.ease,
-        duration: Duration(milliseconds: 200),
+
+        animateTabTransition: false,
+        curve: Curves.decelerate,
+        duration: Duration(milliseconds: 300),
       ),
       navBarStyle:
-          NavBarStyle.style1, // Choose the nav bar style with this property.
+          NavBarStyle.style15, // Choose the nav bar style with this property.
     );
   }
 }

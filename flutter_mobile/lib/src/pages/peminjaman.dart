@@ -56,7 +56,7 @@ class _PeminjamanState extends State<Peminjaman> {
                                 BorderRadius.all(Radius.circular(18))),
                         child: Icon(
                           Icons.add_circle_outline,
-                          color: Colors.blue[900],
+                          color: Color(0xff4d87b7),
                           size: 35,
                         ),
                         padding: EdgeInsets.all(10),

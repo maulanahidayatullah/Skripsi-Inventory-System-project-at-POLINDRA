@@ -4,11 +4,16 @@ import 'package:flutter_mobile/src/pages/mobilitas.dart';
 import 'package:flutter_mobile/src/pages/peminjaman.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:qrscan/qrscan.dart' as Scanner;
 
-class BottomNav extends StatelessWidget {
+class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
 
+  @override
+  State<BottomNav> createState() => _BottomNavState();
+}
+
+class _BottomNavState extends State<BottomNav> {
   List<Widget> _buildScreens() {
     return [
       Dashboard(),
@@ -20,6 +25,7 @@ class BottomNav extends StatelessWidget {
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems(BuildContext context) {
+    String? code = "asd";
     return [
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
@@ -41,17 +47,22 @@ class BottomNav extends StatelessWidget {
         title: ("Check"),
         activeColorPrimary: Color(0xff4d87b7),
         inactiveColorPrimary: Colors.grey,
-        onPressed: (p0) {
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.success,
-            animType: AnimType.scale,
-            headerAnimationLoop: true,
-            title: 'Bener',
-            btnOkOnPress: () {},
-            btnOkIcon: Icons.cancel,
-            btnOkColor: Colors.blue,
-          ).show();
+        onPressed: (p0) async {
+          code = await Scanner.scan();
+          if (code != null) {
+            setState(() {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.info,
+                animType: AnimType.scale,
+                headerAnimationLoop: true,
+                title: code,
+                btnOkOnPress: () {},
+                btnOkIcon: Icons.cancel,
+                btnOkColor: Colors.blue,
+              ).show();
+            });
+          }
         },
       ),
       PersistentBottomNavBarItem(
@@ -89,7 +100,7 @@ class BottomNav extends StatelessWidget {
       hideNavigationBarWhenKeyboardShows:
           false, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(50.0),
+        borderRadius: BorderRadius.circular(80.0),
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,

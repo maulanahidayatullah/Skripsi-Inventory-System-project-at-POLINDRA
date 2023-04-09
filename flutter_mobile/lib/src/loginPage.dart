@@ -23,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _loading = false;
   String _email = '';
   String _password = '';
+  bool _obscureText = true;
   final formKey = GlobalKey<FormState>();
   TextEditingController txEmail = new TextEditingController();
   TextEditingController txPass = new TextEditingController();
@@ -154,13 +155,20 @@ class _LoginPageState extends State<LoginPage> {
       alignment: Alignment.center,
       child: TextFormField(
         controller: txPass,
-        style: TextStyle(
-          fontSize: 18,
-        ),
-        obscureText: true,
+        obscureText: _obscureText,
         decoration: InputDecoration(
           icon: Icon(Icons.lock),
           labelText: 'Password',
+          suffixIcon: IconButton(
+            onPressed: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            icon: Icon(
+              _obscureText ? Icons.visibility_off : Icons.visibility,
+            ),
+          ),
         ),
         validator: (value) {
           if (value!.isEmpty) {

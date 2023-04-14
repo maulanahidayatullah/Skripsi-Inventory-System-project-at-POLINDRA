@@ -37,10 +37,6 @@ class _ProfilState extends State<Profil> {
                     top: 20, bottom: 25, right: 20, left: 20),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Icon(Icons.bar_chart), Icon(Icons.more_vert)],
-                    ),
                     SizedBox(
                       height: 15,
                     ),
@@ -64,7 +60,7 @@ class _ProfilState extends State<Profil> {
                           child: Column(
                             children: [
                               Text(
-                                "Abbie Wilson",
+                                "User Pengguna",
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,

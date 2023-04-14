@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/src/Widget/bottomNav.dart';
 import 'package:flutter_mobile/src/Widget/intCheck.dart';
 import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/pages/dashboard.dart';
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
             btnOkColor: Colors.blue,
           ).show();
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => Dashboard()),
+              MaterialPageRoute(builder: (context) => BottomNav()),
               (route) => false);
         } else {
           setState(() {

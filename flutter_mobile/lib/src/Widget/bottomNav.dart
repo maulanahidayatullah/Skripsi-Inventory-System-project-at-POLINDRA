@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/pages/dashboard.dart';
 import 'package:flutter_mobile/src/pages/mobilitas.dart';
 import 'package:flutter_mobile/src/pages/peminjaman.dart';
+import 'package:flutter_mobile/src/pages/profil.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
@@ -20,7 +21,7 @@ class _BottomNavState extends State<BottomNav> {
       Mobilitas(),
       Screen3(),
       Peminjaman(),
-      Screen3(),
+      Profil(),
     ];
   }
 

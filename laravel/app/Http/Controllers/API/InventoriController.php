@@ -13,7 +13,6 @@ class InventoriController extends Controller
         $inventori = Inventori::where('kode_barang', '123')->first();
         return response()->json([
             'success' => true,
-            'message' => 'Login Sukses',
             'data' => $inventori
         ], 200);
     }

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/pages/dashboard.dart';
 import 'package:flutter_mobile/src/pages/mobilitas.dart';
 import 'package:flutter_mobile/src/pages/peminjaman.dart';
@@ -6,6 +9,8 @@ import 'package:flutter_mobile/src/pages/profil.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
+
+import '../api/model/inventori.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -26,6 +31,7 @@ class _BottomNavState extends State<BottomNav> {
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems(BuildContext context) {
+    Inventori inventori = Inventori();
     String? code = "asd";
     return [
       PersistentBottomNavBarItem(
@@ -52,16 +58,22 @@ class _BottomNavState extends State<BottomNav> {
           code = await Scanner.scan();
           if (code != null) {
             setState(() {
-              AwesomeDialog(
-                context: context,
-                dialogType: DialogType.info,
-                animType: AnimType.scale,
-                headerAnimationLoop: true,
-                title: code,
-                btnOkOnPress: () {},
-                btnOkIcon: Icons.cancel,
-                btnOkColor: Colors.blue,
-              ).show();
+              API.cekInventori().then((value) {
+                // Add listeners to this class
+                setState(() {
+                  inventori = value;
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.info,
+                    animType: AnimType.scale,
+                    headerAnimationLoop: true,
+                    title: '${inventori.kode_barang}',
+                    btnOkOnPress: () {},
+                    btnOkIcon: Icons.cancel,
+                    btnOkColor: Colors.blue,
+                  ).show();
+                });
+              });
             });
           }
         },

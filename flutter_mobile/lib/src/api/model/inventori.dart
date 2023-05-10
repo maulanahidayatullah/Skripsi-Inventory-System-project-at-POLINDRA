@@ -10,6 +10,8 @@ class Inventori {
       gedung_id,
       ruangan_id;
 
+  bool? success;
+
   Inventori(
       {this.id,
       this.merk,
@@ -26,5 +28,6 @@ class Inventori {
       this.nilai_bmn,
       this.jurusan_id,
       this.gedung_id,
-      this.ruangan_id});
+      this.ruangan_id,
+      this.success});
 }

@@ -34,6 +34,7 @@ class API {
     };
     var body = json.encode(data);
     var url = Uri.parse(baseURL + 'login');
+
     http.Response response = await http.post(
       url,
       headers: header,
@@ -47,11 +48,15 @@ class API {
     }
   }
 
-  static Future<Inventori> cekInventori() async {
+  static Future<Inventori> cekInventori(
+    String kode_barang,
+  ) async {
     Uri url = Uri.parse(baseURL + 'cek_inventori');
 
+    int code = int.parse(kode_barang);
+
     Map data = {
-      // "id": id_user,
+      "kode_barang": code,
     };
     var body = json.encode(data);
 
@@ -61,29 +66,33 @@ class API {
       body: body,
     );
 
+    bool success = json.decode(response.body)["success"];
     var data_inventori = json.decode(response.body)["data"];
 
-    // SharedPreferences pref = await SharedPreferences.getInstance();
-    // pref.setString('id_siswa', data_profil["id"].toString());
-
-    print(data_inventori);
+    if (response.statusCode == 200) {
+      // print(data_inventori["nama_barang"]);
+      return Inventori(
+        id: data_inventori["id"],
+        qty: data_inventori["qty"],
+        harga: data_inventori["harga"],
+        nup: data_inventori["nup"],
+        kode_barang: data_inventori["kode_barang"],
+        nilai_bmn: data_inventori["nilai_bmn"],
+        jurusan_id: data_inventori["jurusan_id"],
+        gedung_id: data_inventori["gedung_id"],
+        ruangan_id: data_inventori["ruangan_id"],
+        merk: data_inventori["merk"],
+        tahun: data_inventori["tahun"],
+        nama_barang: data_inventori["nama_barang"],
+        qr: data_inventori["qr"],
+        pelabelan: data_inventori["pelabelan"],
+        kondisi: data_inventori["kondisi"],
+        keterangan: data_inventori["keterangan"],
+        success: success,
+      );
+    } else {}
     return Inventori(
-      id: data_inventori["id"],
-      qty: data_inventori["qty"],
-      harga: data_inventori["harga"],
-      nup: data_inventori["nup"],
-      kode_barang: data_inventori["kode_barang"],
-      nilai_bmn: data_inventori["nilai_bmn"],
-      jurusan_id: data_inventori["jurusan_id"],
-      gedung_id: data_inventori["gedung_id"],
-      ruangan_id: data_inventori["ruangan_id"],
-      merk: data_inventori["merk"],
-      tahun: data_inventori["tahun"],
-      nama_barang: data_inventori["nama_barang"],
-      qr: data_inventori["qr"],
-      pelabelan: data_inventori["pelabelan"],
-      kondisi: data_inventori["kondisi"],
-      keterangan: data_inventori["keterangan"],
+      success: success,
     );
   }
 }

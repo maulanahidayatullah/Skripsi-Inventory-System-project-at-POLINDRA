@@ -9,6 +9,8 @@ import 'package:flutter_mobile/src/pages/profil.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
+import 'package:ndialog/ndialog.dart';
+import 'package:http/http.dart' as http;
 
 import '../api/model/inventori.dart';
 
@@ -55,26 +57,72 @@ class _BottomNavState extends State<BottomNav> {
         activeColorPrimary: Color(0xff4d87b7),
         inactiveColorPrimary: Colors.grey,
         onPressed: (p0) async {
-          code = await Scanner.scan();
+          String? code = await Scanner.scan();
+          ProgressDialog progressDialog = ProgressDialog(
+            context,
+            blur: 10,
+            message: Text("Mohon Tunggu..."),
+          );
+          progressDialog.show();
           if (code != null) {
-            setState(() {
-              API.cekInventori().then((value) {
-                // Add listeners to this class
+            // setState(() async {
+            try {
+              // http.Response response =
+              //     await API.cekInventori(code) as http.Response;
+              // // print(response.statusCode);
+              // if (response.statusCode == 200) {
+              //   AwesomeDialog(
+              //     context: context,
+              //     dialogType: DialogType.info,
+              //     animType: AnimType.scale,
+              //     headerAnimationLoop: true,
+              //     title: '${inventori.nama_barang}',
+              //     btnOkOnPress: () {},
+              //     onDismissCallback: (type) {
+              //       progressDialog.dismiss();
+              //     },
+              //     btnOkIcon: Icons.cancel,
+              //     btnOkColor: Colors.blue,
+              //   ).show();
+              // } else {}
+              API.cekInventori(code).then((value) {
                 setState(() {
                   inventori = value;
-                  AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.info,
-                    animType: AnimType.scale,
-                    headerAnimationLoop: true,
-                    title: '${inventori.kode_barang}',
-                    btnOkOnPress: () {},
-                    btnOkIcon: Icons.cancel,
-                    btnOkColor: Colors.blue,
-                  ).show();
+                  if (inventori.success == true) {
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.info,
+                      animType: AnimType.scale,
+                      headerAnimationLoop: true,
+                      title: '${inventori.nama_barang}',
+                      btnOkOnPress: () {},
+                      onDismissCallback: (type) {
+                        progressDialog.dismiss();
+                      },
+                      btnOkIcon: Icons.cancel,
+                      btnOkColor: Colors.blue,
+                    ).show();
+                  } else {
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.scale,
+                      headerAnimationLoop: true,
+                      title: 'Mohon Maaf .. Barang tidak ditemukan',
+                      btnOkOnPress: () {},
+                      onDismissCallback: (type) {
+                        progressDialog.dismiss();
+                      },
+                      btnOkIcon: Icons.cancel,
+                      btnOkColor: Colors.blue,
+                    ).show();
+                  }
                 });
               });
-            });
+            } catch (e) {
+              API.gagal(context, progressDialog);
+            }
+            // });
           }
         },
       ),
@@ -148,45 +196,3 @@ class Screen3 extends StatelessWidget {
     );
   }
 }
-
-// class BottomNav extends StatefulWidget {
-//   const BottomNav({super.key});
-
-//   @override
-//   State<BottomNav> createState() => _BottomNavState();
-// }
-
-// class _BottomNavState extends State<BottomNav> {
-//   var screens = [
-//     Mobilitas(),
-//     Peminjaman(),
-//   ]; //screens for each tab
-
-//   int selectedTab = 0;
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Color.fromRGBO(38, 81, 158, 1),
-//       bottomNavigationBar: BottomNavigationBar(
-//         items: [
-//           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'asd'),
-//           BottomNavigationBarItem(icon: Icon(Icons.credit_card), label: 'www'),
-//         ],
-//         onTap: (index) {
-//           setState(() {
-//             selectedTab = index;
-//           });
-//         },
-//         showUnselectedLabels: true,
-//         iconSize: 30,
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () {},
-//         elevation: 0,
-//         child: Icon(Icons.add),
-//       ),
-//       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-//       body: screens[selectedTab],
-//     );
-//   }
-// }

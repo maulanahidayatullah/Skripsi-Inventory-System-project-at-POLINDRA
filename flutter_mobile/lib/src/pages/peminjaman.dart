@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/src/pages/peminjaman/dataPeminjaman.dart';
 
 class Peminjaman extends StatefulWidget {
   const Peminjaman({super.key});
@@ -45,35 +46,44 @@ class _PeminjamanState extends State<Peminjaman> {
                 SizedBox(
                   height: 30,
                 ),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(243, 245, 248, 1),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(18))),
-                        child: Icon(
-                          Icons.add_circle_outline,
-                          color: Color(0xff4d87b7),
-                          size: 35,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DataPeminjaman()),
+                    );
+                  },
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(243, 245, 248, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(18))),
+                          child: Icon(
+                            Icons.add_circle_outline,
+                            color: Color(0xff4d87b7),
+                            size: 35,
+                          ),
+                          padding: EdgeInsets.all(10),
                         ),
-                        padding: EdgeInsets.all(10),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Tambah Peminjaman",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.white),
-                      ),
-                    ],
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          "Tambah Mobilitas",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                )
               ],
             ),
           ),

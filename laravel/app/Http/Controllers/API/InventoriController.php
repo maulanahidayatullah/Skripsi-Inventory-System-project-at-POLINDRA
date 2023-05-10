@@ -10,10 +10,17 @@ class InventoriController extends Controller
 {
     public function cek_inventori(Request $request)
     {
-        $inventori = Inventori::where('kode_barang', '123')->first();
-        return response()->json([
-            'success' => true,
-            'data' => $inventori
-        ], 200);
+        $inventori = Inventori::where('kode_barang', $request->kode_barang)->first();
+        if (!empty($inventori)) {
+            return response()->json([
+                'success' => true,
+                'data' => $inventori
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                // 'data' => $inventori
+            ], 400);
+        }
     }
 }

@@ -5,7 +5,7 @@ import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/pages/dashboard.dart';
 import 'package:flutter_mobile/src/pages/mobilitas.dart';
 import 'package:flutter_mobile/src/pages/peminjaman.dart';
-import 'package:flutter_mobile/src/pages/profiPagel.dart';
+import 'package:flutter_mobile/src/pages/profiPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;

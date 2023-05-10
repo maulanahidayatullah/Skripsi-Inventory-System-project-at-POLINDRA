@@ -9,5 +9,5 @@ const Color red = Color(0xFFec5766);
 const Color green = Color(0xFF43aa8b);
 const Color blue = Color(0xFF28c2ff);
 const Color buttoncolor = Color(0xff3e4784);
-const Color mainFontColor = Color(0xff565c95);
+const Color mainFontColor = Color(0xff4d87b7);
 const Color arrowbgColor = Color(0xffe4e9f7);

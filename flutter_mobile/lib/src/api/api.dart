@@ -47,16 +47,14 @@ class API {
       body: body,
     );
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString(
-        'token', json.decode(response.body)["data"]["token"].toString());
-
-    try {
-      return response;
-    } catch (e) {
-      return response;
+    if (response.statusCode == 200) {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.setString(
+          'token', json.decode(response.body)["data"]["token"].toString());
     }
+
+    return response;
   }
 
   static Future<Inventori> cekInventori(

@@ -5,6 +5,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/api/model/profil.dart';
 import '../Widget/colors.dart';
+import 'package:ndialog/ndialog.dart';
+import 'dart:async';
 
 import 'package:http/http.dart' as http;
 
@@ -20,9 +22,18 @@ class _ProfilPageState extends State<ProfilPage> {
 
   @override
   void initState() {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    Future.delayed(Duration.zero, () {
+      progressDialog.show();
+    });
     API.getUser().then((value) {
       setState(() {
         profil = value;
+        progressDialog.dismiss();
       });
     });
     super.initState();
@@ -45,7 +56,6 @@ class _ProfilPageState extends State<ProfilPage> {
                       color: grey.withOpacity(0.03),
                       spreadRadius: 10,
                       blurRadius: 3,
-                      // changes position of shadow
                     ),
                   ]),
               child: Padding(
@@ -76,7 +86,7 @@ class _ProfilPageState extends State<ProfilPage> {
                           child: Column(
                             children: [
                               Text(
-                                "User Pengguna",
+                                profil.name.toString(),
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -84,13 +94,6 @@ class _ProfilPageState extends State<ProfilPage> {
                               ),
                               SizedBox(
                                 height: 10,
-                              ),
-                              Text(
-                                profil.name.toString(),
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: black),
                               ),
                             ],
                           ),

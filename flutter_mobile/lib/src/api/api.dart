@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import '../api/model/inventori.dart';
+import '../api/model/profil.dart';
 
 const String baseURL = "http://192.168.0.103:8000/api/"; //emulator localhost
 const Map<String, String> header = {"Content-Type": "application/json"};
@@ -26,6 +27,11 @@ class API {
     ).show();
   }
 
+  static Future<String?> getToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
   static Future<http.Response> login(
       String email, String password, BuildContext context) async {
     Map data = {
@@ -40,6 +46,11 @@ class API {
       headers: header,
       body: body,
     );
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString(
+        'token', json.decode(response.body)["data"]["token"].toString());
 
     try {
       return response;
@@ -70,7 +81,6 @@ class API {
     var data_inventori = json.decode(response.body)["data"];
 
     if (response.statusCode == 200) {
-      // print(data_inventori["nama_barang"]);
       return Inventori(
         id: data_inventori["id"],
         qty: data_inventori["qty"],
@@ -94,5 +104,30 @@ class API {
     return Inventori(
       success: success,
     );
+  }
+
+  static Future<Profil> getUser() async {
+    String? token = await getToken();
+
+    Uri url = Uri.parse(baseURL + 'user');
+
+    http.Response response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    var data_profil = json.decode(response.body);
+
+    // print(data_profil['name']);
+
+    return Profil(
+      name: data_profil['name'],
+    );
+    // bool success = json.decode(response.body)["success"];
+    // var data_inventori = json.decode(response.body)["data"];
   }
 }

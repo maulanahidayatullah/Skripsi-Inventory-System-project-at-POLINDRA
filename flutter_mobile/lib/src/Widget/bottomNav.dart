@@ -5,7 +5,7 @@ import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/pages/dashboard.dart';
 import 'package:flutter_mobile/src/pages/mobilitas.dart';
 import 'package:flutter_mobile/src/pages/peminjaman.dart';
-import 'package:flutter_mobile/src/pages/profil.dart';
+import 'package:flutter_mobile/src/pages/profiPagel.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
@@ -28,7 +28,7 @@ class _BottomNavState extends State<BottomNav> {
       Mobilitas(),
       Screen3(),
       Peminjaman(),
-      Profil(),
+      ProfilPage(),
     ];
   }
 
@@ -65,64 +65,46 @@ class _BottomNavState extends State<BottomNav> {
           );
           progressDialog.show();
           if (code != null) {
-            // setState(() async {
-            try {
-              // http.Response response =
-              //     await API.cekInventori(code) as http.Response;
-              // // print(response.statusCode);
-              // if (response.statusCode == 200) {
-              //   AwesomeDialog(
-              //     context: context,
-              //     dialogType: DialogType.info,
-              //     animType: AnimType.scale,
-              //     headerAnimationLoop: true,
-              //     title: '${inventori.nama_barang}',
-              //     btnOkOnPress: () {},
-              //     onDismissCallback: (type) {
-              //       progressDialog.dismiss();
-              //     },
-              //     btnOkIcon: Icons.cancel,
-              //     btnOkColor: Colors.blue,
-              //   ).show();
-              // } else {}
-              API.cekInventori(code).then((value) {
-                setState(() {
-                  inventori = value;
-                  if (inventori.success == true) {
-                    AwesomeDialog(
-                      context: context,
-                      dialogType: DialogType.info,
-                      animType: AnimType.scale,
-                      headerAnimationLoop: true,
-                      title: '${inventori.nama_barang}',
-                      btnOkOnPress: () {},
-                      onDismissCallback: (type) {
-                        progressDialog.dismiss();
-                      },
-                      btnOkIcon: Icons.cancel,
-                      btnOkColor: Colors.blue,
-                    ).show();
-                  } else {
-                    AwesomeDialog(
-                      context: context,
-                      dialogType: DialogType.error,
-                      animType: AnimType.scale,
-                      headerAnimationLoop: true,
-                      title: 'Mohon Maaf .. Barang tidak ditemukan',
-                      btnOkOnPress: () {},
-                      onDismissCallback: (type) {
-                        progressDialog.dismiss();
-                      },
-                      btnOkIcon: Icons.cancel,
-                      btnOkColor: Colors.blue,
-                    ).show();
-                  }
+            setState(() async {
+              try {
+                API.cekInventori(code).then((value) {
+                  setState(() {
+                    inventori = value;
+                    if (inventori.success == true) {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.info,
+                        animType: AnimType.scale,
+                        headerAnimationLoop: true,
+                        title: '${inventori.nama_barang}',
+                        btnOkOnPress: () {},
+                        onDismissCallback: (type) {
+                          progressDialog.dismiss();
+                        },
+                        btnOkIcon: Icons.cancel,
+                        btnOkColor: Colors.blue,
+                      ).show();
+                    } else {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.scale,
+                        headerAnimationLoop: true,
+                        title: 'Mohon Maaf .. Barang tidak ditemukan',
+                        btnOkOnPress: () {},
+                        onDismissCallback: (type) {
+                          progressDialog.dismiss();
+                        },
+                        btnOkIcon: Icons.cancel,
+                        btnOkColor: Colors.blue,
+                      ).show();
+                    }
+                  });
                 });
-              });
-            } catch (e) {
-              API.gagal(context, progressDialog);
-            }
-            // });
+              } catch (e) {
+                API.gagal(context, progressDialog);
+              }
+            });
           }
         },
       ),

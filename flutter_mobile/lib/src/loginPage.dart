@@ -43,7 +43,6 @@ class _LoginPageState extends State<LoginPage> {
     if (_loading = true) {
       try {
         http.Response response = await API.login(_email, _password, context);
-        // Map responseMap = jsonDecode(response.body);
 
         if (response.statusCode == 200) {
           setState(() {

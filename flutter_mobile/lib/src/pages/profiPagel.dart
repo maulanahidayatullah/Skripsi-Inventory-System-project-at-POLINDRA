@@ -2,16 +2,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_mobile/src/api/api.dart';
+import 'package:flutter_mobile/src/api/model/profil.dart';
 import '../Widget/colors.dart';
 
-class Profil extends StatefulWidget {
-  const Profil({super.key});
+import 'package:http/http.dart' as http;
+
+class ProfilPage extends StatefulWidget {
+  const ProfilPage({super.key});
 
   @override
-  State<Profil> createState() => _ProfilState();
+  State<ProfilPage> createState() => _ProfilPageState();
 }
 
-class _ProfilState extends State<Profil> {
+class _ProfilPageState extends State<ProfilPage> {
+  Profil profil = Profil();
+
+  @override
+  void initState() {
+    API.getUser().then((value) {
+      setState(() {
+        profil = value;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -70,7 +86,7 @@ class _ProfilState extends State<Profil> {
                                 height: 10,
                               ),
                               Text(
-                                "Software Developer",
+                                profil.name.toString(),
                                 style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,

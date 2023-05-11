@@ -2,3 +2,5 @@
 - Tahapan SDLC (Sprint : Hasil Aplikasi, Testing) . Bab 4
 
 Perbedaan warna ketika mobilitas dengan peminjaman
+
+* NOTE : CICIL LAPORAN

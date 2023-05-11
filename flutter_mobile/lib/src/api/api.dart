@@ -77,7 +77,13 @@ class API {
     return response;
   }
 
-  static Future<http.Response> logout() async {
+  static Future<http.Response> logout(BuildContext context) async {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    progressDialog.show();
     String? token = await getToken();
 
     Uri url = Uri.parse(baseURL + 'logout');
@@ -140,7 +146,16 @@ class API {
     );
   }
 
-  static Future<Profil> getProfil() async {
+  static Future<Profil> getProfil(BuildContext context) async {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    Future.delayed(Duration.zero, () {
+      progressDialog.show();
+    });
+
     Uri url = Uri.parse(baseURL + 'profil');
 
     int user_id = await getUserId();
@@ -162,6 +177,7 @@ class API {
     bool success = json.decode(response.body)["success"];
 
     if (response.statusCode == 200) {
+      progressDialog.dismiss();
       return Profil(
         nama: data_profil['nama'],
         alamat: data_profil['alamat'],

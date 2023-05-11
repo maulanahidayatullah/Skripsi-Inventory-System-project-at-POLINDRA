@@ -21,7 +21,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _loading = false;
   String _email = '';
   String _password = '';
   bool _obscureText = true;
@@ -36,59 +35,45 @@ class _LoginPageState extends State<LoginPage> {
       message: Text("Mohon Tunggu..."),
     );
     progressDialog.show();
-
-    setState(() {
-      _loading = true;
-    });
-    if (_loading = true) {
-      try {
-        http.Response response = await API.login(_email, _password);
-
-        if (response.statusCode == 200) {
-          setState(() {
-            _loading = false;
-          });
-
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.success,
-            animType: AnimType.scale,
-            headerAnimationLoop: true,
-            title: 'Bener',
-            // desc: 'Username atau Password Salah !',
-            onDismissCallback: (type) {
-              progressDialog.dismiss();
-            },
-            btnOkIcon: Icons.cancel,
-            btnOkColor: Colors.blue,
-          ).show();
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => BottomNav()),
-              (route) => false);
-        } else {
-          setState(() {
-            _loading = false;
-          });
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.error,
-            animType: AnimType.scale,
-            headerAnimationLoop: true,
-            title: 'Username atau Password Salah !',
-            btnOkOnPress: () {},
-            onDismissCallback: (type) {
-              progressDialog.dismiss();
-            },
-            btnOkIcon: Icons.cancel,
-            btnOkColor: Colors.red,
-          ).show();
-          txEmail.text = "";
-          txPass.text = "";
-        }
-      } catch (e) {
-        API.gagal(context, progressDialog);
+    try {
+      http.Response response = await API.login(_email, _password);
+      if (response.statusCode == 200) {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.success,
+          animType: AnimType.scale,
+          headerAnimationLoop: true,
+          title: 'Bener',
+          // desc: 'Username atau Password Salah !',
+          onDismissCallback: (type) {
+            progressDialog.dismiss();
+          },
+          btnOkIcon: Icons.cancel,
+          btnOkColor: Colors.blue,
+        ).show();
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => BottomNav()),
+            (route) => false);
+      } else {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.scale,
+          headerAnimationLoop: true,
+          title: 'Username atau Password Salah !',
+          btnOkOnPress: () {},
+          onDismissCallback: (type) {
+            progressDialog.dismiss();
+          },
+          btnOkIcon: Icons.cancel,
+          btnOkColor: Colors.red,
+        ).show();
+        txEmail.text = "";
+        txPass.text = "";
       }
-    } else {}
+    } catch (e) {
+      API.gagal(context, progressDialog);
+    }
   }
 
   Widget _submitButton() {

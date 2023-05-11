@@ -24,18 +24,18 @@ class _ProfilPageState extends State<ProfilPage> {
 
   @override
   void initState() {
-    ProgressDialog progressDialog = ProgressDialog(
-      context,
-      blur: 10,
-      message: Text("Mohon Tunggu..."),
-    );
-    Future.delayed(Duration.zero, () {
-      progressDialog.show();
-    });
-    API.getProfil().then((value) {
+    // ProgressDialog progressDialog = ProgressDialog(
+    //   context,
+    //   blur: 10,
+    //   message: Text("Mohon Tunggu..."),
+    // );
+    // Future.delayed(Duration.zero, () {
+    //   progressDialog.show();
+    // });
+    API.getProfil(context).then((value) {
       setState(() {
         profil = value;
-        progressDialog.dismiss();
+        // progressDialog.dismiss();
       });
     });
     super.initState();
@@ -132,17 +132,21 @@ class _ProfilPageState extends State<ProfilPage> {
                         title: 'Anda yakin ingin Logout ?',
                         btnOkOnPress: () async {
                           try {
-                            http.Response response = await API.logout();
+                            http.Response response = await API.logout(context);
                             if (response.statusCode == 200) {
                               Navigator.of(context, rootNavigator: true)
                                   .pushReplacement(MaterialPageRoute(
                                       builder: (context) => new LoginPage()));
+                              // progressDialog.dismiss();
                             }
                           } catch (e) {}
                         },
                         btnCancelOnPress: () {},
                         btnCancelColor: Colors.red,
                         btnOkColor: Color(0xff4d87b7),
+                        onDismissCallback: (type) {
+                          // progressDialog.dismiss();
+                        },
                       ).show();
                     },
                     child: Container(

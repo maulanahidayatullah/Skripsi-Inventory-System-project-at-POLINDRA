@@ -52,7 +52,9 @@ class API {
   }
 
   static Future<http.Response> login(
-      String email, String password, BuildContext context) async {
+    String email,
+    String password,
+  ) async {
     Map data = {
       "email": email,
       "password": password,
@@ -72,7 +74,22 @@ class API {
       pref.setString(
           'token', json.decode(response.body)["data"]["token"].toString());
     }
+    return response;
+  }
 
+  static Future<http.Response> logout() async {
+    String? token = await getToken();
+
+    Uri url = Uri.parse(baseURL + 'logout');
+
+    http.Response response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
     return response;
   }
 

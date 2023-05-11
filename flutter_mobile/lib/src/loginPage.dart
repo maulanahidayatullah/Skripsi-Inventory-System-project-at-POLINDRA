@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
     });
     if (_loading = true) {
       try {
-        http.Response response = await API.login(_email, _password, context);
+        http.Response response = await API.login(_email, _password);
 
         if (response.statusCode == 200) {
           setState(() {

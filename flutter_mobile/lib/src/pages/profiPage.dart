@@ -4,9 +4,11 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/api/model/profil.dart';
+import 'package:flutter_mobile/src/loginPage.dart';
 import '../Widget/colors.dart';
 import 'package:ndialog/ndialog.dart';
 import 'dart:async';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -114,15 +116,62 @@ class _ProfilPageState extends State<ProfilPage> {
                       profil.nama.toString()),
                   _card(
                       Icons.email_outlined, "Email :", profil.email.toString()),
-                  _card(
-                      Icons.home_outlined, "Alamt :", profil.alamat.toString()),
+                  _card(Icons.home_outlined, "Alamat :",
+                      profil.alamat.toString()),
                   _card(Icons.star_border, "Jabatan :",
                       profil.jabatan.toString()),
                   _card(
                       Icons.phone_outlined, "No HP :", profil.no_hp.toString()),
+                  InkWell(
+                    onTap: () {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.question,
+                        animType: AnimType.scale,
+                        headerAnimationLoop: true,
+                        title: 'Anda yakin ingin Logout ?',
+                        btnOkOnPress: () async {
+                          try {
+                            http.Response response = await API.logout();
+                            if (response.statusCode == 200) {
+                              Navigator.of(context, rootNavigator: true)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => new LoginPage()));
+                            }
+                          } catch (e) {}
+                        },
+                        btnCancelOnPress: () {},
+                        btnCancelColor: Colors.red,
+                        btnOkColor: Color(0xff4d87b7),
+                      ).show();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(25),
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(18)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: Colors.grey.shade200,
+                                offset: Offset(2, 4),
+                                blurRadius: 5,
+                                spreadRadius: 2)
+                          ],
+                          gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [Color(0xff85a7c7), Color(0xff4d87b7)])),
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: 80,
-                  )
+                  ),
                 ],
               ),
             )
@@ -147,7 +196,7 @@ class _ProfilPageState extends State<ProfilPage> {
                 borderRadius: BorderRadius.all(Radius.circular(18))),
             child: Icon(
               icon,
-              color: Colors.lightBlue[900],
+              color: Color(0xff4d87b7),
             ),
             padding: EdgeInsets.all(12),
           ),

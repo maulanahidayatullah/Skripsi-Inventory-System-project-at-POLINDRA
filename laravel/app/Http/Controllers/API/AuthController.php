@@ -72,6 +72,6 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Berhail Logout',
             'data' => null
-        ]);
+        ], 200);
     }
 }

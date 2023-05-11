@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\InventoriController;
+use App\Http\Controllers\ProfilController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,7 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 
 
 Route::post('cek_inventori', [InventoriController::class, 'cek_inventori']);
+Route::post('profil', [ProfilController::class, 'index']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

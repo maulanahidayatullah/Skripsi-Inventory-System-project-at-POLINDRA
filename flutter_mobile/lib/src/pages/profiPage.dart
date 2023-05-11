@@ -30,7 +30,7 @@ class _ProfilPageState extends State<ProfilPage> {
     Future.delayed(Duration.zero, () {
       progressDialog.show();
     });
-    API.getUser().then((value) {
+    API.getProfil().then((value) {
       setState(() {
         profil = value;
         progressDialog.dismiss();
@@ -79,14 +79,14 @@ class _ProfilPageState extends State<ProfilPage> {
                                   fit: BoxFit.cover)),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 15,
                         ),
                         Container(
-                          width: (size.width - 40) * 0.6,
+                          width: (size.width) * 0.6,
                           child: Column(
                             children: [
                               Text(
-                                profil.name.toString(),
+                                "Profil Pengguna",
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -100,420 +100,82 @@ class _ProfilPageState extends State<ProfilPage> {
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              "\$8900",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: mainFontColor),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Income",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w100,
-                                  color: black),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 0.5,
-                          height: 40,
-                          color: black.withOpacity(0.3),
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "\$5500",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: mainFontColor),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Expenses",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w100,
-                                  color: black),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 0.5,
-                          height: 40,
-                          color: black.withOpacity(0.3),
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "\$890",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: mainFontColor),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Loan",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w100,
-                                  color: black),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),
             ),
             SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 25, right: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text("Overview",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: mainFontColor,
-                              )),
-                        ],
-                      )
-                    ],
-                  ),
-                  // Text("Overview",
-                  //     style: TextStyle(
-                  //       fontWeight: FontWeight.bold,
-                  //       fontSize: 20,
-                  //       color: mainFontColor,
-                  //     )),
-                  Text("Jan 16, 2023",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13,
-                        color: mainFontColor,
-                      )),
-                ],
-              ),
-            ),
-            SizedBox(
               height: 5,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            SingleChildScrollView(
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(
-                            top: 20,
-                            left: 25,
-                            right: 25,
-                          ),
-                          decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: grey.withOpacity(0.03),
-                                  spreadRadius: 10,
-                                  blurRadius: 3,
-                                  // changes position of shadow
-                                ),
-                              ]),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, bottom: 10, right: 20, left: 20),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: arrowbgColor,
-                                    borderRadius: BorderRadius.circular(15),
-                                    // shape: BoxShape.circle
-                                  ),
-                                  child: Center(
-                                      child: Icon(Icons.arrow_upward_rounded)),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    width: (size.width - 90) * 0.7,
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Sent",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            "Sending Payment to Clients",
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: black.withOpacity(0.5),
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          "\$150",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: black),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  _card(Icons.person_2_outlined, "Nama :",
+                      profil.nama.toString()),
+                  _card(
+                      Icons.email_outlined, "Email :", profil.email.toString()),
+                  _card(
+                      Icons.home_outlined, "Alamt :", profil.alamat.toString()),
+                  _card(Icons.star_border, "Jabatan :",
+                      profil.jabatan.toString()),
+                  _card(
+                      Icons.phone_outlined, "No HP :", profil.no_hp.toString()),
                   SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(
-                            top: 10,
-                            left: 25,
-                            right: 25,
-                          ),
-                          decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: grey.withOpacity(0.03),
-                                  spreadRadius: 10,
-                                  blurRadius: 3,
-                                  // changes position of shadow
-                                ),
-                              ]),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, bottom: 10, right: 20, left: 20),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: arrowbgColor,
-                                    borderRadius: BorderRadius.circular(15),
-                                    // shape: BoxShape.circle
-                                  ),
-                                  child: Center(
-                                      child:
-                                          Icon(Icons.arrow_downward_rounded)),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    width: (size.width - 90) * 0.7,
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Receive",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            "Receiving Payment from company",
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: black.withOpacity(0.5),
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          "\$250",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: black),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(
-                            top: 10,
-                            left: 25,
-                            right: 25,
-                          ),
-                          decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: grey.withOpacity(0.03),
-                                  spreadRadius: 10,
-                                  blurRadius: 3,
-                                  // changes position of shadow
-                                ),
-                              ]),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, bottom: 10, right: 20, left: 20),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: arrowbgColor,
-                                    borderRadius: BorderRadius.circular(15),
-                                    // shape: BoxShape.circle
-                                  ),
-                                  child: Center(
-                                      child: Icon(CupertinoIcons.money_dollar)),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    width: (size.width - 90) * 0.7,
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Loan",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            "Loan for the Car",
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: black.withOpacity(0.5),
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ]),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          "\$400",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: black),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    height: 80,
+                  )
                 ],
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _card(IconData? icon, String? judul, String? data) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: Row(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.all(Radius.circular(18))),
+            child: Icon(
+              icon,
+              color: Colors.lightBlue[900],
+            ),
+            padding: EdgeInsets.all(12),
+          ),
+          SizedBox(
+            width: 12,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "$judul",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.grey[500]),
+                ),
+                Text(
+                  "$data",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.grey[900]),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

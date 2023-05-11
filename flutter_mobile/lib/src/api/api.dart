@@ -157,8 +157,5 @@ class API {
     return Profil(
       success: success,
     );
-
-    // bool success = json.decode(response.body)["success"];
-    // var data_inventori = json.decode(response.body)["data"];
   }
 }

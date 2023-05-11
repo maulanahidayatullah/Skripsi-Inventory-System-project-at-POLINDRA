@@ -7,7 +7,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import '../api/model/inventori.dart';
 import '../api/model/profil.dart';
 
-const String baseURL = "http://192.168.0.103:8000/api/"; //emulator localhost
+const String baseURL = "http://192.168.43.8:8000/api/"; //emulator localhost
 const Map<String, String> header = {"Content-Type": "application/json"};
 
 class API {

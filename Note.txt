@@ -1,0 +1,4 @@
+- Hasil perancangan (Rancangannya : ERD, Product Backlog) . Bab 3 
+- Tahapan SDLC (Sprint : Hasil Aplikasi, Testing) . Bab 4
+
+Perbedaan warna ketika mobilitas dengan peminjaman

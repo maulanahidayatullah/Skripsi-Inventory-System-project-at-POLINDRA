@@ -1,2 +1,2 @@
 Terang 	: 0xff85a7c7
-Geap 		: 0xff4d87b7
+Gelap 		: 0xff4d87b7

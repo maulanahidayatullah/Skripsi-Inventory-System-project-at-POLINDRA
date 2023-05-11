@@ -65,7 +65,7 @@ class _BottomNavState extends State<BottomNav> {
           );
           progressDialog.show();
           if (code != null) {
-            setState(() async {
+            setState(() {
               try {
                 API.cekInventori(code).then((value) {
                   setState(() {
@@ -155,7 +155,6 @@ class _BottomNavState extends State<BottomNav> {
       ),
       screenTransitionAnimation: const ScreenTransitionAnimation(
         // Screen transition animation on change of selected tab.
-
         animateTabTransition: false,
         curve: Curves.decelerate,
         duration: Duration(milliseconds: 300),

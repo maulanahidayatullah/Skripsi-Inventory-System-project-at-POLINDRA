@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/pages/mobilitas/dataMobilitas.dart';
+import 'package:qrscan/qrscan.dart' as Scanner;
 
 class Mobilitas extends StatefulWidget {
   const Mobilitas({super.key});
@@ -48,11 +50,22 @@ class _MobilitasState extends State<Mobilitas> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const DataMobilitas()),
-                    );
+                    try {
+                      API.cekMobilitas(context).then((value) async {
+                        if (value == 1) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const DataMobilitas()),
+                          );
+                        } else {
+                          String? code = await Scanner.scan();
+                        }
+                        print(value);
+                      });
+                    } catch (e) {
+                      // API.gagal(context, pDialog)
+                    }
                   },
                   child: Container(
                     child: Column(

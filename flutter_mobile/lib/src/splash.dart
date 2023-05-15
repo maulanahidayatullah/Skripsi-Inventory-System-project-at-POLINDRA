@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/src/Widget/bottomNav.dart';
+import 'package:flutter_mobile/src/Widget/menu.dart';
 import 'package:flutter_mobile/src/pages/dashboard.dart';
 import 'loginPage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,7 +22,7 @@ class _SplashState extends State<Splash> {
       Duration(seconds: 3),
       () {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+            context, MaterialPageRoute(builder: (context) => Menu()));
       },
     );
   }

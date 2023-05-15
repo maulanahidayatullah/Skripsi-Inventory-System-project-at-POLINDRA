@@ -9,13 +9,14 @@ import '../api/model/inventori.dart';
 import '../api/model/profil.dart';
 
 const String baseURL =
-    "https://8546-103-158-121-155.ngrok-free.app/api/"; //emulator localhost
+    "https://0a29-103-158-121-155.ngrok-free.app/api/"; //emulator localhost
 const Map<String, String> header = {"Content-Type": "application/json"};
 
 class API {
   static Future<int> getUserId() async {
-    String? token = await getToken();
+    // String? token = await getToken();
 
+    String? token = "41|nSScKc4LdSvzlWavT6KZmkjsgF37BYpxIi154BEX";
     Uri url = Uri.parse(baseURL + 'user');
 
     http.Response response = await http.get(
@@ -190,5 +191,40 @@ class API {
     return Profil(
       success: success,
     );
+  }
+
+  static Future<int?> cekMobilitas(BuildContext context) async {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    Future.delayed(Duration.zero, () {
+      progressDialog.show();
+    });
+
+    Uri url = Uri.parse(baseURL + 'cek_mobilitas');
+
+    int user_id = await getUserId();
+
+    Map data = {
+      "user_id": user_id,
+    };
+
+    var body = json.encode(data);
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      progressDialog.dismiss();
+      return 1;
+    } else {
+      progressDialog.dismiss();
+      return 0;
+    }
   }
 }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Moblitas extends Model
+class Mobilitas extends Model
 {
     protected $table = 'mobilitas';
     protected $primaryKey = 'id';

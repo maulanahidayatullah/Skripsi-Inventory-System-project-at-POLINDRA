@@ -14,14 +14,14 @@ import 'package:http/http.dart' as http;
 
 import '../api/model/inventori.dart';
 
-class BottomNav extends StatefulWidget {
-  const BottomNav({super.key});
+class Menu extends StatefulWidget {
+  const Menu({super.key});
 
   @override
-  State<BottomNav> createState() => _BottomNavState();
+  State<Menu> createState() => _MenuState();
 }
 
-class _BottomNavState extends State<BottomNav> {
+class _MenuState extends State<Menu> {
   List<Widget> _buildScreens() {
     return [
       Dashboard(),

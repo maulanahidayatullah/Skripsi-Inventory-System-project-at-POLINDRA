@@ -24,18 +24,9 @@ class _ProfilPageState extends State<ProfilPage> {
 
   @override
   void initState() {
-    // ProgressDialog progressDialog = ProgressDialog(
-    //   context,
-    //   blur: 10,
-    //   message: Text("Mohon Tunggu..."),
-    // );
-    // Future.delayed(Duration.zero, () {
-    //   progressDialog.show();
-    // });
     API.getProfil(context).then((value) {
       setState(() {
         profil = value;
-        // progressDialog.dismiss();
       });
     });
     super.initState();

@@ -133,4 +133,22 @@ class MobilitasController extends Controller
             ], 400);
         }
     }
+
+    public function log_mobilitas(Request $request)
+    {
+        $log = LogMobilitas::where('user_id', $request->user_id)
+            ->where('selesai', 'true')
+            ->get();
+
+        if (count($log) !== 0) {
+            return response()->json([
+                'success' => true,
+                'data' => $log
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+            ], 400);
+        }
+    }
 }

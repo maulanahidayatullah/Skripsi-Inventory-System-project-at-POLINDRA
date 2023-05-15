@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2023 at 10:26 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: May 15, 2023 at 10:30 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -78,6 +78,14 @@ CREATE TABLE `inventori` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `inventori`
+--
+
+INSERT INTO `inventori` (`id`, `merk`, `qty`, `harga`, `nup`, `tahun`, `kode_barang`, `nama_barang`, `qr`, `nilai_bmn`, `pelabelan`, `kondisi`, `jurusan_id`, `gedung_id`, `ruangan_id`, `keterangan`, `created_at`, `updated_at`) VALUES
+(1, 'Xiaomi', 1, 10000, 123123, '2019', 123, 'Laptop', 'Gambar', 123, 'sudah', 'B', 1, 3, 1, 'Ini barang', '2023-04-04 03:42:43', '2023-05-15 13:26:42'),
+(2, 'Lenovo', 12, 300000, 123432, '2019', 222, 'Keyboard', 'gambar', 123, 'belum', 'B', 1, 1, 1, 'Ini keyboard', '2023-04-04 03:42:43', '2023-04-04 03:42:43');
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +113,30 @@ CREATE TABLE `log_brg_dtg` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_mobilitas`
+--
+
+CREATE TABLE `log_mobilitas` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `mobilitas_id_sebelum` int(11) DEFAULT NULL,
+  `mobilitas_id_sesudah` int(11) DEFAULT NULL,
+  `selesai` enum('true','false') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `log_mobilitas`
+--
+
+INSERT INTO `log_mobilitas` (`id`, `user_id`, `mobilitas_id_sebelum`, `mobilitas_id_sesudah`, `selesai`, `created_at`, `updated_at`) VALUES
+(2, 4, 13, 17, 'true', '2023-05-15 12:28:36', '2023-05-15 13:27:55'),
+(3, 4, 14, NULL, 'false', '2023-05-15 12:37:25', '2023-05-15 12:37:25');
 
 -- --------------------------------------------------------
 
@@ -169,10 +201,19 @@ CREATE TABLE `mobilitas` (
   `jurusan_id` int(11) NOT NULL,
   `gedung_id` int(11) NOT NULL,
   `ruangan_id` int(11) NOT NULL,
-  `role` int(11) NOT NULL,
+  `selesai` enum('true','false') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mobilitas`
+--
+
+INSERT INTO `mobilitas` (`id`, `user_id`, `inventori_id`, `jurusan_id`, `gedung_id`, `ruangan_id`, `selesai`, `created_at`, `updated_at`) VALUES
+(13, 4, 1, 1, 1, 1, 'true', '2023-05-15 12:28:36', '2023-05-15 13:27:55'),
+(14, 4, 2, 1, 1, 1, 'false', '2023-05-15 12:37:25', '2023-05-15 12:37:25'),
+(17, 4, 1, 1, 3, 1, 'true', '2023-05-15 13:27:55', '2023-05-15 13:27:55');
 
 -- --------------------------------------------------------
 
@@ -199,9 +240,16 @@ CREATE TABLE `pegawai` (
   `alamat` varchar(255) NOT NULL,
   `jabatan` varchar(255) NOT NULL,
   `no_hp` varchar(255) NOT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pegawai`
+--
+
+INSERT INTO `pegawai` (`id`, `user_id`, `nama`, `alamat`, `jabatan`, `no_hp`, `created_at`, `updated_at`) VALUES
+(1, 4, 'Maulana', 'Jatibarang', 'Mahasiswa', '08989876845', '2023-04-04 03:42:43', '2023-04-04 03:42:43');
 
 -- --------------------------------------------------------
 
@@ -255,7 +303,15 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (28, 'App\\Models\\User', 4, 'auth_token', 'ab49da3fcca54f82c85666ed8169cbb9d7b87738348759be0c45495b00927d3b', '[\"*\"]', NULL, NULL, '2023-04-12 09:01:13', '2023-04-12 09:01:13'),
 (30, 'App\\Models\\User', 4, 'auth_token', 'f7d4e9ecb6880952139a9d315524a3a9a800c4f7b95115ecaac9566f28a2c806', '[\"*\"]', NULL, NULL, '2023-04-12 09:55:50', '2023-04-12 09:55:50'),
 (31, 'App\\Models\\User', 4, 'auth_token', '22658576feaaa59d541853929d1708a48b0ef55e0aaf68b04f6e56716c7bbca4', '[\"*\"]', NULL, NULL, '2023-04-12 09:57:02', '2023-04-12 09:57:02'),
-(32, 'App\\Models\\User', 4, 'auth_token', 'ebefa75cd4e4818f57e9508e15dd1f54877bb793bf510a16b60521a2e4422fb2', '[\"*\"]', NULL, NULL, '2023-04-12 10:00:37', '2023-04-12 10:00:37');
+(32, 'App\\Models\\User', 4, 'auth_token', 'ebefa75cd4e4818f57e9508e15dd1f54877bb793bf510a16b60521a2e4422fb2', '[\"*\"]', NULL, NULL, '2023-04-12 10:00:37', '2023-04-12 10:00:37'),
+(33, 'App\\Models\\User', 4, 'auth_token', '3210f4fe58ff76dd042436b127fabb4895d811104e442ae96a48217c21999c75', '[\"*\"]', NULL, NULL, '2023-05-12 20:46:46', '2023-05-12 20:46:46'),
+(34, 'App\\Models\\User', 4, 'auth_token', '2cdb654d0f9c014d67165d29974bde99eca7b7acf78203a378c8332ee1067c1b', '[\"*\"]', NULL, NULL, '2023-05-12 20:49:10', '2023-05-12 20:49:10'),
+(35, 'App\\Models\\User', 4, 'auth_token', '8886db085b9e68cbff1e9e8a4ef214a78a6ab040657b0d2d899b4c5dc3a98699', '[\"*\"]', NULL, NULL, '2023-05-12 20:49:18', '2023-05-12 20:49:18'),
+(36, 'App\\Models\\User', 4, 'auth_token', 'd02d922fa24de2c4f0b5f1b7d8a26a651d2c30e714893ab817b8338f3ad01e9d', '[\"*\"]', NULL, NULL, '2023-05-12 20:49:20', '2023-05-12 20:49:20'),
+(37, 'App\\Models\\User', 4, 'auth_token', 'a71bf366f3bc2672efdefd26b014e15e754faba8fc5d1a8b09a78edd7d1ba0b0', '[\"*\"]', NULL, NULL, '2023-05-12 20:55:13', '2023-05-12 20:55:13'),
+(38, 'App\\Models\\User', 4, 'auth_token', '9ce16c676e86d62ae057f41f9a2bab3a5e600794c6901e16545bb61a7475db08', '[\"*\"]', NULL, NULL, '2023-05-12 20:59:45', '2023-05-12 20:59:45'),
+(40, 'App\\Models\\User', 4, 'auth_token', 'a064603912aaa3eabd58e4c2bf9a71003ede0236b96cff434fdf30dc9264fcae', '[\"*\"]', '2023-05-12 22:36:21', NULL, '2023-05-12 21:07:09', '2023-05-12 22:36:21'),
+(41, 'App\\Models\\User', 4, 'auth_token', 'a20f2e36005c8c6bb5a832d52cf74cd1ff1db3d87380e49facddc3467ec9a9d1', '[\"*\"]', '2023-05-12 22:46:19', NULL, '2023-05-12 22:36:49', '2023-05-12 22:46:19');
 
 -- --------------------------------------------------------
 
@@ -331,6 +387,12 @@ ALTER TABLE `log_brg_dtg`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `log_mobilitas`
+--
+ALTER TABLE `log_mobilitas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `log_pelabelan`
 --
 ALTER TABLE `log_pelabelan`
@@ -401,7 +463,7 @@ ALTER TABLE `gedung`
 -- AUTO_INCREMENT for table `inventori`
 --
 ALTER TABLE `inventori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `jurusan`
@@ -414,6 +476,12 @@ ALTER TABLE `jurusan`
 --
 ALTER TABLE `log_brg_dtg`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `log_mobilitas`
+--
+ALTER TABLE `log_mobilitas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `log_pelabelan`
@@ -437,19 +505,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `mobilitas`
 --
 ALTER TABLE `mobilitas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `users`

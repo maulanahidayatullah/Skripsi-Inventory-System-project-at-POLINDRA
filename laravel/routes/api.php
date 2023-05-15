@@ -16,6 +16,8 @@ Route::post('cek_inventori', [InventoriController::class, 'cek_inventori']);
 Route::post('profil', [ProfilController::class, 'index']);
 
 Route::post('cek_mobilitas', [MobilitasController::class, 'cek_mobilitas']);
+Route::post('tambah_mobilitas', [MobilitasController::class, 'tambah_mobilitas']);
+Route::post('selesai_mobilitas', [MobilitasController::class, 'selesai_mobilitas']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

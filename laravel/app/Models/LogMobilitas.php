@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mobilitas extends Model
+class LogMobilitas extends Model
 {
-    protected $table = 'mobilitas';
+    protected $table = 'log_mobilitas';
     protected $primaryKey = 'id';
 
     protected $guarded = ['id'];

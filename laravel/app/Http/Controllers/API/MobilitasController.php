@@ -114,8 +114,23 @@ class MobilitasController extends Controller
                         'success' => false,
                         'note' => 'Mobilitas barang berhasil'
                     ], 200);
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'note' => 'Mobilitas barang Gagal'
+                    ], 400);
                 }
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'note' => 'Mobilitas barang Gagal'
+                ], 400);
             }
+        } else {
+            return response()->json([
+                'success' => false,
+                'note' => 'Mobilitas barang Gagal'
+            ], 400);
         }
     }
 }

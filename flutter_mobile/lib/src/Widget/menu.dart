@@ -34,7 +34,6 @@ class _MenuState extends State<Menu> {
 
   List<PersistentBottomNavBarItem> _navBarsItems(BuildContext context) {
     Inventori inventori = Inventori();
-    String? code = "asd";
     return [
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
@@ -57,17 +56,17 @@ class _MenuState extends State<Menu> {
         activeColorPrimary: Color(0xff4d87b7),
         inactiveColorPrimary: Colors.grey,
         onPressed: (p0) async {
-          String? code = await Scanner.scan();
+          String? qr = await Scanner.scan();
           ProgressDialog progressDialog = ProgressDialog(
             context,
             blur: 10,
             message: Text("Mohon Tunggu..."),
           );
           progressDialog.show();
-          if (code != null) {
+          if (qr != null) {
             setState(() {
               try {
-                API.cekInventori(code).then((value) {
+                API.cekInventori(qr).then((value) {
                   setState(() {
                     inventori = value;
                     if (inventori.success == true) {

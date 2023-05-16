@@ -32,7 +32,7 @@ class MobilitasController extends Controller
 
     public function tambah_mobilitas(Request $request)
     {
-        $inventori = Inventori::where('kode_barang', $request->kode_barang)->first();
+        $inventori = Inventori::where('nup', $request->nup)->first();
 
         if (!empty($inventori)) {
 
@@ -43,7 +43,6 @@ class MobilitasController extends Controller
                 $data                       = new Mobilitas();
                 $data->user_id              = $request->user_id;
                 $data->inventori_id         = $inventori->id;
-                $data->jurusan_id           = $inventori->jurusan_id;
                 $data->gedung_id            = $inventori->gedung_id;
                 $data->ruangan_id           = $inventori->ruangan_id;
                 $data->selesai              = 'false';
@@ -79,37 +78,26 @@ class MobilitasController extends Controller
     {
         $mobilitas            = Mobilitas::where('id', $request->mobilitas_id)->where('selesai', 'false')->first();
         $mobilitas->selesai   = 'true';
-
         $mobilitas->save();
-
         if ($mobilitas->save()) {
-
             $inventori  = Inventori::where('id', $mobilitas->inventori_id)->first();
-            $inventori->jurusan_id       = $request->jurusan_id;
             $inventori->gedung_id        = $request->gedung_id;
             $inventori->ruangan_id       = $request->ruangan_id;
-
             $inventori->save();
-
             if ($inventori->save()) {
-
                 $data = new Mobilitas();
                 $data->user_id          = $request->user_id;
                 $data->inventori_id     = $mobilitas->inventori_id;
-                $data->jurusan_id       = $inventori->jurusan_id;
                 $data->gedung_id        = $inventori->gedung_id;
                 $data->ruangan_id       = $inventori->ruangan_id;
                 $data->selesai          = 'true';
-
                 $data->save();
-
                 if ($data->save()) {
                     $log                        = LogMobilitas::where('mobilitas_id_sebelum', $mobilitas->id)->first();
                     $log->user_id               = $request->user_id;
                     $log->mobilitas_id_sesudah  = $data->id;
                     $log->selesai              = 'true';
                     $log->save();
-
                     return response()->json([
                         'success' => false,
                         'note' => 'Mobilitas barang berhasil'

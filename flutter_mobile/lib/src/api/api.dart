@@ -101,14 +101,14 @@ class API {
   }
 
   static Future<Inventori> cekInventori(
-    String kode_barang,
+    String qr,
   ) async {
     Uri url = Uri.parse(baseURL + 'cek_inventori');
 
-    int code = int.parse(kode_barang);
+    int nup = int.parse(qr);
 
     Map data = {
-      "kode_barang": code,
+      "nup": nup,
     };
     var body = json.encode(data);
 

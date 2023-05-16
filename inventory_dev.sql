@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2023 at 10:30 PM
+-- Generation Time: May 16, 2023 at 06:51 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -59,20 +59,23 @@ CREATE TABLE `gedung` (
 
 CREATE TABLE `inventori` (
   `id` int(11) NOT NULL,
-  `merk` varchar(255) NOT NULL,
-  `qty` int(11) NOT NULL,
-  `harga` int(11) NOT NULL,
-  `nup` int(11) NOT NULL,
-  `tahun` year(4) NOT NULL,
-  `kode_barang` int(11) NOT NULL,
+  `uraian_akun` varchar(255) NOT NULL,
+  `kode_barang` varchar(255) NOT NULL,
   `nama_barang` varchar(255) NOT NULL,
-  `qr` varchar(255) NOT NULL,
-  `nilai_bmn` int(11) NOT NULL,
-  `pelabelan` enum('sudah','belum') NOT NULL,
-  `kondisi` enum('B','RR','RB') NOT NULL,
-  `jurusan_id` int(11) NOT NULL,
+  `tahun_perolehan` date DEFAULT NULL,
+  `nup` int(11) NOT NULL,
+  `merk_type` varchar(255) NOT NULL,
+  `kuantitas` int(11) NOT NULL,
+  `nilai_bmn` int(255) NOT NULL,
+  `kondisi_barang` enum('B','RR','RB') NOT NULL,
+  `keberadaan_barang` enum('BD','BTD','Berlebih') NOT NULL,
+  `pelabelan_kodefikasi` enum('sudah','belum') NOT NULL,
+  `pegawai_id` int(11) NOT NULL,
   `gedung_id` int(11) NOT NULL,
   `ruangan_id` int(11) NOT NULL,
+  `status_psp` enum('sudah','belum') NOT NULL,
+  `nama_sub_satker` varchar(255) NOT NULL,
+  `qr` varchar(255) NOT NULL,
   `keterangan` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -82,9 +85,8 @@ CREATE TABLE `inventori` (
 -- Dumping data for table `inventori`
 --
 
-INSERT INTO `inventori` (`id`, `merk`, `qty`, `harga`, `nup`, `tahun`, `kode_barang`, `nama_barang`, `qr`, `nilai_bmn`, `pelabelan`, `kondisi`, `jurusan_id`, `gedung_id`, `ruangan_id`, `keterangan`, `created_at`, `updated_at`) VALUES
-(1, 'Xiaomi', 1, 10000, 123123, '2019', 123, 'Laptop', 'Gambar', 123, 'sudah', 'B', 1, 3, 1, 'Ini barang', '2023-04-04 03:42:43', '2023-05-15 13:26:42'),
-(2, 'Lenovo', 12, 300000, 123432, '2019', 222, 'Keyboard', 'gambar', 123, 'belum', 'B', 1, 1, 1, 'Ini keyboard', '2023-04-04 03:42:43', '2023-04-04 03:42:43');
+INSERT INTO `inventori` (`id`, `uraian_akun`, `kode_barang`, `nama_barang`, `tahun_perolehan`, `nup`, `merk_type`, `kuantitas`, `nilai_bmn`, `kondisi_barang`, `keberadaan_barang`, `pelabelan_kodefikasi`, `pegawai_id`, `gedung_id`, `ruangan_id`, `status_psp`, `nama_sub_satker`, `qr`, `keterangan`, `created_at`, `updated_at`) VALUES
+(3, 'Peralatan', '3100101007', 'PC Workstation', '2023-05-02', 157, 'LENOVO ThinkStation P350 Tower', 1, 35430010, 'B', 'BD', 'belum', 1, 2, 1, 'belum', 'polindra', 'gambar', 'keterangan', '2023-04-04 03:42:43', '2023-05-16 09:49:44');
 
 -- --------------------------------------------------------
 
@@ -135,8 +137,7 @@ CREATE TABLE `log_mobilitas` (
 --
 
 INSERT INTO `log_mobilitas` (`id`, `user_id`, `mobilitas_id_sebelum`, `mobilitas_id_sesudah`, `selesai`, `created_at`, `updated_at`) VALUES
-(2, 4, 13, 17, 'true', '2023-05-15 12:28:36', '2023-05-15 13:27:55'),
-(3, 4, 14, NULL, 'false', '2023-05-15 12:37:25', '2023-05-15 12:37:25');
+(4, 4, 18, 19, 'true', '2023-05-16 09:48:27', '2023-05-16 09:49:44');
 
 -- --------------------------------------------------------
 
@@ -198,7 +199,6 @@ CREATE TABLE `mobilitas` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `inventori_id` int(11) NOT NULL,
-  `jurusan_id` int(11) NOT NULL,
   `gedung_id` int(11) NOT NULL,
   `ruangan_id` int(11) NOT NULL,
   `selesai` enum('true','false') NOT NULL,
@@ -210,10 +210,9 @@ CREATE TABLE `mobilitas` (
 -- Dumping data for table `mobilitas`
 --
 
-INSERT INTO `mobilitas` (`id`, `user_id`, `inventori_id`, `jurusan_id`, `gedung_id`, `ruangan_id`, `selesai`, `created_at`, `updated_at`) VALUES
-(13, 4, 1, 1, 1, 1, 'true', '2023-05-15 12:28:36', '2023-05-15 13:27:55'),
-(14, 4, 2, 1, 1, 1, 'false', '2023-05-15 12:37:25', '2023-05-15 12:37:25'),
-(17, 4, 1, 1, 3, 1, 'true', '2023-05-15 13:27:55', '2023-05-15 13:27:55');
+INSERT INTO `mobilitas` (`id`, `user_id`, `inventori_id`, `gedung_id`, `ruangan_id`, `selesai`, `created_at`, `updated_at`) VALUES
+(18, 4, 3, 1, 1, 'true', '2023-05-16 09:48:27', '2023-05-16 09:49:44'),
+(19, 4, 3, 2, 1, 'true', '2023-05-16 09:49:44', '2023-05-16 09:49:44');
 
 -- --------------------------------------------------------
 
@@ -463,7 +462,7 @@ ALTER TABLE `gedung`
 -- AUTO_INCREMENT for table `inventori`
 --
 ALTER TABLE `inventori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `jurusan`
@@ -481,7 +480,7 @@ ALTER TABLE `log_brg_dtg`
 -- AUTO_INCREMENT for table `log_mobilitas`
 --
 ALTER TABLE `log_mobilitas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `log_pelabelan`
@@ -505,7 +504,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `mobilitas`
 --
 ALTER TABLE `mobilitas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `pegawai`

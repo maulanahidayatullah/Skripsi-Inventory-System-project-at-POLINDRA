@@ -27,31 +27,31 @@ class UserController extends Controller
     {
 
 
-        $user = DB::table("users")->where('level','admin')->get();
+        $user = DB::table("users")->get();
         return view('user.view', compact('user'));
     }
 
     public function pj()
     {
-        $user = DB::table("users")->where('level','pj')->get();
-        $ruangan=DB::table('ruangan')->get();
-        return view('pj.view', compact('user','ruangan'));
+        $user = DB::table("users")->where('level', 'pj')->get();
+        $ruangan = DB::table('ruangan')->get();
+        return view('pj.view', compact('user', 'ruangan'));
     }
 
     public function rayon()
     {
 
-        $user = DB::table("users")->where('level','rayon')->get();
+        $user = DB::table("users")->where('level', 'rayon')->get();
 
-        $ruangan=DB::table('ruangan')->get();
+        $ruangan = DB::table('ruangan')->get();
 
-        return view('rayon.view', compact('user','ruangan'));
+        return view('rayon.view', compact('user', 'ruangan'));
     }
 
-     public function bukan_pj()
+    public function bukan_pj()
     {
 
-        $user = DB::table("users")->where('level','bukan_pj')->get();
+        $user = DB::table("users")->where('level', 'bukan_pj')->get();
 
         return view('bukan_pj.view', compact('user'));
     }
@@ -62,7 +62,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    { }
+    {
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -72,14 +73,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-      
+
         $request->validate([
-            'email'=>'required|unique:users',
+            'email' => 'required|unique:users',
             'username' => 'required|unique:users',
         ]);
 
         $password = Hash::make($request->password);
         $data = array_replace($request->all(), ['password' => $password]);
+
+
+        User::insert([
+            'name' => $request->name,
+            'email' => $request->kode_barang,
+            'username' => $request->username,
+            'password' => $password,
+            'level' => $request->level,
+        ]);
 
         User::create($data);
         Alert::success('Success', 'Data Telah Terinput');
@@ -116,11 +126,11 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        
-        DB::table('users')->where('id',$request->id)->update([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'username'=>$request->username
+
+        DB::table('users')->where('id', $request->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username
         ]);
 
         Alert::success('Success', 'Data Telah Terupdate');
@@ -144,9 +154,9 @@ class UserController extends Controller
 
     public function store_pj(Request $request)
     {
-      
+
         $request->validate([
-            'email'=>'required|unique:users',
+            'email' => 'required|unique:users',
             'username' => 'required|unique:users',
         ]);
 
@@ -161,7 +171,7 @@ class UserController extends Controller
     public function edit_pj($id)
     {
         $user2 = DB::table('users')->where('id', $id)->first();
-        
+
 
         $ruangan = DB::table('ruangan')->get();
 
@@ -170,12 +180,12 @@ class UserController extends Controller
 
     public function update_pj(Request $request)
     {
-        
-        DB::table('users')->where('id',$request->id)->update([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'username'=>$request->username,
-            
+
+        DB::table('users')->where('id', $request->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+
         ]);
 
         Alert::success('Success', 'Data Telah Terupdate');
@@ -186,9 +196,9 @@ class UserController extends Controller
 
     public function store_rayon(Request $request)
     {
-      
+
         $request->validate([
-            'email'=>'required|unique:users',
+            'email' => 'required|unique:users',
             'username' => 'required|unique:users',
         ]);
 
@@ -203,7 +213,7 @@ class UserController extends Controller
     public function edit_rayon($id)
     {
         $user2 = DB::table('users')->where('id', $id)->first();
-        
+
 
         $ruangan = DB::table('ruangan')->get();
 
@@ -212,12 +222,12 @@ class UserController extends Controller
 
     public function update_rayon(Request $request)
     {
-        
-        DB::table('users')->where('id',$request->id)->update([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'username'=>$request->username,
-            
+
+        DB::table('users')->where('id', $request->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+
         ]);
 
         Alert::success('Success', 'Data Telah Terupdate');
@@ -228,9 +238,9 @@ class UserController extends Controller
 
     public function store_bukan_pj(Request $request)
     {
-      
+
         $request->validate([
-            'email'=>'required|unique:users',
+            'email' => 'required|unique:users',
             'username' => 'required|unique:users',
         ]);
 
@@ -245,7 +255,7 @@ class UserController extends Controller
     public function edit_bukan_pj($id)
     {
         $user2 = DB::table('users')->where('id', $id)->first();
-        
+
 
         $ruangan = DB::table('ruangan')->get();
 
@@ -254,17 +264,15 @@ class UserController extends Controller
 
     public function update_bukan_pj(Request $request)
     {
-        
-        DB::table('users')->where('id',$request->id)->update([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'username'=>$request->username,
-           
+
+        DB::table('users')->where('id', $request->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+
         ]);
 
         Alert::success('Success', 'Data Telah Terupdate');
         return redirect('/bukan_pj');
     }
-
-
 }

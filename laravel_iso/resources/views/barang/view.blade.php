@@ -96,7 +96,8 @@
           </div>
           <div class="form-group">
               <label for="">NUP</label>
-              <input type="text" name="nup" class="form-control" required>
+              <input type="text" class="form-control" value="{{ $lastNup->nup+1}}" disabled>
+              <input type="hidden" value="{{ $lastNup->nup+1 }}" name="nup">
           </div>
           <div class="form-group">
               <label for="">Merk/Type</label>

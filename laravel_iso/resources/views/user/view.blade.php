@@ -93,6 +93,16 @@
                         <input type="password" name="password" class="form-control" required placeholder="Masukan Password">
                     </div>
                     <input type="hidden" name="level" value="admin">
+                    <div class="form-group">
+                        <label for="">Level User</label>
+                        <select class="myselect" name="level" id="" style="width:100%">
+                            <option></option>
+                        <option value="admin">Admin</option>
+                        <option value="user_1">user_1</option>
+                        <option value="user_2">user_2</option>
+                        <option value="user_3">user_3</option>
+                        </select>
+                    </div>
                  
             </div>
             <div class="modal-footer">

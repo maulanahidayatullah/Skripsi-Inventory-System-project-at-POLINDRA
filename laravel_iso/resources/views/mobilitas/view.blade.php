@@ -16,14 +16,14 @@
                 <th rowspan="2">No</th>
                 <th rowspan="2">User</th>
                 <th rowspan="2">Tanggal</th>
-                <th colspan="2" class="text-center">Sebelum</th>
-                <th colspan="2" class="text-center">Sesudah</th>
+                <th colspan="2" class="text-center text-white bg-danger">Sebelum</th>
+                <th colspan="2" class="text-center text-white bg-success">Sesudah</th>
             </tr>
             <tr>
-                <th>Gedung</th>
-                <th>Ruangan</th>
-                <th>Gedung</th>
-                <th>Ruangan</th>
+                <th class="text-center text-danger">Gedung</th>
+                <th class="text-center text-danger">Ruangan</th>
+                <th class="text-center text-success">Gedung</th>
+                <th class="text-center text-success">Ruangan</th>
             </tr>
           </thead>
           <tbody>

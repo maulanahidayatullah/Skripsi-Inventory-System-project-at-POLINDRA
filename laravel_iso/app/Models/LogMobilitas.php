@@ -11,4 +11,19 @@ class LogMobilitas extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = ['id'];
+
+    public function User()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function MobilitasSebelum()
+    {
+        return $this->hasOne(Mobilitas::class, 'id', 'mobilitas_id_sebelum');
+    }
+
+    public function MobilitasSesudah()
+    {
+        return $this->hasOne(Mobilitas::class, 'id', 'mobilitas_id_sesudah');
+    }
 }

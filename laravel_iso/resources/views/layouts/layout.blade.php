@@ -110,6 +110,19 @@
           <span>Peminjaman</span></a>
       </li> --}}
 
+      <li class="nav-item {{ (request()->is('mobilitas*')) ? 'active' : '' }} {{ (request()->is('mobilitas*')) ? 'active' : '' }} ">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_mob" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-briefcase"></i>
+          <span>Mobilitas</span>
+        </a>
+        <div id="collapse_mob" class="collapse {{ (request()->is('mobilitas*')) ? 'show' : '' }} {{ (request()->is('mobilitas*')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Data Mobilitas</h6>
+            <a class="collapse-item {{ (request()->is('mobilitas*')) ? 'active' : '' }} " href="{{url('mobilitas')}}">Riwayat Mobilitas</a>
+          </div>
+        </div>
+      </li>
+
        <li class="nav-item {{ (request()->is('keranjang_peminjaman*')) ? 'active' : '' }} {{ (request()->is('peminjaman*')) ? 'active' : '' }} ">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-briefcase"></i>

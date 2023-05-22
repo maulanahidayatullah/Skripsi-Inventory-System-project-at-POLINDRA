@@ -11,4 +11,15 @@ class Mobilitas extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = ['id'];
+
+
+    public function Gedung()
+    {
+        return $this->hasOne(Gedung::class, 'id_gedung', 'gedung_id');
+    }
+
+    public function Ruangan()
+    {
+        return $this->hasOne(Ruangan::class, 'id_ruangan', 'ruangan_id');
+    }
 }

@@ -16,6 +16,7 @@ use App\Http\Controllers\KeranjangrusakluarController;
 use App\Http\Controllers\KeranjangrusakruanganController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MasukController;
+use App\Http\Controllers\MobilitasController;
 use App\Http\Controllers\PembimbingController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\RuanganController;
@@ -63,10 +64,8 @@ Route::get('/gedung/edit/{id_gedung}', [GedungController::class, 'edit']);
 Route::post('/gedung/update', [GedungController::class, 'update']);
 Route::get('/gedung/hapus/{id_gedung}', [GedungController::class, 'hapus']);
 
-
-
+// Gedung X Kategori
 Route::post('/gedung/ruangan', [BarangController::class, 'ruangan']);
-
 
 
 // ruangan
@@ -75,6 +74,10 @@ Route::post('/ruangan/store', [RuanganController::class, 'store']);
 Route::get('/ruangan/edit/{id_ruangan}', [RuanganController::class, 'edit']);
 Route::post('/ruangan/update', [RuanganController::class, 'update']);
 Route::get('/ruangan/hapus/{id_ruangan}', [RuanganController::class, 'hapus']);
+
+// Mobilitas
+Route::get('/mobilitas', [MobilitasController::class, 'index']);
+
 
 // Kategori
 Route::get('/kategori', [KategoriController::class, 'index']);

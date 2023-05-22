@@ -10,7 +10,7 @@
 <div class="card-body text-center">
   <div id="example">
    <h3>QR Code <br> {{$qrcode->nama_barang}}</h3>
- {!! QrCode::size(100)->generate($qrcode->nup); !!}
+  {!! QrCode::size(100)->generate($qrcode->nup); !!}
                         </div> 
                         <br>
                         

@@ -74,6 +74,7 @@ class BarangController extends Controller
 
         $qrcode = DB::table('inventori')->where('id', $id)->first();
 
+        // return $qrcode;
         return view('barang.qrcode', compact('qrcode'));
     }
 

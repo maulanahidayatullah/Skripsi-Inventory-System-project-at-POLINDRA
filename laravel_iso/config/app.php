@@ -209,6 +209,7 @@ return [
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
     */
+    'QrCode' => SimpleSoftwareIO\QrCode\Facade::class,
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,

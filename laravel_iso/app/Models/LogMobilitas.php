@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class LogMobilitas extends Model
 {
-    use HasFactory;
+    protected $table = 'log_mobilitas';
+    protected $primaryKey = 'id';
+
+    protected $guarded = ['id'];
 }

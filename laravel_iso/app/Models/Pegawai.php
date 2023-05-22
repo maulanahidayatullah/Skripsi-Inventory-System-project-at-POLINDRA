@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LogPelabelan extends Model
+class Pegawai extends Model
 {
-    protected $table = 'log_pelabelan';
+    protected $table = 'pegawai';
     protected $primaryKey = 'id';
 }

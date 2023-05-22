@@ -56,7 +56,6 @@ Route::get('/barang/delete/{id_barang}', [BarangController::class, 'delete']);
 Route::get('/barang/edit/{id_barang}', [BarangController::class, 'edit']);
 Route::post('/barang/update', [BarangController::class, 'update']);
 
-
 // gedung
 Route::get('/gedung', [GedungController::class, 'index']);
 Route::post('/gedung/store', [GedungController::class, 'store']);

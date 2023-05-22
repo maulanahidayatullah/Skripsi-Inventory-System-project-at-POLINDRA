@@ -4,3 +4,7 @@
 Perbedaan warna ketika mobilitas dengan peminjaman
 
 * NOTE : CICIL LAPORAN
+
+Yang ditanyakan
+- ruangan ama gedung dia ada penanggung jawab atau tidak ?
+- Inventori barang bisa di hapus atau tidak ?

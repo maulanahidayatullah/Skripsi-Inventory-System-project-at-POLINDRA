@@ -8,15 +8,14 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import '../api/model/inventori.dart';
 import '../api/model/profil.dart';
 
-const String baseURL =
-    "https://0a29-103-158-121-155.ngrok-free.app/api/"; //emulator localhost
+const String baseURL = "http://192.168.0.109:8000/api/"; //emulator localhost
 const Map<String, String> header = {"Content-Type": "application/json"};
 
 class API {
   static Future<int> getUserId() async {
     // String? token = await getToken();
 
-    String? token = "41|nSScKc4LdSvzlWavT6KZmkjsgF37BYpxIi154BEX";
+    String? token = "8|sFfNSCF29nSUri2Hy5dzXK5uZEWJqOUczHtk6Nl0";
     Uri url = Uri.parse(baseURL + 'user');
 
     http.Response response = await http.get(
@@ -124,20 +123,21 @@ class API {
     if (response.statusCode == 200) {
       return Inventori(
         id: data_inventori["id"],
-        qty: data_inventori["qty"],
-        harga: data_inventori["harga"],
-        nup: data_inventori["nup"],
         kode_barang: data_inventori["kode_barang"],
+        nup: data_inventori["nup"],
+        kuantitas: data_inventori["kuantitas"],
         nilai_bmn: data_inventori["nilai_bmn"],
-        jurusan_id: data_inventori["jurusan_id"],
-        gedung_id: data_inventori["gedung_id"],
-        ruangan_id: data_inventori["ruangan_id"],
-        merk: data_inventori["merk"],
-        tahun: data_inventori["tahun"],
         nama_barang: data_inventori["nama_barang"],
-        qr: data_inventori["qr"],
-        pelabelan: data_inventori["pelabelan"],
-        kondisi: data_inventori["kondisi"],
+        tahun_perolehan: data_inventori["tahun_perolehan"],
+        merk_type: data_inventori["merk_type"],
+        kondisi_barang: data_inventori["kondisi_barang"],
+        keberadaan_barang: data_inventori["keberadaan_barang"],
+        pelabelan_kodefikasi: data_inventori["pelabelan_kodefikasi"],
+        pegawai: data_inventori["pegawai"],
+        gedung: data_inventori["gedung"],
+        ruangan: data_inventori["ruangan"],
+        status_psp: data_inventori["status_psp"],
+        nama_sub_satker: data_inventori["nama_sub_satker"],
         keterangan: data_inventori["keterangan"],
         success: success,
       );

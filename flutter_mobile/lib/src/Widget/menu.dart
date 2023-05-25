@@ -75,7 +75,8 @@ class _MenuState extends State<Menu> {
                         dialogType: DialogType.info,
                         animType: AnimType.scale,
                         headerAnimationLoop: true,
-                        title: '${inventori.nama_barang}',
+                        title:
+                            'Nama Barang :\n ${inventori.nama_barang}\n\nGedung : \n${inventori.gedung}\n\nRuangan : \n${inventori.ruangan}',
                         btnOkOnPress: () {},
                         onDismissCallback: (type) {
                           progressDialog.dismiss();

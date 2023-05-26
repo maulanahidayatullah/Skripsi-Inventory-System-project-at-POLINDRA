@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isTrue;
+
 class MobilitasController extends Controller
 {
     public function cek_mobilitas(Request $request)
@@ -36,20 +38,23 @@ class MobilitasController extends Controller
             ->where('selesai', 'false')
             ->get();
 
-        foreach ($mobilitas as $key => $value) {
-            $mobilitas->user = $value->User->Pegawai;
-            $mobilitas->inventori = $value->Inventori;
-            $mobilitas->gedung = $value->Gedung;
-            $mobilitas->ruangan = $value->Ruangan;
-        }
         if (count($mobilitas) !== 0) {
+            foreach ($mobilitas as $key => $value) {
+                $mobilitas->success = 'success';
+                $mobilitas->user = $value->User->Pegawai;
+                $mobilitas->inventori = $value->Inventori;
+                $mobilitas->gedung = $value->Gedung;
+                $mobilitas->ruangan = $value->Ruangan;
+            }
             return response()->json([
                 'success' => true,
                 'data' => $mobilitas
             ], 200);
         } else {
+            $mobilitas->success = 'success';
             return response()->json([
                 'success' => false,
+                'data' => $mobilitas
             ], 400);
         }
     }
@@ -57,7 +62,6 @@ class MobilitasController extends Controller
 
     public function tambah_mobilitas(Request $request)
     {
-        // return $request;
         $inventori = Inventori::where('nup', $request->nup)->first();
 
         if (!empty($inventori)) {
@@ -145,6 +149,21 @@ class MobilitasController extends Controller
                 'note' => 'Mobilitas barang Gagal'
             ], 400);
         }
+    }
+
+    public function hapus_mobilitas(Request $request)
+    {
+
+        $mobilitas = Mobilitas::where('id', $request->mobilitas_id)->where('user_id', $request->user_id)->where('selesai', 'false')->first();
+        $mobilitas->delete();
+
+        $log = LogMobilitas::where('mobilitas_id_sebelum', $request->mobilitas_id)->where('user_id', $request->user_id)->where('selesai', 'false')->first();
+        $log->delete();
+
+        return response()->json([
+            'success' => true,
+            'note' => 'Mobilitas berhasil di Hapus'
+        ], 200);
     }
 
     public function log_mobilitas(Request $request)

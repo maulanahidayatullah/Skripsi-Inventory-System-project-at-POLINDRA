@@ -89,6 +89,7 @@ class _MobilitasPageState extends State<MobilitasPage> {
                                           );
                                         });
                                       } catch (e) {}
+                                      progressDialog.dismiss();
                                     } else {
                                       AwesomeDialog(
                                         context: context,

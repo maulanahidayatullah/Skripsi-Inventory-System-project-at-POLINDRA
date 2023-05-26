@@ -259,22 +259,21 @@ class API {
 
     var data_mobilitas = json.decode(response.body)['data'];
 
-    if (response.statusCode == 200) {
-      Iterable it = data_mobilitas;
-      List<Mobilitas> mobilitas = it.map((e) => Mobilitas.fromJson(e)).toList();
+    Iterable it = data_mobilitas;
+    List<Mobilitas> mobilitas = it.map((e) => Mobilitas.fromJson(e)).toList();
 
+    if (response.statusCode == 200) {
       progressDialog.dismiss();
       return mobilitas;
     } else {
       progressDialog.dismiss();
-      return 0;
+      return mobilitas;
     }
   }
 
   static Future<String?> tambahMobilitas(
     int? nup,
   ) async {
-    print(nup);
     int user_id = await getUserId();
 
     Map data = {"nup": nup, "user_id": user_id};
@@ -292,6 +291,32 @@ class API {
     var success = json.decode(response.body)['success'];
     var note = json.decode(response.body)['note'];
     // print(note);
+
+    if (success == false) {
+      return note;
+    }
+    return note;
+  }
+
+  static Future<String?> hapusMobilitas(
+    int? id,
+  ) async {
+    // print(id);
+    int user_id = await getUserId();
+
+    Map data = {"mobilitas_id": id, "user_id": user_id};
+
+    var body = json.encode(data);
+    var url = Uri.parse(baseURL + 'hapus_mobilitas');
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var success = json.decode(response.body)['success'];
+    var note = json.decode(response.body)['note'];
 
     if (success == false) {
       return note;

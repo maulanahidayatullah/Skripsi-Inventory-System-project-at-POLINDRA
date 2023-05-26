@@ -30,6 +30,7 @@ Route::post('tambah_mobilitas', [MobilitasController::class, 'tambah_mobilitas']
 Route::post('cek_mobilitas', [MobilitasController::class, 'cek_mobilitas']);
 Route::post('get_mobilitas', [MobilitasController::class, 'get_mobilitas']);
 Route::post('selesai_mobilitas', [MobilitasController::class, 'selesai_mobilitas']);
+Route::post('hapus_mobilitas', [MobilitasController::class, 'hapus_mobilitas']);
 Route::post('log_mobilitas', [MobilitasController::class, 'log_mobilitas']);
 
 

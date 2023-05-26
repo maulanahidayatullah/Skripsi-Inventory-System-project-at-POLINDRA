@@ -65,7 +65,9 @@ class MobilitasController extends Controller
         $inventori = Inventori::where('nup', $request->nup)->first();
 
         if (!empty($inventori)) {
-            $mobilitas = Mobilitas::where('inventori_id', $inventori->id)->first();
+
+            $mobilitas = Mobilitas::where('inventori_id', $inventori->id)
+                ->where('selesai', 'false')->first();
 
             if (empty($mobilitas)) {
 

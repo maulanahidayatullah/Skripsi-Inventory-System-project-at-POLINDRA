@@ -323,4 +323,35 @@ class API {
     }
     return note;
   }
+
+  static Future<String?> selesaiMobilitas(
+    int? mobilitas_id,
+  ) async {
+    // print(id);
+    int? user_id = await getUserId(), gedung_id = 4, ruangan_id = 7;
+
+    Map data = {
+      "mobilitas_id": mobilitas_id,
+      "user_id": user_id,
+      "gedung_id": gedung_id,
+      "ruangan_id": ruangan_id
+    };
+
+    var body = json.encode(data);
+    var url = Uri.parse(baseURL + 'selesai_mobilitas');
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var success = json.decode(response.body)['success'];
+    var note = json.decode(response.body)['note'];
+
+    if (success == false) {
+      return note;
+    }
+    return note;
+  }
 }

@@ -1,10 +1,13 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/api/api.dart';
+import 'package:flutter_mobile/src/pages/mobilitasPage.dart';
 import '../../api/model/mobilitas.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
+
+import 'package:flutter_mobile/src/Widget/menu.dart';
 
 class DataMobilitas extends StatefulWidget {
   const DataMobilitas({super.key});
@@ -151,9 +154,36 @@ class _DataMobilitasState extends State<DataMobilitas> {
             ),
             InkWell(
               onTap: () async {
-                listMobilitas.forEach((subject) {
-                  // ... Do something here with items here
-                  print(subject.id);
+                ProgressDialog progressDialog = ProgressDialog(
+                  context,
+                  blur: 10,
+                  message: Text("Mohon Tunggu..."),
+                );
+                progressDialog.show();
+                listMobilitas.forEach((value) {
+                  try {
+                    API.selesaiMobilitas(value.id).then((value) async {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.success,
+                        animType: AnimType.scale,
+                        headerAnimationLoop: true,
+                        title: 'Mobilitas Barang berhasil',
+                        btnOkOnPress: () {},
+                        onDismissCallback: (type) {
+                          progressDialog.dismiss();
+                          Navigator.pop(context, true);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => const MobilitasPage()),
+                          // );
+                        },
+                        btnOkIcon: Icons.cancel,
+                        btnOkColor: Colors.blue,
+                      ).show();
+                    });
+                  } catch (e) {}
                 });
               },
               child: Container(

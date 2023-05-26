@@ -124,44 +124,66 @@ class _DataMobilitasState extends State<DataMobilitas> {
             ),
           ],
         ),
-        body: Container(
-          child: ListView.builder(
-            itemCount: listMobilitas.length,
-            itemBuilder: (context, index) {
-              print(listMobilitas[index].success);
-              if (listMobilitas[index].success == false) {
-                return Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text("Tidak ada data Mobilitas")
-                      // _judul("Belum Ada Data Penilaian"),
+        body: Column(
+          children: [
+            Flexible(
+              child: ListView.builder(
+                itemCount: listMobilitas.length,
+                itemBuilder: (context, index) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _card(
+                          listMobilitas[index].id,
+                          listMobilitas[index].kode_barang,
+                          listMobilitas[index].nama_barang,
+                          listMobilitas[index].merk_type,
+                          listMobilitas[index].gedung,
+                          listMobilitas[index].ruangan,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            InkWell(
+              onTap: () async {
+                listMobilitas.forEach((subject) {
+                  // ... Do something here with items here
+                  print(subject.id);
+                });
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.all(20),
+                padding: EdgeInsets.symmetric(vertical: 15),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Colors.grey.shade200,
+                          offset: Offset(2, 4),
+                          blurRadius: 5,
+                          spreadRadius: 2)
                     ],
-                  ),
-                );
-              } else {
-                return SingleChildScrollView(
-                  child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _card(
-                        listMobilitas[index].id,
-                        listMobilitas[index].kode_barang,
-                        listMobilitas[index].nama_barang,
-                        listMobilitas[index].merk_type,
-                        listMobilitas[index].gedung,
-                        listMobilitas[index].ruangan,
-                      ),
-                    ],
-                  ),
-                );
-              }
-            },
-          ),
+                    gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [Color(0xff85a7c7), Color(0xff4d87b7)])),
+                child: Text(
+                  'Selesai',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 80,
+            )
+          ],
         ),
       );
     }

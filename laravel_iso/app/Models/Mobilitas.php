@@ -18,6 +18,16 @@ class Mobilitas extends Model
         return $this->hasOne(Gedung::class, 'id_gedung', 'gedung_id');
     }
 
+    public function User()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function Inventori()
+    {
+        return $this->hasOne(Inventori::class, 'id', 'inventori_id');
+    }
+
     public function Ruangan()
     {
         return $this->hasOne(Ruangan::class, 'id_ruangan', 'ruangan_id');

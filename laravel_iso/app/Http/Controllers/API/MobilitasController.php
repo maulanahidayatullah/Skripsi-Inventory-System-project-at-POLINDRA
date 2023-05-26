@@ -30,12 +30,37 @@ class MobilitasController extends Controller
         }
     }
 
+    public function get_mobilitas(Request $request)
+    {
+        $mobilitas = Mobilitas::where('user_id', $request->user_id)
+            ->where('selesai', 'false')
+            ->get();
+
+        foreach ($mobilitas as $key => $value) {
+            $mobilitas->user = $value->User->Pegawai;
+            $mobilitas->inventori = $value->Inventori;
+            $mobilitas->gedung = $value->Gedung;
+            $mobilitas->ruangan = $value->Ruangan;
+        }
+        if (count($mobilitas) !== 0) {
+            return response()->json([
+                'success' => true,
+                'data' => $mobilitas
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+            ], 400);
+        }
+    }
+
+
     public function tambah_mobilitas(Request $request)
     {
+        // return $request;
         $inventori = Inventori::where('nup', $request->nup)->first();
 
         if (!empty($inventori)) {
-
             $mobilitas = Mobilitas::where('inventori_id', $inventori->id)->first();
 
             if (empty($mobilitas)) {
@@ -56,7 +81,7 @@ class MobilitasController extends Controller
                     $log->save();
 
                     return response()->json([
-                        'success' => false,
+                        'success' => true,
                         'note' => 'Barang berhasil ditambahkan'
                     ], 200);
                 }
@@ -64,7 +89,7 @@ class MobilitasController extends Controller
                 return response()->json([
                     'success' => false,
                     'note' => 'Barang sudah pernah ditambahkan'
-                ], 200);
+                ], 400);
             }
         } else {
             return response()->json([

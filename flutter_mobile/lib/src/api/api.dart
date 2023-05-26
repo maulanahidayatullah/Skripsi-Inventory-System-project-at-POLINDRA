@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import '../api/model/inventori.dart';
 import '../api/model/profil.dart';
+import '../api/model/mobilitas.dart';
 
 const String baseURL = "http://192.168.0.109:8000/api/"; //emulator localhost
 const Map<String, String> header = {"Content-Type": "application/json"};
@@ -219,6 +220,8 @@ class API {
       body: body,
     );
 
+    var data_mobilitas = json.decode(response.body)['data'];
+
     if (response.statusCode == 200) {
       progressDialog.dismiss();
       return 1;
@@ -226,5 +229,73 @@ class API {
       progressDialog.dismiss();
       return 0;
     }
+  }
+
+  Future getMobilitas(BuildContext context) async {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    Future.delayed(Duration.zero, () {
+      progressDialog.show();
+    });
+
+    Uri url = Uri.parse(baseURL + 'get_mobilitas');
+
+    int user_id = await getUserId();
+
+    Map data = {
+      "user_id": user_id,
+    };
+
+    var body = json.encode(data);
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var data_mobilitas = json.decode(response.body)['data'];
+
+    if (response.statusCode == 200) {
+      Iterable it = data_mobilitas;
+      List<Mobilitas> mobilitas = it.map((e) => Mobilitas.fromJson(e)).toList();
+
+      progressDialog.dismiss();
+      return mobilitas;
+    } else {
+      progressDialog.dismiss();
+      return 0;
+    }
+  }
+
+  static Future<String?> tambahMobilitas(
+    int? nup,
+  ) async {
+    print(nup);
+    int user_id = await getUserId();
+
+    Map data = {"nup": nup, "user_id": user_id};
+
+    var body = json.encode(data);
+    var url = Uri.parse(baseURL + 'tambah_mobilitas');
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    // print(response.body);
+    var success = json.decode(response.body)['success'];
+    var note = json.decode(response.body)['note'];
+    // print(note);
+
+    if (success == false) {
+      return note;
+    }
+    return note;
   }
 }

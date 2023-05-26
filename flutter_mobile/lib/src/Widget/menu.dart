@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/pages/dashboard.dart';
-import 'package:flutter_mobile/src/pages/mobilitas.dart';
+import 'package:flutter_mobile/src/pages/mobilitasPage.dart';
 import 'package:flutter_mobile/src/pages/peminjaman.dart';
 import 'package:flutter_mobile/src/pages/profiPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -25,7 +25,7 @@ class _MenuState extends State<Menu> {
   List<Widget> _buildScreens() {
     return [
       Dashboard(),
-      Mobilitas(),
+      MobilitasPage(),
       Screen3(),
       Peminjaman(),
       ProfilPage(),

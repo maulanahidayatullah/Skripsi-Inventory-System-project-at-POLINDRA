@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/api/api.dart';
+import 'package:flutter_mobile/src/api/model/inventori.dart';
 import 'package:flutter_mobile/src/pages/mobilitas/dataMobilitas.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:ndialog/ndialog.dart';
 
-class Mobilitas extends StatefulWidget {
-  const Mobilitas({super.key});
+class MobilitasPage extends StatefulWidget {
+  const MobilitasPage({super.key});
 
   @override
-  State<Mobilitas> createState() => _MobilitasState();
+  State<MobilitasPage> createState() => _MobilitasPageState();
 }
 
-class _MobilitasState extends State<Mobilitas> {
+class _MobilitasPageState extends State<MobilitasPage> {
+  Inventori inventori = Inventori();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,9 +63,56 @@ class _MobilitasState extends State<Mobilitas> {
                                 builder: (context) => const DataMobilitas()),
                           );
                         } else {
-                          String? code = await Scanner.scan();
+                          String? nup = await Scanner.scan();
+                          ProgressDialog progressDialog = ProgressDialog(
+                            context,
+                            blur: 10,
+                            message: Text("Mohon Tunggu..."),
+                          );
+                          progressDialog.show();
+                          if (nup != null) {
+                            setState(() {
+                              try {
+                                API.cekInventori(nup).then((value) {
+                                  setState(() {
+                                    inventori = value;
+                                    if (inventori.success == true) {
+                                      try {
+                                        API
+                                            .tambahMobilitas(inventori.nup)
+                                            .then((value) async {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const DataMobilitas()),
+                                          );
+                                        });
+                                      } catch (e) {}
+                                    } else {
+                                      AwesomeDialog(
+                                        context: context,
+                                        dialogType: DialogType.error,
+                                        animType: AnimType.scale,
+                                        headerAnimationLoop: true,
+                                        title:
+                                            'Mohon Maaf .. Barang tidak ditemukan',
+                                        btnOkOnPress: () {},
+                                        onDismissCallback: (type) {
+                                          progressDialog.dismiss();
+                                        },
+                                        btnOkIcon: Icons.cancel,
+                                        btnOkColor: Colors.blue,
+                                      ).show();
+                                    }
+                                  });
+                                });
+                              } catch (e) {
+                                API.gagal(context, progressDialog);
+                              }
+                            });
+                          }
                         }
-                        print(value);
                       });
                     } catch (e) {
                       // API.gagal(context, pDialog)

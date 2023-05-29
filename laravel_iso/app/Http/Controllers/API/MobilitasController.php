@@ -175,6 +175,13 @@ class MobilitasController extends Controller
             ->get();
 
         if (count($log) !== 0) {
+            foreach ($log as $key => $value) {
+                $log->inventori = $value->MobilitasSebelum->Inventori;
+                $log->gedungSebelum = $value->MobilitasSebelum->Gedung;
+                $log->ruanganSebelum = $value->MobilitasSebelum->Ruangan;
+                $log->gedungSesudah = $value->MobilitasSesudah->Gedung;
+                $log->ruanganSesudah = $value->MobilitasSesudah->Ruangan;
+            }
             return response()->json([
                 'success' => true,
                 'data' => $log

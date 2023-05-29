@@ -15,7 +15,9 @@ import 'package:http/http.dart' as http;
 import '../api/model/inventori.dart';
 
 class Menu extends StatefulWidget {
-  const Menu({super.key});
+  final int? index;
+  
+  const Menu({super.key, this.index});
 
   @override
   State<Menu> createState() => _MenuState();
@@ -127,7 +129,7 @@ class _MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     PersistentTabController _controller;
 
-    _controller = PersistentTabController(initialIndex: 0);
+    _controller = PersistentTabController(initialIndex: 1);
 
     return PersistentTabView(
       context,

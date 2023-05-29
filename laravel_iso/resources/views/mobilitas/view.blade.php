@@ -15,6 +15,7 @@
             <tr>
                 <th rowspan="2">No</th>
                 <th rowspan="2">User</th>
+                <th rowspan="2">Nama Barang</th>
                 <th rowspan="2">Tanggal</th>
                 <th colspan="2" class="text-center text-white bg-danger">Sebelum</th>
                 <th colspan="2" class="text-center text-white bg-success">Sesudah</th>
@@ -31,6 +32,7 @@
             <tr class="data-row">
               <td class="align-middle iteration">{{ ++$i }}</td>
               <td class="align-middle nama">{{ $u->User->Pegawai->nama }}</td>
+              <td class="align-middle nama">{{ $u->MobilitasSebelum->Inventori->nama_barang }}</td>
               <td class="align-middle tanggal">{{ $u->created_at }}</td>
               <td class="align-middle sebelum_gedung">{{ $u->MobilitasSebelum->Gedung->gedung }}</td>
               <td class="align-middle sebelum_ruangan">{{ $u->MobilitasSebelum->Ruangan->ruangan }}</td>

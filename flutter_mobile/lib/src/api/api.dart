@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_mobile/src/api/model/logMobilitas.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndialog/ndialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +10,7 @@ import '../api/model/inventori.dart';
 import '../api/model/profil.dart';
 import '../api/model/mobilitas.dart';
 
-const String baseURL = "http://192.168.1.42:8000/api/"; //emulator localhost
+const String baseURL = "http://192.168.180.8:8000/api/"; //emulator localhost
 const Map<String, String> header = {"Content-Type": "application/json"};
 
 class API {
@@ -381,10 +382,11 @@ class API {
       body: body,
     );
 
-    var data_mobilitas = json.decode(response.body)['data'];
+    var log_mobilitas = json.decode(response.body)['data'];
 
-    Iterable it = data_mobilitas;
-    List<Mobilitas> mobilitas = it.map((e) => Mobilitas.fromJson(e)).toList();
+    Iterable it = log_mobilitas;
+    List<LogMobilitas> mobilitas =
+        it.map((e) => LogMobilitas.fromJson(e)).toList();
 
     if (response.statusCode == 200) {
       progressDialog.dismiss();

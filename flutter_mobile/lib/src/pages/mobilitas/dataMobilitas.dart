@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/api/api.dart';
+import 'package:flutter_mobile/src/api/model/logMobilitas.dart';
 import 'package:flutter_mobile/src/pages/mobilitasPage.dart';
 import '../../api/model/mobilitas.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -172,7 +173,12 @@ class _DataMobilitasState extends State<DataMobilitas> {
                         btnOkOnPress: () {},
                         onDismissCallback: (type) {
                           progressDialog.dismiss();
-                          Navigator.pop(context, true);
+
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Menu()));
+
+                          // API.selesaiMobilitas(context).then((value) async {});
+                          // Navigator.pop(context, true);
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(

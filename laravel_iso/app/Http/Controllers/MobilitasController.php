@@ -10,7 +10,7 @@ class MobilitasController extends Controller
 {
     public function index()
     {
-        $logMobilitas = LogMobilitas::where('selesai', 'true')->get();
+        $logMobilitas = LogMobilitas::where('selesai', 'true')->orderBy("id", "desc")->get();
         // return $logMobilitas;
         return view('mobilitas.view', compact('logMobilitas'));
     }

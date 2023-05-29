@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/api/model/inventori.dart';
+import 'package:flutter_mobile/src/api/model/logMobilitas.dart';
 import 'package:flutter_mobile/src/pages/mobilitas/dataMobilitas.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -15,6 +16,23 @@ class MobilitasPage extends StatefulWidget {
 
 class _MobilitasPageState extends State<MobilitasPage> {
   Inventori inventori = Inventori();
+
+  List<LogMobilitas> logMobilitas = [];
+  API api = API();
+
+  getLogMobilitas() async {
+    logMobilitas = await api.getLogMobilitas(context);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // http.getSemester_1();
+    getLogMobilitas();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -189,78 +207,24 @@ class _MobilitasPageState extends State<MobilitasPage> {
                       ),
 
                       ListView.builder(
+                        itemCount: logMobilitas.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 6),
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey[100],
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(18))),
-                                  child: Icon(
-                                    Icons.date_range,
-                                    color: Colors.lightBlue[900],
-                                  ),
-                                  padding: EdgeInsets.all(12),
-                                ),
-                                SizedBox(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        "Lemari",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.grey[900]),
-                                      ),
-                                      Text(
-                                        "09-04-2023",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.grey[500]),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(
-                                      "+\$500.5",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.lightGreen),
-                                    ),
-                                    Text(
-                                      "26 Jan",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.grey[500]),
-                                    ),
-                                  ],
-                                ),
+                          return SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                _card(
+                                    logMobilitas[index].id,
+                                    logMobilitas[index].nama_barang,
+                                    logMobilitas[index].gedung_sebelum,
+                                    logMobilitas[index].ruangan_sebelum,
+                                    logMobilitas[index].gedung_sesudah,
+                                    logMobilitas[index].ruangan_sesudah,
+                                    logMobilitas[index].date),
                               ],
                             ),
                           );
                         },
                         shrinkWrap: true,
-                        itemCount: 2,
                         padding: EdgeInsets.all(0),
                         controller: ScrollController(keepScrollOffset: false),
                       ),
@@ -277,6 +241,123 @@ class _MobilitasPageState extends State<MobilitasPage> {
             maxChildSize: 1,
           )
         ],
+      ),
+    );
+  }
+
+  Widget _card(
+      int? id,
+      String? nama_barang,
+      String? gedung_sebelum,
+      String? ruangan_sebelum,
+      String? gedung_sesudah,
+      String? ruangan_sesudah,
+      String? date) {
+    return GestureDetector(
+      onTap: () {},
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Card(
+          // color: Color(0xff4d87b7),
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Column(
+              children: [
+                Text(
+                  nama_barang.toString(),
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.grey[900]),
+                ),
+                SizedBox(
+                  height: 22,
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            gedung_sebelum.toString(),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey[900]),
+                          ),
+                          Text(
+                            ruangan_sebelum.toString(),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey[500]),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.all(Radius.circular(18))),
+                      child: Icon(
+                        Icons.compare_arrows,
+                        color: Colors.lightBlue[900],
+                      ),
+                      padding: EdgeInsets.all(12),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        // mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            gedung_sesudah.toString(),
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey[900]),
+                          ),
+                          Text(
+                            ruangan_sesudah.toString(),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey[500]),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  date.toString(),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.grey[500]),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

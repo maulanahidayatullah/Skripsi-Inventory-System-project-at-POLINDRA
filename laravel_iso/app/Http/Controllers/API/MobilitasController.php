@@ -172,6 +172,7 @@ class MobilitasController extends Controller
     {
         $log = LogMobilitas::where('user_id', $request->user_id)
             ->where('selesai', 'true')
+            ->orderBy("id", "desc")
             ->get();
 
         if (count($log) !== 0) {
@@ -181,7 +182,9 @@ class MobilitasController extends Controller
                 $log->ruanganSebelum = $value->MobilitasSebelum->Ruangan;
                 $log->gedungSesudah = $value->MobilitasSesudah->Gedung;
                 $log->ruanganSesudah = $value->MobilitasSesudah->Ruangan;
+                $log[$key]->date = date($value->created_at);
             }
+            // $log[0]->created_at = "aasd"
             return response()->json([
                 'success' => true,
                 'data' => $log

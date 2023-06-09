@@ -30,10 +30,28 @@
 
 <div class="card-body">
    
+  <div class="row">
+    <div class="col-6">
+      <button class="btn btn-success mr-3" data-toggle="modal" data-target="#tambah">Tambah Data</button>
+      <button class="btn btn-warning" data-toggle="modal" data-target="#cetak">Cetak Kode QR</button>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-4">
+        <div class="row">
+          <div class="col-5">
+            <input type="text" name="uraian_akun" placeholder="Kode Barang" class="form-control float-right"  required>
+          </div>
+          <div class="col-5">
+              <input type="text" name="uraian_akun" placeholder="NUP" class="form-control float-right"  required>
+          </div>
+          <div class="col-2">
+            <button class="btn btn-info" data-toggle="modal" data-target="#tambah">Search</button>
+          </div>
+        </div>
+    </div>
+  </div>
+  <br>
   <div class="table-responsive">
-    <button class="btn btn-success" data-toggle="modal" data-target="#tambah">Tambah Data</button>
-      <br>
-      <br>
       <table id="example" class="table table-bordered js-basic-example dataTable" cellspacing="0">
           <thead>
             <tr>
@@ -53,7 +71,6 @@
               <th>Nama Gedung</th>
               <th>Nama Ruangan</th>
               <th>Status PSP</th>
-              <th>Nama Sub Satker</th>
               <th>Keterangan</th>
               <th>Opsi</th>
           </tr>
@@ -63,7 +80,37 @@
   </div>
 </div>
 
-
+  <div id="cetak" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Masukan Data</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <form action="{{ route('barang.store') }}" method="post">
+          @csrf
+          <div class="form-group">
+            <label for=""></label>
+            <select class="myselect" name="kondisi_barang" id="" style="width:100%">
+                <option></option>
+              <option value="B">B</option>
+              <option value="RR">RR</option>
+              <option value="RB">RB</option>
+            </select>
+          </div>        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div id="tambah" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -96,8 +143,7 @@
           </div>
           <div class="form-group">
               <label for="">NUP</label>
-              <input type="text" class="form-control" value="{{ $lastNup->nup+1}}" disabled>
-              <input type="hidden" value="{{ $lastNup->nup+1 }}" name="nup">
+              <input type="text" name="nup" class="form-control" required>
           </div>
           <div class="form-group">
               <label for="">Merk/Type</label>
@@ -110,6 +156,10 @@
           <div class="form-group">
               <label for="">Nilai BMN</label>
               <input type="number" name="nilai_bmn" class="form-control"  required>
+          </div>
+          <div class="form-group">
+              <label for="">Pegawai Pengguna Barang</label>
+              <input type="text" name="pengguna" class="form-control"  required>
           </div>
           <div class="form-group">
             <label for="">Kondisi Barang</label>
@@ -158,10 +208,6 @@
                 <option value="Sudah">Sudah</option>
                 <option value="Belum">Belum</option>
               </select>
-          </div>
-          <div class="form-group">
-              <label for="">Nama Sub Satker</label>
-              <input type="text" name="nama_sub_satker" class="form-control"  required>
           </div>
           <div class="form-group">
               <label for="">Keterangan</label>
@@ -215,19 +261,12 @@
 
       
     }
-    // $(document).on('click','#gedung',function(){
-    //your code
-      // console.log('asd');
-    // })
-    // $('#gedung').change(function() {
-    //   // alert($(this).val()); 
-    //   console.log('asd');
-    // });
  $(document).ready( function () {
     
     $('#example').DataTable({
            processing: true,
            serverSide: true,
+           searching: false,
            ajax: "/barang_json",
            columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', oderable: false, searchable: false },
@@ -242,11 +281,10 @@
                     { data: 'kondisi_barang', name: 'kondisi_barang' },
                     { data: 'keberadaan_barang', name: 'keberadaan_barang' },
                     { data: 'pelabelan_kodefikasi', name: 'nampelabelan_kodefikasia_barang' },
-                    { data: 'pegawai_id', name: 'pegawai_id' },
+                    { data: 'pengguna', name: 'pengguna' },
                     { data: 'gedung', name: 'gedung'},
                     { data: 'ruangan', name: 'ruangan' },
                     { data: 'status_psp', name: 'status_psp' },
-                    { data: 'nama_sub_satker', name: 'nama_sub_satker' },
                     { data: 'keterangan', name: 'keterangan' },
                     { data: 'action', name: 'action', orderable: false},
                  ]

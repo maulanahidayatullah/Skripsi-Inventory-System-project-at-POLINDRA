@@ -10,7 +10,7 @@ import '../api/model/inventori.dart';
 import '../api/model/profil.dart';
 import '../api/model/mobilitas.dart';
 
-const String baseURL = "http://192.168.180.8:8000/api/"; //emulator localhost
+const String baseURL = "http://192.168.8.8:8000/api/"; //emulator localhost
 const Map<String, String> header = {"Content-Type": "application/json"};
 
 class API {

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Gedung;
 use App\Models\Inventori;
 use App\Models\LogMobilitas;
 use App\Models\Mobilitas;
+use App\Models\Ruangan;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
@@ -188,6 +190,37 @@ class MobilitasController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => $log
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+            ], 400);
+        }
+    }
+
+    public function get_gedung()
+    {
+        $gedung = Gedung::get();
+
+        if (count($gedung) !== 0) {
+            return response()->json([
+                'success' => true,
+                'data' => $gedung
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+            ], 400);
+        }
+    }
+
+    public function get_ruangan(Request $request)
+    {
+        $ruangan = Ruangan::where('id_gedung', $request->gedung_id)->get();
+        if (count($ruangan) !== 0) {
+            return response()->json([
+                'success' => true,
+                'data' => $ruangan
             ], 200);
         } else {
             return response()->json([

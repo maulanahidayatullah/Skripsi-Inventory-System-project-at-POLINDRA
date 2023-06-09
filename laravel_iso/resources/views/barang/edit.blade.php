@@ -1,8 +1,8 @@
 @extends('layouts.layout')
 @section('content')
-<title>Edit Data Barang</title>
+<title>Edit Data Inventori</title>
 <div class="card-header py-3">
-  <h6 class="m-0 font-weight-bold text-dark">Edit Data</h6>
+  <h6 class="m-0 font-weight-bold text-dark">Edit Data Inventori</h6>
 </div>
 <div class="card-body">
     <div class="x_content">
@@ -11,19 +11,23 @@
           <input type="hidden" name="id_inventori" value="{{ $inventori->id }}">
           <div class="form-group">
               <label for="">Uraian Akun</label>
-              <input type="text" name="uraian_akun" class="form-control" value="{{ $inventori->uraian_akun }}"  required>
+              <input type="text" name="" class="form-control" value="{{ $inventori->uraian_akun }}"  disabled>
+              <input type="hidden" name="uraian_akun" value="{{ $inventori->uraian_akun }}">
           </div>
           <div class="form-group">
               <label for="">Kode Barang</label>
-              <input type="text" name="kode_barang" class="form-control" value="{{ $inventori->kode_barang }}"  required>
+              <input type="text" name="" class="form-control" value="{{ $inventori->kode_barang }}"  disabled>
+              <input type="hidden" name="kode_barang" value="{{ $inventori->kode_barang }}">
           </div>
           <div class="form-group">
               <label for="">Nama Barang</label>
-              <input type="text" name="nama_barang" class="form-control" value="{{ $inventori->nama_barang }}" required>
+              <input type="text" name="" class="form-control" value="{{ $inventori->nama_barang }}" disabled>
+              <input type="hidden" name="nama_barang" value="{{ $inventori->nama_barang }}">
           </div>
           <div class="form-group">
               <label for="">Tahun Perolehan</label>
-              <input type="text" name="tahun_perolehan" class="form-control" value="{{ $inventori->tahun_perolehan }}"  required>
+              <input type="text" name="" class="form-control" value="{{ $inventori->tahun_perolehan }}"  disabled>
+              <input type="hidden" name="tahun_perolehan" value="{{ $inventori->tahun_perolehan }}">
           </div>
           <div class="form-group">
               <label for="">NUP</label>
@@ -32,15 +36,23 @@
           </div>
           <div class="form-group">
               <label for="">Merk/Type</label>
-              <input type="text" name="merk_type" class="form-control" value="{{ $inventori->merk_type }}"  required>
+              <input type="text" name="" class="form-control" value="{{ $inventori->merk_type }}"  disabled>
+              <input type="hidden" name="merk_type" value="{{ $inventori->merk_type }}">
           </div>
           <div class="form-group">
               <label for="">Kuantitas</label>
-              <input type="number" name="kuantitas" class="form-control" value="{{ $inventori->kuantitas }}"  required>
+              <input type="number" name="" class="form-control" value="{{ $inventori->kuantitas }}"  disabled>
+              <input type="hidden" name="kuantitas" value="{{ $inventori->kuantitas }}">
           </div>
           <div class="form-group">
               <label for="">Nilai BMN</label>
-              <input type="number" name="nilai_bmn" class="form-control"  value="{{ $inventori->nilai_bmn }}" required>
+              <input type="number" name="" class="form-control"  value="{{ $inventori->nilai_bmn }}" disabled>
+              <input type="hidden" name="nilai_bmn" value="{{ $inventori->nilai_bmn }}">
+          </div>
+          <div class="form-group">
+              <label for="">Pegawai Pengguna Barang</label>
+              <input type="text" name="" class="form-control" value="{{ $inventori->pengguna }}" disabled>
+              <input type="hidden" name="pengguna" value="{{ $inventori->pengguna }}">
           </div>
           <div class="form-group">
             <label for="">Kondisi Barang</label>
@@ -70,17 +82,22 @@
           </div>
           <div class="form-group">
             <label for="">Nama Gedung</label>
-            <select class="myselect" id="gedung" name="gedung_id" style="width:100%; padding: 100%;" onchange="gentiGedung()">
+            <select class="myselect" id="gedung" name="gedung_id" style="width:100%; padding: 100%;" >
                 <option></option>
                 @foreach ($gedung as $item)
                   <option value="{{ $item->id_gedung }}" {{ $inventori->gedung_id == $item->id_gedung ? 'selected' : '' }}>{{ $item->gedung }}</option>
                 @endforeach
             </select>
           </div>
-          <div class="form-group">
-            <div id="ruangan_select">
 
-            </div>
+          <div class="form-group">
+            <label for="">Nama Ruangan</label>
+            <select class="myselect" id="ruangan" name="ruangan_id" style="width:100%; padding: 100%;">
+                <option></option>
+                @foreach ($ruangan as $item)
+                  <option value="{{ $item->id_ruangan }}" {{ $inventori->ruangan_id == $item->id_ruangan ? 'selected' : '' }}>{{ $item->ruangan }}</option>
+                @endforeach
+            </select>
           </div>
           <div class="form-group">
               <label for="">Status PSP</label>
@@ -89,10 +106,6 @@
                 <option value="sudah" {{ $inventori->status_psp == 'sudah' ? 'selected' : '' }}>Sudah</option>
                 <option value="belum" {{ $inventori->status_psp == 'belum' ? 'selected' : '' }}>Belum</option>
               </select>
-          </div>
-          <div class="form-group">
-              <label for="">Nama Sub Satker</label>
-              <input type="text" name="nama_sub_satker" class="form-control" value="{{ $inventori->nama_sub_satker }}"  required>
           </div>
           <div class="form-group">
               <label for="">Keterangan</label>

@@ -83,18 +83,30 @@
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item {{ (request()->is('barang*')) ? 'active' : '' }} {{ (request()->is('jenis*')) ? 'active' : '' }} {{ (request()->is('ruangan*')) ? 'active' : '' }}{{ (request()->is('kategori*')) ? 'active' : '' }}">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+      <li class="nav-item {{ (request()->is('barang*')) ? 'active' : '' }}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInventori" aria-expanded="true" aria-controls="collapseInventori">
           <i class="fas fa-fw fa-cog"></i>
           <span>Data Inventory</span>
         </a>
-        <div id="collapseTwo" class="collapse {{ (request()->is('barang*')) ? 'show' : '' }} {{ (request()->is('jenis*')) ? 'show' : '' }} {{ (request()->is('ruangan*')) ? 'show' : '' }} {{ (request()->is('gedung*')) ? 'show' : '' }} {{ (request()->is('kategori*')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseInventori" class="collapse {{ (request()->is('barang*')) ? 'show' : '' }} {{ (request()->is('jenis*')) ? 'show' : '' }}   " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data Inventory</h6>
             <a class="collapse-item {{ (request()->is('barang*')) ? 'active' : '' }}" href="{{url('barang')}}">Barang</a>
+            {{-- <a class="collapse-item {{ (request()->is('kategori*')) ? 'active' : '' }}" href="{{url('kategori')}}">Kategori</a> --}}
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item {{ (request()->is('ruangan*')) ? 'active' : '' }} {{ (request()->is('gedung*')) ? 'active' : '' }}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Data Gedung dan Ruangan</span>
+        </a>
+        <div id="collapseTwo" class="collapse  {{ (request()->is('ruangan*')) ? 'show' : '' }} {{ (request()->is('gedung*')) ? 'show' : '' }} " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Data Gedung dan Ruangan</h6>
             <a class="collapse-item {{ (request()->is('ruangan*')) ? 'active' : '' }}" href="{{url('ruangan')}}">Ruangan</a>
             <a class="collapse-item {{ (request()->is('gedung*')) ? 'active' : '' }}" href="{{url('gedung')}}">Gedung</a>
-            {{-- <a class="collapse-item {{ (request()->is('kategori*')) ? 'active' : '' }}" href="{{url('kategori')}}">Kategori</a> --}}
           </div>
         </div>
       </li>
@@ -119,6 +131,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data Mobilitas</h6>
             <a class="collapse-item {{ (request()->is('mobilitas*')) ? 'active' : '' }} " href="{{url('mobilitas')}}">Riwayat Mobilitas</a>
+            <a class="collapse-item {{ (request()->is('user*')) ? 'active' : '' }} " href="{{url('mobilitas')}}">Berdasarkan User</a>
           </div>
         </div>
       </li>

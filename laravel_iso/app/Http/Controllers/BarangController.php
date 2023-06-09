@@ -40,6 +40,7 @@ class BarangController extends Controller
             'merk_type' => $request->merk_type,
             'kuantitas' => $request->kuantitas,
             'nilai_bmn' => $request->nilai_bmn,
+            'pengguna' => $request->pengguna,
             'kondisi_barang' => $request->kondisi_barang,
             'keberadaan_barang' => $request->keberadaan_barang,
             'pelabelan_kodefikasi' => $request->pelabelan_kodefikasi,
@@ -59,8 +60,9 @@ class BarangController extends Controller
     {
         $inventori = Inventori::find($id);
         $gedung = Gedung::get();
+        $ruangan = Ruangan::get();
 
-        return view('barang.edit', compact('inventori', 'gedung'));
+        return view('barang.edit', compact('inventori', 'gedung', 'ruangan'));
 
 
 
@@ -100,7 +102,6 @@ class BarangController extends Controller
             'pelabelan_kodefikasi' => $request->pelabelan_kodefikasi,
             'gedung_id' => $request->gedung_id,
             'status_psp' => $request->status_psp,
-            'nama_sub_satker' => $request->nama_sub_satker,
             'keterangan' => $request->keterangan,
         ]);
         // alihkan halaman ke halaman pegawai

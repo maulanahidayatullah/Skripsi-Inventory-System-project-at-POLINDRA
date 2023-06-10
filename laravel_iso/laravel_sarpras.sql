@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2023 at 06:44 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.0.25
+-- Generation Time: Jun 10, 2023 at 08:05 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,6 +58,28 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `gedung`
+--
+
+CREATE TABLE `gedung` (
+  `id_gedung` int(11) NOT NULL,
+  `gedung` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `gedung`
+--
+
+INSERT INTO `gedung` (`id_gedung`, `gedung`, `created_at`, `updated_at`) VALUES
+(1, 'Gedung 1', NULL, NULL),
+(3, 'Gedung 2', NULL, NULL),
+(4, 'Gedung GSC', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `input_ruangan`
 --
 
@@ -94,22 +116,20 @@ DELIMITER ;
 CREATE TABLE `inventori` (
   `id` int(11) NOT NULL,
   `uraian_akun` varchar(255) NOT NULL,
-  `kode_barang` varchar(255) NOT NULL,
+  `kode_barang` int(11) NOT NULL,
   `nama_barang` varchar(255) NOT NULL,
   `tahun_perolehan` date DEFAULT NULL,
   `nup` int(11) NOT NULL,
   `merk_type` varchar(255) NOT NULL,
   `kuantitas` int(11) NOT NULL,
   `nilai_bmn` int(255) NOT NULL,
+  `pengguna` varchar(255) NOT NULL,
   `kondisi_barang` enum('B','RR','RB') NOT NULL,
   `keberadaan_barang` enum('BD','BTD','Berlebih') NOT NULL,
   `pelabelan_kodefikasi` enum('sudah','belum') NOT NULL,
-  `pegawai_id` int(11) NOT NULL,
   `gedung_id` int(11) NOT NULL,
   `ruangan_id` int(11) NOT NULL,
   `status_psp` enum('sudah','belum') NOT NULL,
-  `nama_sub_satker` varchar(255) NOT NULL,
-  `qr` varchar(255) NOT NULL,
   `keterangan` text NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -119,8 +139,10 @@ CREATE TABLE `inventori` (
 -- Dumping data for table `inventori`
 --
 
-INSERT INTO `inventori` (`id`, `uraian_akun`, `kode_barang`, `nama_barang`, `tahun_perolehan`, `nup`, `merk_type`, `kuantitas`, `nilai_bmn`, `kondisi_barang`, `keberadaan_barang`, `pelabelan_kodefikasi`, `pegawai_id`, `gedung_id`, `ruangan_id`, `status_psp`, `nama_sub_satker`, `qr`, `keterangan`, `created_at`, `updated_at`) VALUES
-(3, 'Peralatan', '3100101007', 'PC Workstation', '2023-05-02', 157, 'LENOVO ThinkStation P350 Tower', 1, 35430010, 'B', 'BD', 'belum', 1, 2, 1, 'belum', 'polindra', 'gambar', 'keterangan', '2023-04-04 03:42:43', '2023-05-16 09:49:44');
+INSERT INTO `inventori` (`id`, `uraian_akun`, `kode_barang`, `nama_barang`, `tahun_perolehan`, `nup`, `merk_type`, `kuantitas`, `nilai_bmn`, `pengguna`, `kondisi_barang`, `keberadaan_barang`, `pelabelan_kodefikasi`, `gedung_id`, `ruangan_id`, `status_psp`, `keterangan`, `created_at`, `updated_at`) VALUES
+(3, 'Peralatan 123', 2147483647, 'PC Workstation', '2023-05-02', 157, 'LENOVO ThinkStation P350 Tower', 1, 35430010, 'TI', 'B', 'BD', 'belum', 4, 7, 'sudah', 'keterangan', '2023-04-04 03:42:43', '2023-05-26 09:30:45'),
+(4, '1', 1, '1', '2022-01-01', 1, '123', 1, 1231, 'TM', 'B', 'BD', 'sudah', 1, 1, 'sudah', '123', NULL, NULL),
+(5, 'Peralatan 123', 123, 'Kursi', '2022-01-01', 123, 'IKEA', 28, 2000, 'TP', 'B', 'BD', 'sudah', 4, 7, 'sudah', 'Ini Kursi', NULL, '2023-05-25 23:54:40');
 
 -- --------------------------------------------------------
 
@@ -272,6 +294,69 @@ CREATE TABLE `keranjang_rusak_ruangan` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `log_mobilitas`
+--
+
+CREATE TABLE `log_mobilitas` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `mobilitas_id_sebelum` int(11) DEFAULT NULL,
+  `mobilitas_id_sesudah` int(11) DEFAULT NULL,
+  `selesai` enum('true','false') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `log_mobilitas`
+--
+
+INSERT INTO `log_mobilitas` (`id`, `user_id`, `mobilitas_id_sebelum`, `mobilitas_id_sesudah`, `selesai`, `created_at`, `updated_at`) VALUES
+(36, 2, 55, 56, 'true', '2023-05-26 00:05:00', '2023-05-26 00:05:07'),
+(39, 2, 59, 60, 'true', '2023-05-26 00:14:00', '2023-05-26 00:14:11'),
+(40, 2, 61, 62, 'true', '2023-05-26 00:15:11', '2023-05-26 00:15:16'),
+(41, 2, 63, 64, 'true', '2023-05-26 00:16:57', '2023-05-26 00:17:01'),
+(43, 2, 66, 67, 'true', '2023-05-26 09:30:33', '2023-05-26 09:30:45'),
+(44, 2, 68, 69, 'true', '2023-05-29 00:22:24', '2023-05-29 00:22:38'),
+(45, 2, 70, 71, 'true', '2023-05-29 00:43:52', '2023-05-29 00:44:06'),
+(46, 2, 72, 73, 'true', '2023-05-29 00:47:36', '2023-05-29 00:47:40'),
+(47, 2, 74, 75, 'true', '2023-05-29 00:48:25', '2023-05-29 00:48:34'),
+(48, 2, 76, 77, 'true', '2023-05-29 00:54:36', '2023-05-29 00:54:41'),
+(49, 2, 78, 79, 'true', '2023-05-29 00:55:07', '2023-05-29 00:55:11'),
+(50, 2, 80, 81, 'true', '2023-05-29 00:56:22', '2023-05-29 00:56:25'),
+(51, 2, 82, 84, 'true', '2023-05-30 01:12:49', '2023-05-30 01:14:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_pelabelan`
+--
+
+CREATE TABLE `log_pelabelan` (
+  `id` int(11) NOT NULL,
+  `inventori_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_pencatatan`
+--
+
+CREATE TABLE `log_pencatatan` (
+  `id` int(11) NOT NULL,
+  `inventori_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `masuk`
 --
 
@@ -343,6 +428,55 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `mobilitas`
+--
+
+CREATE TABLE `mobilitas` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `inventori_id` int(11) NOT NULL,
+  `gedung_id` int(11) NOT NULL,
+  `ruangan_id` int(11) NOT NULL,
+  `selesai` enum('true','false') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mobilitas`
+--
+
+INSERT INTO `mobilitas` (`id`, `user_id`, `inventori_id`, `gedung_id`, `ruangan_id`, `selesai`, `created_at`, `updated_at`) VALUES
+(55, 2, 3, 4, 7, 'true', '2023-05-26 00:05:00', '2023-05-26 00:05:07'),
+(56, 2, 3, 4, 7, 'true', '2023-05-26 00:05:07', '2023-05-26 00:05:07'),
+(59, 2, 5, 4, 7, 'true', '2023-05-26 00:14:00', '2023-05-26 00:14:11'),
+(60, 2, 5, 4, 7, 'true', '2023-05-26 00:14:11', '2023-05-26 00:14:11'),
+(61, 2, 5, 4, 7, 'true', '2023-05-26 00:15:11', '2023-05-26 00:15:16'),
+(62, 2, 5, 4, 7, 'true', '2023-05-26 00:15:16', '2023-05-26 00:15:16'),
+(63, 2, 5, 4, 7, 'true', '2023-05-26 00:16:57', '2023-05-26 00:17:01'),
+(64, 2, 5, 4, 7, 'true', '2023-05-26 00:17:01', '2023-05-26 00:17:01'),
+(66, 2, 3, 4, 5, 'true', '2023-05-26 09:30:33', '2023-05-26 09:30:45'),
+(67, 2, 3, 4, 7, 'true', '2023-05-26 09:30:45', '2023-05-26 09:30:45'),
+(68, 2, 5, 4, 7, 'true', '2023-05-29 00:22:24', '2023-05-29 00:22:38'),
+(69, 2, 5, 4, 7, 'true', '2023-05-29 00:22:38', '2023-05-29 00:22:38'),
+(70, 2, 3, 4, 7, 'true', '2023-05-29 00:43:52', '2023-05-29 00:44:06'),
+(71, 2, 3, 4, 7, 'true', '2023-05-29 00:44:06', '2023-05-29 00:44:06'),
+(72, 2, 3, 4, 7, 'true', '2023-05-29 00:47:36', '2023-05-29 00:47:40'),
+(73, 2, 3, 4, 7, 'true', '2023-05-29 00:47:40', '2023-05-29 00:47:40'),
+(74, 2, 3, 4, 7, 'true', '2023-05-29 00:48:25', '2023-05-29 00:48:34'),
+(75, 2, 3, 4, 7, 'true', '2023-05-29 00:48:34', '2023-05-29 00:48:34'),
+(76, 2, 3, 4, 7, 'true', '2023-05-29 00:54:36', '2023-05-29 00:54:41'),
+(77, 2, 3, 4, 7, 'true', '2023-05-29 00:54:41', '2023-05-29 00:54:41'),
+(78, 2, 5, 4, 7, 'true', '2023-05-29 00:55:07', '2023-05-29 00:55:11'),
+(79, 2, 5, 4, 7, 'true', '2023-05-29 00:55:11', '2023-05-29 00:55:11'),
+(80, 2, 5, 4, 7, 'true', '2023-05-29 00:56:22', '2023-05-29 00:56:25'),
+(81, 2, 5, 4, 7, 'true', '2023-05-29 00:56:25', '2023-05-29 00:56:25'),
+(82, 2, 3, 4, 7, 'true', '2023-05-30 01:12:49', '2023-05-30 01:14:36'),
+(84, 2, 3, 4, 7, 'true', '2023-05-30 01:14:36', '2023-05-30 01:14:36');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `password_resets`
 --
 
@@ -351,6 +485,30 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pegawai`
+--
+
+CREATE TABLE `pegawai` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `alamat` varchar(255) NOT NULL,
+  `jabatan` varchar(255) NOT NULL,
+  `no_hp` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pegawai`
+--
+
+INSERT INTO `pegawai` (`id`, `user_id`, `nama`, `alamat`, `jabatan`, `no_hp`, `created_at`, `updated_at`) VALUES
+(1, 2, 'Maulana', 'Jatibarang', 'Mahasiswa', '08989876845', '2023-04-04 03:42:43', '2023-04-04 03:42:43');
 
 -- --------------------------------------------------------
 
@@ -402,6 +560,19 @@ CREATE TABLE `personal_access_tokens` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
+(1, 'App\\Models\\User', 1, 'auth_token', '167e032a3d7ee1110139b992d12f6205045c2cdd59c9603c89cebfc82f2f946e', '[\"*\"]', '2023-05-22 01:45:28', NULL, '2023-05-22 01:42:20', '2023-05-22 01:45:28'),
+(3, 'App\\Models\\User', 2, 'auth_token', 'dc271912ebe1463ad67a2bc31561a495e96761e4ec7bc6c57ac944d59dbe9540', '[\"*\"]', '2023-05-22 11:22:37', NULL, '2023-05-22 11:22:06', '2023-05-22 11:22:37'),
+(4, 'App\\Models\\User', 2, 'auth_token', '6111670001dc98657bf4fceb81af9a639feac4bf3affcb4d039a929f75943af4', '[\"*\"]', '2023-05-22 11:23:56', NULL, '2023-05-22 11:23:46', '2023-05-22 11:23:56'),
+(5, 'App\\Models\\User', 2, 'auth_token', '54f634a16d34f23626398addb827722a8f1523aa2c6047960b505859d60edb17', '[\"*\"]', '2023-05-22 11:26:23', NULL, '2023-05-22 11:26:14', '2023-05-22 11:26:23'),
+(6, 'App\\Models\\User', 2, 'auth_token', '250e2d8b9151e4df3f7b32db3357f59dbe6ccaecbbf36d2c9001c2335644186d', '[\"*\"]', NULL, NULL, '2023-05-25 08:20:06', '2023-05-25 08:20:06'),
+(7, 'App\\Models\\User', 2, 'auth_token', 'fcbe403ab1e47d8b1fe12a3f5b8698f48b17d0cf192dedc1f7d20ea679f3790b', '[\"*\"]', NULL, NULL, '2023-05-25 08:53:46', '2023-05-25 08:53:46'),
+(8, 'App\\Models\\User', 2, 'auth_token', 'f0d4b38cc52c2064c0fb7236cdd29c2ce58fc43b5a1a21701fac578c19c404a4', '[\"*\"]', '2023-05-30 01:14:41', NULL, '2023-05-25 08:54:32', '2023-05-30 01:14:41');
+
 -- --------------------------------------------------------
 
 --
@@ -413,9 +584,21 @@ CREATE TABLE `ruangan` (
   `ruangan` varchar(255) NOT NULL,
   `id_pembimbing` varchar(255) DEFAULT NULL,
   `id_pj` varchar(255) DEFAULT NULL,
+  `id_gedung` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ruangan`
+--
+
+INSERT INTO `ruangan` (`id_ruangan`, `ruangan`, `id_pembimbing`, `id_pj`, `id_gedung`, `created_at`, `updated_at`) VALUES
+(1, 'Ruangan', NULL, NULL, 1, NULL, NULL),
+(4, 'Ruangan 2', NULL, NULL, 1, NULL, NULL),
+(5, 'Ruangan Gedung 2', NULL, NULL, 3, NULL, NULL),
+(6, 'RK 401', NULL, NULL, 4, NULL, NULL),
+(7, 'RK 501', NULL, NULL, 4, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -493,7 +676,7 @@ CREATE TABLE `users` (
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `level` enum('rayon','pj','admin','bukan_pj') NOT NULL,
+  `level` enum('admin','user_1','useer_2','user_3') NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -504,7 +687,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `username`, `password`, `level`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@gmail.com', NULL, 'admin', '$2y$10$ZsIGuubGi8CBh3CQp7WqfOKKO3u9E8IliFd9VO3rsiZkB3P6BNXnK', 'admin', NULL, NULL, NULL);
+(1, 'admin', 'admin@gmail.com', NULL, 'admin', '$2y$10$ZsIGuubGi8CBh3CQp7WqfOKKO3u9E8IliFd9VO3rsiZkB3P6BNXnK', 'admin', NULL, NULL, NULL),
+(2, 'User', 'user@user.com', NULL, 'user', '$2y$10$F2gLEdvm32md0dUG3nA8g.Toq8Z3k1PGB2EHgKEKa.Rxe5XhSOHMa', 'admin', NULL, '2023-05-22 10:36:04', '2023-05-22 10:36:04'),
+(3, 'coba 1', 'coba1@gmail.com', NULL, 'coba1', '$2y$10$Scspe3XUBdvIFg.e5a5E.eri2.qu4OuBtLVodR.e0Rc0T8QKCpOkW', 'user_1', NULL, '2023-05-22 10:39:23', '2023-05-22 10:39:23');
 
 --
 -- Indexes for dumped tables
@@ -522,6 +707,12 @@ ALTER TABLE `barangs`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `gedung`
+--
+ALTER TABLE `gedung`
+  ADD PRIMARY KEY (`id_gedung`);
 
 --
 -- Indexes for table `input_ruangan`
@@ -584,6 +775,24 @@ ALTER TABLE `keranjang_rusak_ruangan`
   ADD PRIMARY KEY (`id_rusak_ruangan`);
 
 --
+-- Indexes for table `log_mobilitas`
+--
+ALTER TABLE `log_mobilitas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `log_pelabelan`
+--
+ALTER TABLE `log_pelabelan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `log_pencatatan`
+--
+ALTER TABLE `log_pencatatan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `masuk`
 --
 ALTER TABLE `masuk`
@@ -596,10 +805,22 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `mobilitas`
+--
+ALTER TABLE `mobilitas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `pegawai`
+--
+ALTER TABLE `pegawai`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `peminjaman`
@@ -657,6 +878,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `gedung`
+--
+ALTER TABLE `gedung`
+  MODIFY `id_gedung` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `input_ruangan`
 --
 ALTER TABLE `input_ruangan`
@@ -666,7 +893,7 @@ ALTER TABLE `input_ruangan`
 -- AUTO_INCREMENT for table `inventori`
 --
 ALTER TABLE `inventori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `kategori`
@@ -717,6 +944,24 @@ ALTER TABLE `keranjang_rusak_ruangan`
   MODIFY `id_rusak_ruangan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `log_mobilitas`
+--
+ALTER TABLE `log_mobilitas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- AUTO_INCREMENT for table `log_pelabelan`
+--
+ALTER TABLE `log_pelabelan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `log_pencatatan`
+--
+ALTER TABLE `log_pencatatan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `masuk`
 --
 ALTER TABLE `masuk`
@@ -729,6 +974,18 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
+-- AUTO_INCREMENT for table `mobilitas`
+--
+ALTER TABLE `mobilitas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+
+--
+-- AUTO_INCREMENT for table `pegawai`
+--
+ALTER TABLE `pegawai`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
@@ -738,13 +995,13 @@ ALTER TABLE `peminjaman`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `ruangan`
 --
 ALTER TABLE `ruangan`
-  MODIFY `id_ruangan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ruangan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `rusak_luar`
@@ -762,7 +1019,7 @@ ALTER TABLE `rusak_ruangan`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

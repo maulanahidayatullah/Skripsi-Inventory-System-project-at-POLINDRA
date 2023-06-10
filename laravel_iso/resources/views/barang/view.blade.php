@@ -42,7 +42,7 @@
             <input type="text" name="uraian_akun" placeholder="Kode Barang" class="form-control float-right"  required>
           </div>
           <div class="col-5">
-              <input type="text" name="uraian_akun" placeholder="NUP" class="form-control float-right"  required>
+              <input type="text" name="nup" placeholder="NUP" class="form-control float-right"  required>
           </div>
           <div class="col-2">
             <button class="btn btn-info" data-toggle="modal" data-target="#tambah">Search</button>

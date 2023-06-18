@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/api/api.dart';
-import 'package:flutter_mobile/src/pages/dashboard.dart';
+import 'package:flutter_mobile/src/pages/dashboardPage.dart';
 import 'package:flutter_mobile/src/pages/mobilitasPage.dart';
 import 'package:flutter_mobile/src/pages/peminjaman.dart';
 import 'package:flutter_mobile/src/pages/profiPage.dart';
@@ -16,7 +16,7 @@ import '../api/model/inventori.dart';
 
 class Menu extends StatefulWidget {
   final int? index;
-  
+
   const Menu({super.key, this.index});
 
   @override
@@ -26,7 +26,7 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   List<Widget> _buildScreens() {
     return [
-      Dashboard(),
+      DashboardPage(),
       MobilitasPage(),
       Screen3(),
       Peminjaman(),
@@ -46,7 +46,7 @@ class _MenuState extends State<Menu> {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.flip_camera_android),
         title: ("Mobilitas"),
-        activeColorPrimary: Color(0xff4d87b7),
+        activeColorPrimary: Colors.pink,
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
@@ -113,13 +113,13 @@ class _MenuState extends State<Menu> {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.inventory),
         title: ("Peminjaman"),
-        activeColorPrimary: Color(0xff4d87b7),
+        activeColorPrimary: Colors.green,
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.person),
         title: ("Profil"),
-        activeColorPrimary: Color(0xff4d87b7),
+        activeColorPrimary: Colors.orangeAccent,
         inactiveColorPrimary: Colors.grey,
       ),
     ];
@@ -129,7 +129,7 @@ class _MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     PersistentTabController _controller;
 
-    _controller = PersistentTabController(initialIndex: 1);
+    _controller = PersistentTabController(initialIndex: 0);
 
     return PersistentTabView(
       context,

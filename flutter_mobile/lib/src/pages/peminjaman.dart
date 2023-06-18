@@ -12,7 +12,7 @@ class _PeminjamanState extends State<Peminjaman> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xff4d87b7),
+      color: Colors.green,
       height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.symmetric(vertical: 30),
       width: double.infinity,
@@ -36,15 +36,8 @@ class _PeminjamanState extends State<Peminjaman> {
                     ),
                   ],
                 ),
-                Text(
-                  "Inventory Polindra",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                      color: Colors.blue[100]),
-                ),
                 SizedBox(
-                  height: 30,
+                  height: 12,
                 ),
                 InkWell(
                   onTap: () {
@@ -65,7 +58,7 @@ class _PeminjamanState extends State<Peminjaman> {
                                   BorderRadius.all(Radius.circular(18))),
                           child: Icon(
                             Icons.add_circle_outline,
-                            color: Color(0xff4d87b7),
+                            color: Colors.green,
                             size: 35,
                           ),
                           padding: EdgeInsets.all(10),
@@ -135,54 +128,19 @@ class _PeminjamanState extends State<Peminjaman> {
                                     BorderRadius.all(Radius.circular(20))),
                             child: Row(
                               children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey[100],
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(18))),
-                                  child: Icon(
-                                    Icons.date_range,
-                                    color: Colors.lightBlue[900],
-                                  ),
-                                  padding: EdgeInsets.all(12),
-                                ),
-                                SizedBox(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        "Lemari",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.grey[900]),
-                                      ),
-                                      Text(
-                                        "09-04-2023",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.grey[500]),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                // Expanded(
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      "+\$500.5",
+                                      "Lemari",
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w700,
-                                          color: Colors.lightGreen),
+                                          color: Colors.grey[900]),
                                     ),
                                     Text(
-                                      "26 Jan",
+                                      "09-04-2023",
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w700,
@@ -190,6 +148,43 @@ class _PeminjamanState extends State<Peminjaman> {
                                     ),
                                   ],
                                 ),
+                                // ),
+                                // Expanded(
+                                Spacer(),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[100],
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(18))),
+                                  child: Icon(
+                                    Icons.date_range,
+                                    color: Colors.green[900],
+                                  ),
+                                  padding: EdgeInsets.all(12),
+                                ),
+                                Spacer(),
+                                // ),
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      Text(
+                                        "+\$500.5",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.lightGreen),
+                                      ),
+                                      Text(
+                                        "26 Jan",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.grey[500]),
+                                      ),
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           );
@@ -199,7 +194,6 @@ class _PeminjamanState extends State<Peminjaman> {
                         padding: EdgeInsets.all(0),
                         controller: ScrollController(keepScrollOffset: false),
                       ),
-
                       //now expense
                     ],
                   ),
@@ -207,8 +201,8 @@ class _PeminjamanState extends State<Peminjaman> {
                 ),
               );
             },
-            initialChildSize: 0.65,
-            minChildSize: 0.65,
+            initialChildSize: 0.7,
+            minChildSize: 0.7,
             maxChildSize: 1,
           )
         ],

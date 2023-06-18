@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\InventoriController;
 use App\Http\Controllers\API\MobilitasController;
 use App\Http\Controllers\API\ProfilController;
@@ -22,6 +23,7 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
+Route::post('dashboard', [DashboardController::class, 'index']);
 Route::post('cek_inventori', [InventoriController::class, 'cek_inventori']);
 Route::post('profil', [ProfilController::class, 'index']);
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_mobile/src/api/model/dashboard.dart';
 import 'package:flutter_mobile/src/api/model/logMobilitas.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndialog/ndialog.dart';
@@ -10,7 +11,7 @@ import '../api/model/inventori.dart';
 import '../api/model/profil.dart';
 import '../api/model/mobilitas.dart';
 
-const String baseURL = "http://192.168.8.8:8000/api/"; //emulator localhost
+const String baseURL = "http://192.168.0.107:8000/api/"; //emulator localhost
 const Map<String, String> header = {"Content-Type": "application/json"};
 
 class API {
@@ -395,5 +396,51 @@ class API {
       progressDialog.dismiss();
       return mobilitas;
     }
+  }
+
+  static Future<Dashboard> dashboard(BuildContext context) async {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    Future.delayed(Duration.zero, () {
+      progressDialog.show();
+    });
+
+    Uri url = Uri.parse(baseURL + 'dashboard');
+
+    int user_id = await getUserId();
+
+    Map data = {
+      "user_id": user_id,
+    };
+
+    var body = json.encode(data);
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var data_dashboard = json.decode(response.body)['data'];
+
+    print(data_dashboard);
+
+    bool success = json.decode(response.body)["success"];
+
+    if (response.statusCode == 200) {
+      progressDialog.dismiss();
+      return Dashboard(
+        nama: data_dashboard['nama'],
+        log_mobilitas: data_dashboard['log_mobilitas'],
+        log_peminjaman: data_dashboard['log_peminjaman'],
+        success: success,
+      );
+    }
+    return Dashboard(
+      success: success,
+    );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/Widget/menu.dart';
 import 'package:flutter_mobile/src/Widget/intCheck.dart';
 import 'package:flutter_mobile/src/api/api.dart';
-import 'package:flutter_mobile/src/pages/dashboard.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';

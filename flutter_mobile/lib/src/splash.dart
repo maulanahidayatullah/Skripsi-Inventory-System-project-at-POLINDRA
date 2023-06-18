@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/Widget/menu.dart';
-import 'package:flutter_mobile/src/pages/dashboard.dart';
+import 'package:flutter_mobile/src/pages/dashboardPage.dart';
 import 'loginPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 

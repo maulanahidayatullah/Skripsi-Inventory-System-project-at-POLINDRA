@@ -36,7 +36,7 @@ class _MobilitasPageState extends State<MobilitasPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xff4d87b7),
+      color: Colors.pink,
       height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.symmetric(vertical: 30),
       width: double.infinity,
@@ -65,7 +65,7 @@ class _MobilitasPageState extends State<MobilitasPage> {
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
-                      color: Colors.blue[100]),
+                      color: Colors.pink[100]),
                 ),
                 SizedBox(
                   height: 30,
@@ -148,7 +148,7 @@ class _MobilitasPageState extends State<MobilitasPage> {
                                   BorderRadius.all(Radius.circular(18))),
                           child: Icon(
                             Icons.add_circle_outline,
-                            color: Color(0xff4d87b7),
+                            color: Colors.pink,
                             size: 35,
                           ),
                           padding: EdgeInsets.all(10),
@@ -185,7 +185,7 @@ class _MobilitasPageState extends State<MobilitasPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(
-                        height: 24,
+                        height: 16,
                       ),
                       Container(
                         child: Row(
@@ -203,7 +203,7 @@ class _MobilitasPageState extends State<MobilitasPage> {
                         padding: EdgeInsets.symmetric(horizontal: 32),
                       ),
                       SizedBox(
-                        height: 24,
+                        height: 10,
                       ),
 
                       ListView.builder(
@@ -227,6 +227,9 @@ class _MobilitasPageState extends State<MobilitasPage> {
                         shrinkWrap: true,
                         padding: EdgeInsets.all(0),
                         controller: ScrollController(keepScrollOffset: false),
+                      ),
+                      SizedBox(
+                        height: 40,
                       ),
 
                       //now expense
@@ -256,7 +259,7 @@ class _MobilitasPageState extends State<MobilitasPage> {
     return GestureDetector(
       onTap: () {},
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
+        padding: const EdgeInsets.all(5.0),
         child: Card(
           // color: Color(0xff4d87b7),
           elevation: 5,
@@ -264,7 +267,9 @@ class _MobilitasPageState extends State<MobilitasPage> {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            margin: EdgeInsets.symmetric(
+              horizontal: 5,
+            ),
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -274,68 +279,65 @@ class _MobilitasPageState extends State<MobilitasPage> {
                 Text(
                   nama_barang.toString(),
                   style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      color: Colors.grey[900]),
+                      color: Colors.pink),
                 ),
                 SizedBox(
-                  height: 22,
+                  height: 8,
                 ),
                 Row(
                   children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            gedung_sebelum.toString(),
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.grey[900]),
-                          ),
-                          Text(
-                            ruangan_sebelum.toString(),
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.grey[500]),
-                          ),
-                        ],
+                    Flexible(
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              gedung_sebelum.toString(),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.grey[900]),
+                            ),
+                            Text(
+                              ruangan_sebelum.toString(),
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.grey[500]),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    Spacer(),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.grey[100],
                           borderRadius: BorderRadius.all(Radius.circular(18))),
                       child: Icon(
-                        Icons.compare_arrows,
-                        color: Colors.lightBlue[900],
+                        Icons.double_arrow,
+                        color: Colors.pink,
                       ),
                       padding: EdgeInsets.all(12),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
+                    Spacer(),
+                    Flexible(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        // mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
                             gedung_sesudah.toString(),
                             style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.grey[900]),
                           ),
                           Text(
                             ruangan_sesudah.toString(),
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.grey[500]),
                           ),
@@ -345,12 +347,12 @@ class _MobilitasPageState extends State<MobilitasPage> {
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 6,
                 ),
                 Text(
                   date.toString(),
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: Colors.grey[500]),
                 ),

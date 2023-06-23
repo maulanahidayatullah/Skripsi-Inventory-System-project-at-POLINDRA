@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
@@ -43,10 +44,12 @@ class HomeController extends Controller
 
             $hitung_keluar = count($keluar2);
 
-            $peminjaman = DB::table("peminjaman")
-                ->join('barangs', function ($join) {
-                    $join->on('peminjaman.id_barang', '=', 'barangs.id_barang');
-                })->get();
+            // $peminjaman = DB::table("peminjaman")
+            //     ->join('barangs', function ($join) {
+            //         $join->on('peminjaman.id_barang', '=', 'barangs.id_barang');
+            //     })->get();
+
+            $peminjaman = Peminjaman::get();
 
             $hitung_pinjam = count($peminjaman);
 

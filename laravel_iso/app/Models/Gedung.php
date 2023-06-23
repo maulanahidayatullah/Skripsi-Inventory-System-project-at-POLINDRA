@@ -9,4 +9,9 @@ class Gedung extends Model
 {
     protected $table = 'gedung';
     protected $primaryKey = 'id';
+
+    public function Ruangan()
+    {
+        return $this->hasMany(Ruangan::class, 'id_gedung', 'id_gedung');
+    }
 }

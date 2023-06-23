@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_mobile/src/api/model/dashboard.dart';
+import 'package:flutter_mobile/src/api/model/gedungRuangan.dart';
 import 'package:flutter_mobile/src/api/model/logMobilitas.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndialog/ndialog.dart';
@@ -11,10 +12,10 @@ import '../api/model/inventori.dart';
 import '../api/model/profil.dart';
 import '../api/model/mobilitas.dart';
 
-const String baseURL = "http://192.168.0.107:8000/api/"; //emulator localhost
-const Map<String, String> header = {"Content-Type": "application/json"};
-
 class API {
+  static String baseURL = "http://192.168.0.109:8000/api/"; //emulator localhost
+  static Map<String, String> header = {"Content-Type": "application/json"};
+
   static Future<int> getUserId() async {
     // String? token = await getToken();
 
@@ -443,4 +444,41 @@ class API {
       success: success,
     );
   }
+
+  // static Future<String?> tambahMobilitas
+
+  // static Future getGedungRuangan(BuildContext context) async {
+  //   String? Gedung;
+  // ProgressDialog progressDialog = ProgressDialog(
+  //   context,
+  //   blur: 10,
+  //   message: Text("Mohon Tunggu..."),
+  // );
+  // Future.delayed(Duration.zero, () {
+  //   progressDialog.show();
+  // });
+
+  // Uri url = Uri.parse(baseURL + 'get_gedung_ruangan');
+
+  // http.Response response = await http.post(
+  //   url,
+  //   headers: header,
+  // );
+
+  // var data = json.decode(response.body)['data'];
+
+  // print(data);
+
+  // Iterable it = data;
+  // List<GedungRuangan> gedungRuangan =
+  //     it.map((e) => GedungRuangan.fromJson(e)).toList();
+
+  // if (response.statusCode == 200) {
+  //   progressDialog.dismiss();
+  //   return gedungRuangan;
+  // } else {
+  //   progressDialog.dismiss();
+  //   return gedungRuangan;
+  // }
+  // }
 }

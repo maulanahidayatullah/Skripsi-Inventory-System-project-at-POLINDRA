@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\InventoriController;
 use App\Http\Controllers\API\MobilitasController;
+use App\Http\Controllers\API\PeminjamanController;
 use App\Http\Controllers\API\ProfilController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,10 +35,14 @@ Route::post('selesai_mobilitas', [MobilitasController::class, 'selesai_mobilitas
 Route::post('hapus_mobilitas', [MobilitasController::class, 'hapus_mobilitas']);
 Route::post('log_mobilitas', [MobilitasController::class, 'log_mobilitas']);
 
+Route::post('get_gedung_ruangan', [MobilitasController::class, 'get_gedung_ruuangan']);
 
-Route::post('get_gedung', [MobilitasController::class, 'get_gedung']);
-Route::post('get_ruangan', [MobilitasController::class, 'get_ruangan']);
-
+Route::post('tambah_keranjang_peminjaman', [PeminjamanController::class, 'tambah_keranjang_peminjaman']);
+Route::post('cek_keranjang_peminjaman', [PeminjamanController::class, 'cek_peminjaman']);
+Route::post('get_keranjang_peminjaman', [PeminjamanController::class, 'get_keranjang_peminjaman']);
+Route::post('tambah_peminjaman', [PeminjamanController::class, 'tambah_peminjaman']);
+// Route::post('hapus_mobilitas', [PeminjamanController::class, 'hapus_mobilitas']);
+// Route::post('log_mobilitas', [PeminjamanController::class, 'log_mobilitas']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

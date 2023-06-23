@@ -198,11 +198,15 @@ class MobilitasController extends Controller
         }
     }
 
-    public function get_gedung()
+    public function get_gedung_ruuangan()
     {
         $gedung = Gedung::get();
+        // return $gedung[2]->Ruangan;
 
         if (count($gedung) !== 0) {
+            foreach ($gedung as $key => $value) {
+                $gedung->Ruangan = $value->Ruangan;
+            }
             return response()->json([
                 'success' => true,
                 'data' => $gedung

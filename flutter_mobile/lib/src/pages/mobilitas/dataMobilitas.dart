@@ -4,9 +4,12 @@ import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/api/model/logMobilitas.dart';
 import 'package:flutter_mobile/src/pages/mobilitasPage.dart';
 import '../../api/model/mobilitas.dart';
+import '../../api/model/gedungRuangan.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter_mobile/src/Widget/menu.dart';
 
@@ -19,6 +22,7 @@ class DataMobilitas extends StatefulWidget {
 
 class _DataMobilitasState extends State<DataMobilitas> {
   List<Mobilitas> listMobilitas = [];
+  List<GedungRuangan> listGedungRuangan = [];
   API api = API();
 
   getDataMobilitas() async {
@@ -26,11 +30,43 @@ class _DataMobilitasState extends State<DataMobilitas> {
     setState(() {});
   }
 
+  var url = Uri.parse(API.baseURL + 'get_gedung_ruangan');
+
+  var _gedung = [];
+  var _ruangan = [];
+
+  String? gedung;
+  String? ruangan;
+
+  bool isGedungSelected = false;
+  bool isStateSelected = false;
+
+  Future getGedungRuangan() async {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    progressDialog.show();
+    var response = await http.post(url);
+
+    if (response.statusCode == 200) {
+      progressDialog.dismiss();
+      var jsonResponse = jsonDecode(response.body)['data'];
+
+      setState(() {
+        _gedung = jsonResponse;
+
+        _cardModal();
+      });
+      // print(_gedung);
+    }
+  }
+
   @override
   void initState() {
-    // http.getSemester_1();
     getDataMobilitas();
-    // TODO: implement initState
+
     super.initState();
   }
 
@@ -155,42 +191,47 @@ class _DataMobilitasState extends State<DataMobilitas> {
             ),
             InkWell(
               onTap: () async {
+                // if (_countries.isEmpty) {
+                //   setState(() {
+                getGedungRuangan();
+                // });
+                // }
                 ProgressDialog progressDialog = ProgressDialog(
                   context,
                   blur: 10,
                   message: Text("Mohon Tunggu..."),
                 );
                 progressDialog.show();
-                listMobilitas.forEach((value) {
-                  try {
-                    API.selesaiMobilitas(value.id).then((value) async {
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.success,
-                        animType: AnimType.scale,
-                        headerAnimationLoop: true,
-                        title: 'Mobilitas Barang berhasil',
-                        btnOkOnPress: () {},
-                        onDismissCallback: (type) {
-                          progressDialog.dismiss();
+                // listMobilitas.forEach((value) {
+                //   try {
+                //     API.selesaiMobilitas(value.id).then((value) async {
+                //       AwesomeDialog(
+                //         context: context,
+                //         dialogType: DialogType.success,
+                //         animType: AnimType.scale,
+                //         headerAnimationLoop: true,
+                //         title: 'Mobilitas Barang berhasil',
+                //         btnOkOnPress: () {},
+                //         onDismissCallback: (type) {
+                //           progressDialog.dismiss();
 
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Menu()));
+                //           Navigator.push(context,
+                //               MaterialPageRoute(builder: (context) => Menu()));
 
-                          // API.selesaiMobilitas(context).then((value) async {});
-                          // Navigator.pop(context, true);
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => const MobilitasPage()),
-                          // );
-                        },
-                        btnOkIcon: Icons.cancel,
-                        btnOkColor: Colors.blue,
-                      ).show();
-                    });
-                  } catch (e) {}
-                });
+                //           // API.selesaiMobilitas(context).then((value) async {});
+                //           // Navigator.pop(context, true);
+                //           // Navigator.push(
+                //           //   context,
+                //           //   MaterialPageRoute(
+                //           //       builder: (context) => const MobilitasPage()),
+                //           // );
+                //         },
+                //         btnOkIcon: Icons.cancel,
+                //         btnOkColor: Colors.blue,
+                //       ).show();
+                //     });
+                //   } catch (e) {}
+                // });
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
@@ -338,6 +379,101 @@ class _DataMobilitasState extends State<DataMobilitas> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget? _cardModal() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  if (_gedung.isEmpty)
+                    const Center(child: CircularProgressIndicator())
+                  else
+                    Card(
+                      color: Colors.purple.withOpacity(0.5),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: DropdownButton<String>(
+                            underline: Container(),
+                            hint: Text("-- Silahkan pilih Gedung --"),
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            isDense: true,
+                            isExpanded: true,
+                            items: _gedung.map((gdng) {
+                              return DropdownMenuItem<String>(
+                                  value: gdng["id_gedung"].toString(),
+                                  child: Text(gdng["gedung"]));
+                            }).toList(),
+                            value: gedung,
+                            onChanged: (value) {
+                              setState(() {
+                                _ruangan = [];
+                                gedung = value!;
+                                // print(_gedung[0]['id_gedung'].runtimeType);
+                                for (int i = 0; i < _gedung.length; i++) {
+                                  if (_gedung[i]["id_gedung"] ==
+                                      int.parse(value)) {
+                                    _ruangan = _gedung[i]["ruangan"];
+                                  }
+                                }
+                                // print(_ruangan[0]);
+                                isGedungSelected = true;
+                              });
+                            }),
+                      ),
+                    ),
+
+//======================================= State
+                  if (isGedungSelected)
+                    Card(
+                      color: Colors.purple.withOpacity(0.5),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Container(
+                        padding: const EdgeInsets.all(15.0),
+                        child: DropdownButton<String>(
+                            underline: Container(),
+                            hint: Text("-- Silahkan Pilih Ruangan --"),
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            isDense: true,
+                            isExpanded: true,
+                            items: _ruangan.map((rngn) {
+                              return DropdownMenuItem<String>(
+                                  value: rngn["id_ruangan"].toString(),
+                                  child: Text(rngn["ruangan"]));
+                            }).toList(),
+                            value: ruangan,
+                            onChanged: (value) {
+                              setState(() {
+                                // _cities = [];
+                                ruangan = value!;
+                                print(ruangan);
+                                // for (int i = 0; i < _ruangan.length; i++) {
+                                //   if (_states[i]["name"] == value) {
+                                //     _cities = _states[i]["cities"];
+                                //   }
+                                // }
+                                isStateSelected = true;
+                              });
+                            }),
+                      ),
+                    )
+                  else
+                    Container(),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

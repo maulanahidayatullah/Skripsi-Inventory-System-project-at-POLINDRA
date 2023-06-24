@@ -328,10 +328,9 @@ class API {
   }
 
   static Future<String?> selesaiMobilitas(
-    int? mobilitas_id,
-  ) async {
+      int? mobilitas_id, int? gedung_id, int? ruangan_id) async {
     // print(id);
-    int? user_id = await getUserId(), gedung_id = 4, ruangan_id = 7;
+    int? user_id = await getUserId();
 
     Map data = {
       "mobilitas_id": mobilitas_id,
@@ -426,8 +425,6 @@ class API {
     );
 
     var data_dashboard = json.decode(response.body)['data'];
-
-    print(data_dashboard);
 
     bool success = json.decode(response.body)["success"];
 

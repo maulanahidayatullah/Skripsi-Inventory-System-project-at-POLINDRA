@@ -39,7 +39,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
   String? ruangan;
 
   bool isGedungSelected = false;
-  bool isStateSelected = false;
+  bool isRuanganSelected = false;
 
   Future getGedungRuangan() async {
     ProgressDialog progressDialog = ProgressDialog(
@@ -59,7 +59,6 @@ class _DataMobilitasState extends State<DataMobilitas> {
 
         _cardModal();
       });
-      // print(_gedung);
     }
   }
 
@@ -116,6 +115,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
               },
             ),
           ],
+          backgroundColor: Colors.pink,
         ),
         body: Container(child: Text("Laka data")),
       );
@@ -163,6 +163,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
               },
             ),
           ],
+          backgroundColor: Colors.pink,
         ),
         body: Column(
           children: [
@@ -191,17 +192,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
             ),
             InkWell(
               onTap: () async {
-                // if (_countries.isEmpty) {
-                //   setState(() {
                 getGedungRuangan();
-                // });
-                // }
-                ProgressDialog progressDialog = ProgressDialog(
-                  context,
-                  blur: 10,
-                  message: Text("Mohon Tunggu..."),
-                );
-                progressDialog.show();
                 // listMobilitas.forEach((value) {
                 //   try {
                 //     API.selesaiMobilitas(value.id).then((value) async {
@@ -389,59 +380,79 @@ class _DataMobilitasState extends State<DataMobilitas> {
         return AlertDialog(
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  if (_gedung.isEmpty)
-                    const Center(child: CircularProgressIndicator())
-                  else
-                    Card(
-                      color: Colors.purple.withOpacity(0.5),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: DropdownButton<String>(
-                            underline: Container(),
-                            hint: Text("-- Silahkan pilih Gedung --"),
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            isDense: true,
-                            isExpanded: true,
-                            items: _gedung.map((gdng) {
-                              return DropdownMenuItem<String>(
-                                  value: gdng["id_gedung"].toString(),
-                                  child: Text(gdng["gedung"]));
-                            }).toList(),
-                            value: gedung,
-                            onChanged: (value) {
-                              setState(() {
-                                _ruangan = [];
-                                gedung = value!;
-                                // print(_gedung[0]['id_gedung'].runtimeType);
-                                for (int i = 0; i < _gedung.length; i++) {
-                                  if (_gedung[i]["id_gedung"] ==
-                                      int.parse(value)) {
-                                    _ruangan = _gedung[i]["ruangan"];
-                                  }
-                                }
-                                // print(_ruangan[0]);
-                                isGedungSelected = true;
-                              });
-                            }),
-                      ),
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                ),
+                height: 280,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Silahkan pilih Gedung dan Ruangan",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700),
                     ),
-
-//======================================= State
-                  if (isGedungSelected)
+                    SizedBox(
+                      height: 20,
+                    ),
+                    if (_gedung.isEmpty)
+                      const Center(child: CircularProgressIndicator())
+                    else
+                      Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(color: Colors.pink),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: DropdownButton<String>(
+                              underline: Container(),
+                              hint: Text("-- Gedung --"),
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              isDense: true,
+                              isExpanded: true,
+                              items: _gedung.map((gdng) {
+                                return DropdownMenuItem<String>(
+                                    value: gdng["id_gedung"].toString(),
+                                    child: Text(gdng["gedung"]));
+                              }).toList(),
+                              value: gedung,
+                              onChanged: (value) {
+                                setState(() {
+                                  // ruangan = '';
+                                  _ruangan = [];
+                                  gedung = value!;
+                                  for (int i = 0; i < _gedung.length; i++) {
+                                    if (_gedung[i]["id_gedung"] ==
+                                        int.parse(value)) {
+                                      _ruangan = _gedung[i]["ruangan"];
+                                    }
+                                  }
+                                  isGedungSelected = true;
+                                });
+                              }),
+                        ),
+                      ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    // if (!isGedungSelected)
+                    //   Container()
+                    // else
                     Card(
-                      color: Colors.purple.withOpacity(0.5),
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.pink),
                           borderRadius: BorderRadius.circular(8)),
                       child: Container(
                         padding: const EdgeInsets.all(15.0),
                         child: DropdownButton<String>(
                             underline: Container(),
-                            hint: Text("-- Silahkan Pilih Ruangan --"),
+                            hint: Text("-- Ruangan --"),
                             icon: const Icon(Icons.keyboard_arrow_down),
                             isDense: true,
                             isExpanded: true,
@@ -453,22 +464,82 @@ class _DataMobilitasState extends State<DataMobilitas> {
                             value: ruangan,
                             onChanged: (value) {
                               setState(() {
-                                // _cities = [];
-                                ruangan = value!;
-                                print(ruangan);
-                                // for (int i = 0; i < _ruangan.length; i++) {
-                                //   if (_states[i]["name"] == value) {
-                                //     _cities = _states[i]["cities"];
-                                //   }
-                                // }
-                                isStateSelected = true;
+                                ruangan = value;
+                                // isGedungSelected = false;
                               });
                             }),
                       ),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // print(int.parse(gedung).runtimeType);
+                        var gedung_id = int.parse(gedung!);
+                        var ruangan_id = int.parse(ruangan!);
+                        ProgressDialog progressDialog = ProgressDialog(
+                          context,
+                          blur: 10,
+                          message: Text("Mohon Tunggu..."),
+                        );
+                        listMobilitas.forEach((value) {
+                          try {
+                            API
+                                .selesaiMobilitas(
+                                    value.id, gedung_id, ruangan_id)
+                                .then((value) async {
+                              AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.success,
+                                animType: AnimType.scale,
+                                headerAnimationLoop: true,
+                                title: 'Mobilitas Barang berhasil',
+                                btnOkOnPress: () {},
+                                onDismissCallback: (type) {
+                                  progressDialog.dismiss();
+
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Menu()));
+                                },
+                                btnOkIcon: Icons.cancel,
+                                btnOkColor: Colors.blue,
+                              ).show();
+                            });
+                          } catch (e) {}
+                        });
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                  color: Colors.grey.shade200,
+                                  offset: Offset(2, 4),
+                                  blurRadius: 5,
+                                  spreadRadius: 2)
+                            ],
+                            gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  Color(0xff85a7c7),
+                                  Color(0xff4d87b7)
+                                ])),
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                      ),
                     )
-                  else
-                    Container(),
-                ],
+                  ],
+                ),
               );
             },
           ),

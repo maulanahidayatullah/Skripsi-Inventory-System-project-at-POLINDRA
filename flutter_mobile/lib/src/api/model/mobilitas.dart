@@ -1,7 +1,7 @@
 class Mobilitas {
-  String? user, nama_barang, merk_type, gedung, ruangan;
+  String? user, nama_barang, merk_type, gedung, ruangan, kode_barang;
 
-  int? id, kode_barang;
+  int? id;
 
   Mobilitas(
       {this.id,

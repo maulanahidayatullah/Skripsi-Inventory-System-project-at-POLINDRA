@@ -83,7 +83,7 @@ class _ProfilPageState extends State<ProfilPage> {
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: mainFontColor),
+                                    color: Colors.orange),
                               ),
                               SizedBox(
                                 height: 10,
@@ -191,7 +191,7 @@ class _ProfilPageState extends State<ProfilPage> {
                 borderRadius: BorderRadius.all(Radius.circular(18))),
             child: Icon(
               icon,
-              color: Color(0xff4d87b7),
+              color: Colors.orange,
             ),
             padding: EdgeInsets.all(12),
           ),

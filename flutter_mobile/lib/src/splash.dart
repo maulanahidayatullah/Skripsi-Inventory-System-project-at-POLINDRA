@@ -22,7 +22,7 @@ class _SplashState extends State<Splash> {
       Duration(seconds: 3),
       () {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Menu()));
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
       },
     );
   }

@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/src/pages/peminjaman/dataPeminjaman.dart';
+import 'package:flutter_mobile/src/pages/peminjaman/keranjangPeminjamanPage.dart';
+import 'package:flutter_mobile/src/api/model/inventori.dart';
+import 'package:qrscan/qrscan.dart' as Scanner;
+import 'package:flutter_mobile/src/api/api.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:ndialog/ndialog.dart';
 
-class Peminjaman extends StatefulWidget {
-  const Peminjaman({super.key});
+class peminjamanPage extends StatefulWidget {
+  const peminjamanPage({super.key});
 
   @override
-  State<Peminjaman> createState() => _PeminjamanState();
+  State<peminjamanPage> createState() => _peminjamanPageState();
 }
 
-class _PeminjamanState extends State<Peminjaman> {
+class _peminjamanPageState extends State<peminjamanPage> {
   @override
   Widget build(BuildContext context) {
+    Inventori inventori = Inventori();
     return Container(
       color: Colors.green,
       height: MediaQuery.of(context).size.height,
@@ -28,7 +34,7 @@ class _PeminjamanState extends State<Peminjaman> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      "Peminjaman",
+                      "Mobilitas",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 36,
@@ -36,16 +42,84 @@ class _PeminjamanState extends State<Peminjaman> {
                     ),
                   ],
                 ),
+                Text(
+                  "Inventory Polindra",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      color: Colors.green[100]),
+                ),
                 SizedBox(
-                  height: 12,
+                  height: 30,
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const DataPeminjaman()),
-                    );
+                    try {
+                      API.cekKeranjangPeminjaman(context).then((value) async {
+                        if (value == 1) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const KeranjangPeminjamanPage()),
+                          );
+                        } else {
+                          String? nup = await Scanner.scan();
+                          ProgressDialog progressDialog = ProgressDialog(
+                            context,
+                            blur: 10,
+                            message: Text("Mohon Tunggu..."),
+                          );
+                          progressDialog.show();
+                          if (nup != null) {
+                            setState(() {
+                              try {
+                                API.cekInventori(nup).then((value) {
+                                  setState(() {
+                                    inventori = value;
+                                    if (inventori.success == true) {
+                                      try {
+                                        API
+                                            .tambahKeranjangPeminjaman(
+                                                inventori.nup)
+                                            .then((value) async {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const KeranjangPeminjamanPage()),
+                                          );
+                                        });
+                                      } catch (e) {}
+                                      progressDialog.dismiss();
+                                    } else {
+                                      AwesomeDialog(
+                                        context: context,
+                                        dialogType: DialogType.error,
+                                        animType: AnimType.scale,
+                                        headerAnimationLoop: true,
+                                        title:
+                                            'Mohon Maaf .. Barang tidak ditemukan',
+                                        btnOkOnPress: () {},
+                                        onDismissCallback: (type) {
+                                          progressDialog.dismiss();
+                                        },
+                                        btnOkIcon: Icons.cancel,
+                                        btnOkColor: Colors.blue,
+                                      ).show();
+                                    }
+                                  });
+                                });
+                              } catch (e) {
+                                API.gagal(context, progressDialog);
+                              }
+                            });
+                          }
+                        }
+                      });
+                    } catch (e) {
+                      // API.gagal(context, pDialog)
+                    }
                   },
                   child: Container(
                     child: Column(
@@ -67,7 +141,7 @@ class _PeminjamanState extends State<Peminjaman> {
                           height: 8,
                         ),
                         Text(
-                          "Tambah Mobilitas",
+                          "Tambah Peminjaman",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -201,8 +275,8 @@ class _PeminjamanState extends State<Peminjaman> {
                 ),
               );
             },
-            initialChildSize: 0.7,
-            minChildSize: 0.7,
+            initialChildSize: 0.65,
+            minChildSize: 0.65,
             maxChildSize: 1,
           )
         ],

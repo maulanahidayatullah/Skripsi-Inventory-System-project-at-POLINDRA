@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_mobile/src/api/model/dashboard.dart';
 import 'package:flutter_mobile/src/api/model/gedungRuangan.dart';
+import 'package:flutter_mobile/src/api/model/keranjangPeminjaman.dart';
 import 'package:flutter_mobile/src/api/model/logMobilitas.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndialog/ndialog.dart';
@@ -108,7 +109,7 @@ class API {
   ) async {
     Uri url = Uri.parse(baseURL + 'cek_inventori');
 
-    int nup = int.parse(qr);
+    String nup = qr;
 
     Map data = {
       "nup": nup,
@@ -120,8 +121,10 @@ class API {
       headers: header,
       body: body,
     );
+    print(response.body);
 
     bool success = json.decode(response.body)["success"];
+
     var data_inventori = json.decode(response.body)["data"];
 
     if (response.statusCode == 200) {
@@ -141,7 +144,6 @@ class API {
         gedung: data_inventori["gedung"]["gedung"],
         ruangan: data_inventori["ruangan"]["ruangan"],
         status_psp: data_inventori["status_psp"],
-        nama_sub_satker: data_inventori["nama_sub_satker"],
         keterangan: data_inventori["keterangan"],
         success: success,
       );
@@ -275,7 +277,7 @@ class API {
   }
 
   static Future<String?> tambahMobilitas(
-    int? nup,
+    String? nup,
   ) async {
     int user_id = await getUserId();
 
@@ -398,6 +400,69 @@ class API {
     }
   }
 
+  static Future<int?> cekKeranjangPeminjaman(BuildContext context) async {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    Future.delayed(Duration.zero, () {
+      progressDialog.show();
+    });
+
+    Uri url = Uri.parse(baseURL + 'cek_keranjang_peminjaman');
+
+    int user_id = await getUserId();
+
+    Map data = {
+      "user_id": user_id,
+    };
+
+    var body = json.encode(data);
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var data_mobilitas = json.decode(response.body)['data'];
+
+    if (response.statusCode == 200) {
+      progressDialog.dismiss();
+      return 1;
+    } else {
+      progressDialog.dismiss();
+      return 0;
+    }
+  }
+
+  static Future<String?> tambahKeranjangPeminjaman(
+    String? nup,
+  ) async {
+    int user_id = await getUserId();
+
+    Map data = {"nup": nup, "user_id": user_id};
+
+    var body = json.encode(data);
+    var url = Uri.parse(baseURL + 'tambah_keranjang_peminjaman');
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    // print(response.body);
+    var success = json.decode(response.body)['success'];
+    var note = json.decode(response.body)['note'];
+
+    if (success == false) {
+      return note;
+    }
+    return note;
+  }
+
   static Future<Dashboard> dashboard(BuildContext context) async {
     ProgressDialog progressDialog = ProgressDialog(
       context,
@@ -440,6 +505,48 @@ class API {
     return Dashboard(
       success: success,
     );
+  }
+
+  Future getKeranjangPeminjaman(BuildContext context) async {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    Future.delayed(Duration.zero, () {
+      progressDialog.show();
+    });
+
+    Uri url = Uri.parse(baseURL + 'get_keranjang_peminjaman');
+
+    int user_id = await getUserId();
+
+    Map data = {
+      "user_id": user_id,
+    };
+
+    var body = json.encode(data);
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var data_keranjang = json.decode(response.body)['data'];
+    print(data_keranjang);
+
+    Iterable it = data_keranjang;
+    List<KeranjangPeminjaman> keranjang_peminjaman =
+        it.map((e) => KeranjangPeminjaman.fromJson(e)).toList();
+
+    if (response.statusCode == 200) {
+      progressDialog.dismiss();
+      return keranjang_peminjaman;
+    } else {
+      progressDialog.dismiss();
+      return keranjang_peminjaman;
+    }
   }
 
   // static Future<String?> tambahMobilitas

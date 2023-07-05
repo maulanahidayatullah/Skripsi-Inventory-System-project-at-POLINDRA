@@ -1,93 +1,56 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/api/api.dart';
-import 'package:flutter_mobile/src/api/model/logMobilitas.dart';
-import 'package:flutter_mobile/src/pages/mobilitasPage.dart';
-import '../../api/model/mobilitas.dart';
-import '../../api/model/gedungRuangan.dart';
+import '../../api/model/keranjangPeminjaman.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:awesome_dialog/awesome_dialog.dart';
 
-import 'package:flutter_mobile/src/Widget/menu.dart';
-
-class DataMobilitas extends StatefulWidget {
-  const DataMobilitas({super.key});
+class KeranjangPeminjamanPage extends StatefulWidget {
+  const KeranjangPeminjamanPage({super.key});
 
   @override
-  State<DataMobilitas> createState() => _DataMobilitasState();
+  State<KeranjangPeminjamanPage> createState() =>
+      _KeranjangPeminjamanPageState();
 }
 
-class _DataMobilitasState extends State<DataMobilitas> {
-  List<Mobilitas> listMobilitas = [];
-  List<GedungRuangan> listGedungRuangan = [];
+class _KeranjangPeminjamanPageState extends State<KeranjangPeminjamanPage> {
+  List<KeranjangPeminjaman> listKeranjang = [];
   API api = API();
 
-  getDataMobilitas() async {
-    listMobilitas = await api.getMobilitas(context);
+  String _unit_kerja = '';
+  String _nama_kegiatan = '';
+  String _jumlah = '';
+  String _satuan = '';
+  String _keterangan = '';
+  String _tgl_kembali = '';
+  String _jam_kembali = '';
+
+  var txUnitKerja = TextEditingController();
+  var txNamaKegiatan = TextEditingController();
+  var txJumlah = TextEditingController();
+  var txSatuan = TextEditingController();
+  var txKeterangan = TextEditingController();
+  var txTglKembali = TextEditingController();
+  var txJamKembali = TextEditingController();
+
+  getDataKeranjang() async {
+    listKeranjang = await api.getKeranjangPeminjaman(context);
     setState(() {});
-  }
-
-  var url = Uri.parse(API.baseURL + 'get_gedung_ruangan');
-
-  var _gedung = [];
-  var _ruangan = [];
-
-  String? gedung;
-  String? ruangan;
-
-  bool isGedungSelected = false;
-  bool isRuanganSelected = false;
-
-  Future getGedungRuangan() async {
-    ProgressDialog progressDialog = ProgressDialog(
-      context,
-      blur: 10,
-      message: Text("Mohon Tunggu..."),
-    );
-    progressDialog.show();
-    var response = await http.post(url);
-
-    if (response.statusCode == 200) {
-      progressDialog.dismiss();
-      var jsonResponse = jsonDecode(response.body)['data'];
-
-      setState(() {
-        _gedung = jsonResponse;
-
-        // _cardModal();
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.info,
-          animType: AnimType.scale,
-          headerAnimationLoop: true,
-          title: 'asd',
-          body: _cardModal(),
-          btnOkOnPress: () {},
-          onDismissCallback: (type) {
-            progressDialog.dismiss();
-          },
-          btnOkIcon: Icons.cancel,
-          btnOkColor: Colors.blue,
-        ).show();
-      });
-    }
   }
 
   @override
   void initState() {
-    getDataMobilitas();
-
+    getDataKeranjang();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (listMobilitas.isEmpty) {
+    if (listKeranjang.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Mobilitas'),
+          title: Text('Keranjang Peminjaman'),
           actions: <Widget>[
             IconButton(
               padding: new EdgeInsets.only(right: 10),
@@ -106,7 +69,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
                 if (nup != null) {
                   setState(() {
                     try {
-                      API.tambahMobilitas(nup).then((value) async {
+                      API.tambahKeranjangPeminjaman(nup).then((value) async {
                         AwesomeDialog(
                           context: context,
                           dialogType: DialogType.info,
@@ -120,7 +83,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
                           btnOkIcon: Icons.cancel,
                           btnOkColor: Colors.blue,
                         ).show();
-                        getDataMobilitas();
+                        getDataKeranjang();
                       });
                     } catch (e) {}
                   });
@@ -128,14 +91,14 @@ class _DataMobilitasState extends State<DataMobilitas> {
               },
             ),
           ],
-          backgroundColor: Colors.pink,
+          backgroundColor: Colors.green,
         ),
         body: Container(child: Text("Laka data")),
       );
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Mobilitas'),
+          title: Text('Keranjang Peminjaman'),
           actions: <Widget>[
             IconButton(
               padding: new EdgeInsets.only(right: 10),
@@ -154,7 +117,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
                 if (nup != null) {
                   setState(() {
                     try {
-                      API.tambahMobilitas(nup).then((value) async {
+                      API.tambahKeranjangPeminjaman(nup).then((value) async {
                         AwesomeDialog(
                           context: context,
                           dialogType: DialogType.info,
@@ -168,7 +131,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
                           btnOkIcon: Icons.cancel,
                           btnOkColor: Colors.blue,
                         ).show();
-                        getDataMobilitas();
+                        getDataKeranjang();
                       });
                     } catch (e) {}
                   });
@@ -176,13 +139,13 @@ class _DataMobilitasState extends State<DataMobilitas> {
               },
             ),
           ],
-          backgroundColor: Colors.pink,
+          backgroundColor: Colors.green,
         ),
         body: Column(
           children: [
             Flexible(
               child: ListView.builder(
-                itemCount: listMobilitas.length,
+                itemCount: listKeranjang.length,
                 itemBuilder: (context, index) {
                   return SingleChildScrollView(
                     child: Column(
@@ -190,12 +153,11 @@ class _DataMobilitasState extends State<DataMobilitas> {
                       // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         _card(
-                          listMobilitas[index].id,
-                          listMobilitas[index].kode_barang,
-                          listMobilitas[index].nama_barang,
-                          listMobilitas[index].merk_type,
-                          listMobilitas[index].gedung,
-                          listMobilitas[index].ruangan,
+                          listKeranjang[index].id,
+                          listKeranjang[index].kode_barang,
+                          listKeranjang[index].nama_barang,
+                          listKeranjang[index].merk_type,
+                          listKeranjang[index].nup,
                         ),
                       ],
                     ),
@@ -205,7 +167,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
             ),
             InkWell(
               onTap: () async {
-                getGedungRuangan();
+                _cardModal();
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
@@ -241,7 +203,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
   }
 
   Widget _card(int? id, String? kode_barang, String? nama_barang,
-      String? merk_type, String? gedung, String? ruangan) {
+      String? merk_type, String? nup) {
     return GestureDetector(
       onTap: () {},
       child: Padding(
@@ -273,21 +235,15 @@ class _DataMobilitasState extends State<DataMobilitas> {
                             fontSize: 24, fontWeight: FontWeight.bold)),
                     Text(merk_type.toString(), style: TextStyle(fontSize: 18)),
                     const SizedBox(
-                      height: 15,
-                    ),
-                    Text("Gedung : ",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
-                    Text(gedung.toString(), style: TextStyle(fontSize: 20)),
-                    const SizedBox(
                       height: 10,
                     ),
-                    Text("Ruangan : ",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
-                    Text(ruangan.toString(), style: TextStyle(fontSize: 20)),
+                    // Text("Kode Barang & NUP : ",
+                    //     style: TextStyle(
+                    //         fontSize: 20, fontWeight: FontWeight.bold)),
+                    // Text(kode_barang.toString() + nup.toString(),
+                    //     style: TextStyle(fontSize: 20)),
                     const SizedBox(
-                      height: 5,
+                      height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -296,8 +252,6 @@ class _DataMobilitasState extends State<DataMobilitas> {
                             child: SizedBox(
                           height: 10,
                         )),
-                        // child: Text(kode_barang.toString(),
-                        //     style: TextStyle(fontSize: 20))),
                         Expanded(
                           child: InkWell(
                             onTap: () {
@@ -323,7 +277,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
                                       btnOkIcon: Icons.cancel,
                                       btnOkColor: Colors.blue,
                                     ).show();
-                                    getDataMobilitas();
+                                    getDataKeranjang();
                                   });
                                 } catch (e) {}
                               });
@@ -338,7 +292,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                 ),
                               ),
                             ),
@@ -373,7 +327,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Silahkan pilih Gedung dan Ruangan",
+                      "Silahkan isi Data",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
@@ -383,44 +337,41 @@ class _DataMobilitasState extends State<DataMobilitas> {
                     SizedBox(
                       height: 20,
                     ),
-                    if (_gedung.isEmpty)
-                      const Center(child: CircularProgressIndicator())
-                    else
-                      Card(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.pink),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: DropdownButton<String>(
-                              underline: Container(),
-                              hint: Text("-- Gedung --"),
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              isDense: true,
-                              isExpanded: true,
-                              items: _gedung.map((gdng) {
-                                return DropdownMenuItem<String>(
-                                    value: gdng["id_gedung"].toString(),
-                                    child: Text(gdng["gedung"]));
-                              }).toList(),
-                              value: gedung,
-                              onChanged: (value) {
-                                setState(() {
-                                  // ruangan = '';
-                                  _ruangan = [];
-                                  gedung = value!;
-                                  for (int i = 0; i < _gedung.length; i++) {
-                                    if (_gedung[i]["id_gedung"] ==
-                                        int.parse(value)) {
-                                      _ruangan = _gedung[i]["ruangan"];
-                                    }
-                                  }
-                                  isGedungSelected = true;
-                                });
-                              }),
+                    // Card(
+                    //   color: Colors.white,
+                    //   shape: RoundedRectangleBorder(
+                    //       side: BorderSide(color: Colors.pink),
+                    //       borderRadius: BorderRadius.circular(8)),
+                    //   child: Padding(
+                    //       padding: const EdgeInsets.all(15.0),
+                    //       child: Text('asd')),
+                    // ),
+                    Container(
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      child: TextFormField(
+                        controller: txUnitKerja,
+                        decoration: InputDecoration(
+                          labelText: "Unit Kerja",
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(21),
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(21),
+                              borderSide: BorderSide(color: Colors.orange)),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "";
+                          } else {
+                            return null;
+                          }
+                        },
+                        onChanged: (value) {
+                          _unit_kerja = value;
+                        },
                       ),
+                    ),
                     SizedBox(
                       height: 8,
                     ),
@@ -430,26 +381,8 @@ class _DataMobilitasState extends State<DataMobilitas> {
                           side: BorderSide(color: Colors.pink),
                           borderRadius: BorderRadius.circular(8)),
                       child: Container(
-                        padding: const EdgeInsets.all(15.0),
-                        child: DropdownButton<String>(
-                            underline: Container(),
-                            hint: Text("-- Ruangan --"),
-                            icon: const Icon(Icons.keyboard_arrow_down),
-                            isDense: true,
-                            isExpanded: true,
-                            items: _ruangan.map((rngn) {
-                              return DropdownMenuItem<String>(
-                                  value: rngn["id_ruangan"].toString(),
-                                  child: Text(rngn["ruangan"]));
-                            }).toList(),
-                            value: ruangan,
-                            onChanged: (value) {
-                              setState(() {
-                                ruangan = value;
-                                // isGedungSelected = false;
-                              });
-                            }),
-                      ),
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text('asd')),
                     ),
                     SizedBox(
                       height: 25,
@@ -457,40 +390,38 @@ class _DataMobilitasState extends State<DataMobilitas> {
                     InkWell(
                       onTap: () {
                         // print(int.parse(gedung).runtimeType);
-                        var gedung_id = int.parse(gedung!);
-                        var ruangan_id = int.parse(ruangan!);
                         ProgressDialog progressDialog = ProgressDialog(
                           context,
                           blur: 10,
                           message: Text("Mohon Tunggu..."),
                         );
-                        listMobilitas.forEach((value) {
-                          try {
-                            API
-                                .selesaiMobilitas(
-                                    value.id, gedung_id, ruangan_id)
-                                .then((value) async {
-                              AwesomeDialog(
-                                context: context,
-                                dialogType: DialogType.success,
-                                animType: AnimType.scale,
-                                headerAnimationLoop: true,
-                                title: 'Mobilitas Barang berhasil',
-                                btnOkOnPress: () {},
-                                onDismissCallback: (type) {
-                                  progressDialog.dismiss();
+                        // listKeranjang.forEach((value) {
+                        //   try {
+                        //     API
+                        //         .selesaiMobilitas(
+                        //             value.id, gedung_id, ruangan_id)
+                        //         .then((value) async {
+                        //       AwesomeDialog(
+                        //         context: context,
+                        //         dialogType: DialogType.success,
+                        //         animType: AnimType.scale,
+                        //         headerAnimationLoop: true,
+                        //         title: 'Mobilitas Barang berhasil',
+                        //         btnOkOnPress: () {},
+                        //         onDismissCallback: (type) {
+                        //           progressDialog.dismiss();
 
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Menu()));
-                                },
-                                btnOkIcon: Icons.cancel,
-                                btnOkColor: Colors.blue,
-                              ).show();
-                            });
-                          } catch (e) {}
-                        });
+                        //           Navigator.push(
+                        //               context,
+                        //               MaterialPageRoute(
+                        //                   builder: (context) => Menu()));
+                        //         },
+                        //         btnOkIcon: Icons.cancel,
+                        //         btnOkColor: Colors.blue,
+                        //       ).show();
+                        //     });
+                        //   } catch (e) {}
+                        // });
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,

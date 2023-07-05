@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/pages/dashboardPage.dart';
 import 'package:flutter_mobile/src/pages/mobilitasPage.dart';
-import 'package:flutter_mobile/src/pages/peminjaman.dart';
-import 'package:flutter_mobile/src/pages/profiPage.dart';
+import 'package:flutter_mobile/src/pages/peminjamanPage.dart';
+import 'package:flutter_mobile/src/pages/profilPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
@@ -29,7 +29,7 @@ class _MenuState extends State<Menu> {
       DashboardPage(),
       MobilitasPage(),
       Screen3(),
-      Peminjaman(),
+      peminjamanPage(),
       ProfilPage(),
     ];
   }

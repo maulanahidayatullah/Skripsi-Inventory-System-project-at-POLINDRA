@@ -12,7 +12,7 @@ class PeminjamanController extends Controller
     public function cek_peminjaman(Request $request)
     {
         $peminjaman = Peminjaman::where('user_id', $request->user_id)
-            ->where('selesai', 'false')
+            ->where('keranjang', 'true')
             ->get();
 
         if (count($peminjaman) !== 0) {
@@ -30,14 +30,13 @@ class PeminjamanController extends Controller
     public function get_keranjang_peminjaman(Request $request)
     {
         $peminjaman = Peminjaman::where('user_id', $request->user_id)
-            ->where('selesai', 'false')
+            ->where('keranjang', 'true')
             ->get();
 
         // return $peminjaman[0]->User->Pegawai;
         if (count($peminjaman) !== 0) {
             foreach ($peminjaman as $key => $value) {
                 $peminjaman->success = 'success';
-                $peminjaman->user = $value->User->Pegawai;
                 $peminjaman->inventori = $value->Inventori;
             }
             return response()->json([
@@ -55,13 +54,12 @@ class PeminjamanController extends Controller
 
     public function tambah_keranjang_peminjaman(Request $request)
     {
-        // return $request;
         $inventori = Inventori::where('nup', $request->nup)->first();
 
         if (!empty($inventori)) {
 
             $peminjaman = Peminjaman::where('inventori_id', $inventori->id)
-                ->where('selesai', 'false')->first();
+                ->where('keranjang', 'true')->first();
 
             if (empty($peminjaman)) {
 
@@ -69,7 +67,7 @@ class PeminjamanController extends Controller
                 $data->user_id              = $request->user_id;
                 $data->inventori_id         = $inventori->id;
                 $data->kondisi_barang       = $inventori->kondisi_barang;
-                $data->selesai              = 'false';
+                $data->keranjang            = 'true';
                 $data->save();
 
                 if ($data->save()) {
@@ -92,16 +90,13 @@ class PeminjamanController extends Controller
         }
     }
 
-
-
     public function tambah_peminjaman(Request $request)
     {
         $peminjaman = Peminjaman::where('inventori_id', $request->inventori_id)
-            ->where('user_id', $request->user_id)->where('selesai', 'false')->first();
+            ->where('user_id', $request->user_id)->where('keranjang', 'true')->first();
 
         if (!empty($peminjaman)) {
             $barang_kembali = $request->tgl_kembali . ' ' . $request->jam_kembali;
-            $code = "Pol-" . "P-" . $request->user_id . '-' . date('ymd');
 
             $peminjaman->kode_peminjaman        = $this->generate_code_pemnjaman($request->user_id);
             $peminjaman->unit_kerja             = $request->unit_kerja;
@@ -114,10 +109,9 @@ class PeminjamanController extends Controller
             $peminjaman->persetujuan_wadir      = 'belum';
             $peminjaman->persetujuan_pembimbing = 'belum';
             $peminjaman->status_persetujuan     = 'belum';
-            $peminjaman->selesai                = 'true';
+            $peminjaman->keranjang              = 'false';
 
             if ($peminjaman->save()) {
-
                 return response()->json([
                     'success' => true,
                     'note' => 'Peminjaman Ditambahkan, Sliahkan menunggu Persetujuan '
@@ -134,6 +128,14 @@ class PeminjamanController extends Controller
                 'note' => 'Belum ada Keranjang peminjaman'
             ], 400);
         }
+    }
+
+    public function status_peminjaman(Request $request)
+    {
+        $peminjaman = Peminjaman::where('inventori_id', $request->inventori_id)
+            ->where('user_id', $request->user_id)->where('keranjang', 'false')->get();
+
+        return $peminjaman;
     }
 
     public function generate_code_pemnjaman($user_id)

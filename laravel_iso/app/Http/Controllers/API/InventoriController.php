@@ -11,9 +11,10 @@ class InventoriController extends Controller
     public function cek_inventori(Request $request)
     {
         $inventori = Inventori::where('nup', $request->nup)->first();
-        $inventori->gedung = $inventori->Gedung->gedung;
-        $inventori->ruangan = $inventori->Ruangan->ruangan;
+
         if (!empty($inventori)) {
+            $inventori->gedung = $inventori->Gedung->gedung;
+            $inventori->ruangan = $inventori->Ruangan->ruangan;
             return response()->json([
                 'success' => true,
                 'data' => $inventori

@@ -157,7 +157,6 @@ class MobilitasController extends Controller
 
     public function hapus_mobilitas(Request $request)
     {
-
         $mobilitas = Mobilitas::where('id', $request->mobilitas_id)->where('user_id', $request->user_id)->where('selesai', 'false')->first();
         $mobilitas->delete();
 

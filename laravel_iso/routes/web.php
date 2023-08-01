@@ -230,9 +230,6 @@ Route::get('/peminjaman_json', [DatatableController::class, 'peminjaman_json']);
 Route::get('/rusak_ruangan_json', [DatatableController::class, 'rusak_ruangan_json']);
 Route::get('/rusak_luar_json', [DatatableController::class, 'rusak_luar_json']);
 
-
-
-
 Route::get('/barang/qrcode/{id_barang}', [BarangController::class, 'qrcode']);
 Route::get('/lap_barang_masuk', [LaporanController::class, 'lap_barang_masuk']);
 Route::post('/lap_barang_masuk_input', [LaporanController::class, 'lap_barang_masuk']);

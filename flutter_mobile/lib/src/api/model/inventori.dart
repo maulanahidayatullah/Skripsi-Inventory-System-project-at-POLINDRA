@@ -12,8 +12,9 @@ class Inventori {
       status_psp,
       nama_sub_satker,
       nup,
+      kode_barang,
       keterangan;
-  int? id, kode_barang, kuantitas, nilai_bmn;
+  int? id, kuantitas, nilai_bmn;
 
   bool? success;
 

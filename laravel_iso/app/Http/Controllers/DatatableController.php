@@ -41,6 +41,38 @@ class DatatableController extends Controller
             ->make(true);
     }
 
+    public function lap_barang_json(Request $request)
+    {
+
+        if (request()->ajax()) {
+            if (!empty($request->filter === "gedung_ruangan")) {
+                if (!empty($request->value_2)) {
+                    $data = DB::table('inventori as inv')
+                        ->join('gedung as gedung', 'inv.gedung_id', '=', 'gedung.id_gedung')
+                        ->join('ruangan as ruangan', 'inv.ruangan_id', '=', 'ruangan.id_ruangan')
+                        ->where('ruangan.id_ruangan', $request->value_2)
+                        ->get();
+                } elseif (!empty($request->value_1)) {
+                    $data = DB::table('inventori as inv')
+                        ->join('gedung as gedung', 'inv.gedung_id', '=', 'gedung.id_gedung')
+                        ->join('ruangan as ruangan', 'inv.ruangan_id', '=', 'ruangan.id_ruangan')
+                        ->where('gedung.id_gedung', $request->value_1)
+                        ->get();
+                }
+            } else {
+                $data = DB::table('inventori as inv')
+                    ->join('gedung as gedung', 'inv.gedung_id', '=', 'gedung.id_gedung')
+                    ->join('ruangan as ruangan', 'inv.ruangan_id', '=', 'ruangan.id_ruangan')
+                    ->get();
+            }
+        }
+
+
+        return FacadesDataTables::of($data)
+            ->addIndexColumn()
+            ->make(true);
+    }
+
     public function mobilitas_json(Request $request)
     {
         if (request()->ajax()) {

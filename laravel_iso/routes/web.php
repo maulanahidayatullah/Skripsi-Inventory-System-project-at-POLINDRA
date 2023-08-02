@@ -202,6 +202,9 @@ Route::post('/keranjang_rusak_luar/update', [KeranjangrusakluarController::class
 Route::get('/keranjang_rusak_luar/hapus/{id_rusak}', [KeranjangrusakluarController::class, 'delete']);
 
 //Export
+Route::get('/lap_barang', [LaporanController::class, 'lap_barang']);
+Route::get('/lap_barang_json', [DatatableController::class, 'lap_barang_json']);
+
 Route::get('/peminjaman/export_excel', [PeminjamanController::class, 'export_excel']);
 Route::get('/barang_ruangan/export_excel', [InputruanganController::class, 'export_excel']);
 Route::get('/keluar/export_excel', [KeluarController::class, 'export_excel']);

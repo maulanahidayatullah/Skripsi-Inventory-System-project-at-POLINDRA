@@ -240,7 +240,7 @@
           </div>
         </li> -->
 
-       {{-- <li class="nav-item {{ (request()->is('lap_barang_masuk*')) ? 'active' : '' }} {{ (request()->is('lap_barang_keluar*')) ? 'active' : '' }} {{ (request()->is('lap_barang_ruangan*')) ? 'active' : '' }} {{ (request()->is('lap_peminjaman*')) ? 'active' : '' }} {{ (request()->is('lap_rusak_rusak*')) ? 'active' : '' }} {{ (request()->is('lap_rusak_dalam*')) ? 'active' : '' }}">
+       <li class="nav-item {{ (request()->is('lap_barang_masuk*')) ? 'active' : '' }} {{ (request()->is('lap_barang_keluar*')) ? 'active' : '' }} {{ (request()->is('lap_barang_ruangan*')) ? 'active' : '' }} {{ (request()->is('lap_peminjaman*')) ? 'active' : '' }} {{ (request()->is('lap_rusak_rusak*')) ? 'active' : '' }} {{ (request()->is('lap_rusak_dalam*')) ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-file"></i>
           <span>Laporan</span>
@@ -249,14 +249,13 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Laporan</h6>
             <a class="collapse-item {{ (request()->is('lap_barang*')) ? 'active' : '' }}" href="{{url('lap_barang')}}">Barang </a>
-            <a class="collapse-item {{ (request()->is('lap_barang_keluar*')) ? 'active' : '' }}" href="{{url('lap_barang_keluar')}}">Barang Keluar</a>
             <a class="collapse-item {{ (request()->is('lap_peminjaman*')) ? 'active' : '' }}" href="{{url('lap_peminjaman')}}">Data Peminjaman</a>
             <a class="collapse-item {{ (request()->is('lap_barang_ruangan*')) ? 'active' : '' }}" href="{{url('lap_barang_ruangan')}}">Barang Ruangan</a>
             <a class="collapse-item {{ (request()->is('lap_rusak_luar*')) ? 'active' : '' }}" href="{{url('lap_rusak_luar')}}">Barang Rusak Luar</a>
             <a class="collapse-item {{ (request()->is('lap_rusak_dalam*')) ? 'active' : '' }}" href="{{url('lap_rusak_dalam')}}">Barang Rusak Dalam</a>
           </div>
         </div>
-      </li> --}}
+      </li>
                 
      
 
@@ -454,6 +453,8 @@
       });
     });
   </script>
+  
+  @yield('script')
 
   @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
   @stack('scripts')

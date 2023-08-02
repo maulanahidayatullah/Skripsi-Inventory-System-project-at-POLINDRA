@@ -33,7 +33,7 @@
   <div class="row">
     <div class="col-6">
       <button class="btn btn-success mr-1" data-toggle="modal" data-target="#tambah">Tambah Data</button>
-      <button class="btn btn-warning mr-1" data-toggle="modal" data-target="#cetak">Filter Data</button>
+      {{-- <button class="btn btn-warning mr-1" data-toggle="modal" data-target="#cetak">Filter Data</button> --}}
       <button class="btn btn-primary" data-toggle="modal" data-target="#cetak">Import Data</button>
     </div>
     <div class="col-2"></div>

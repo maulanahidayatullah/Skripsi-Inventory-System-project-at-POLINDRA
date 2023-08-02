@@ -39,13 +39,13 @@
     <div class="col-4">
         <div class="row">
           <div class="col-5">
-            <input type="text" name="uraian_akun" placeholder="Kode Barang" class="form-control float-right"  required>
+            <input type="text" name="kode_barang" placeholder="Kode Barang" class="form-control float-right" id="search_kode" >
           </div>
           <div class="col-5">
-              <input type="text" name="nup" placeholder="NUP" class="form-control float-right"  required>
+              <input type="text" name="nup" placeholder="NUP" class="form-control float-right" id="search_nup" >
           </div>
           <div class="col-2">
-            <button class="btn btn-info" data-toggle="modal" data-target="#tambah">Search</button>
+            <button class="btn btn-info" id="search_barang">Search</button>
           </div>
         </div>
     </div>
@@ -261,13 +261,21 @@
 
       
     }
- $(document).ready( function () {
     
-    $('#example').DataTable({
+ $(document).ready( function () {
+
+  fill_table();
+
+  function fill_table(search_kode = '', search_nup = '') {
+    var Table = $('#example').DataTable({
            processing: true,
            serverSide: true,
            searching: false,
-           ajax: "/barang_json",
+           ajax: {
+            url: "/barang_json",
+            data: {search_kode:search_kode, search_nup:search_nup},
+           },
+           
            columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', oderable: false, searchable: false },
                     { data: 'uraian_akun', name: 'uraian_akun' },
@@ -288,6 +296,22 @@
                     { data: 'keterangan', name: 'keterangan' },
                     { data: 'action', name: 'action', orderable: false},
                  ]
+        });
+  }
+    
+    
+
+        $('#search_barang').on( 'click', function () {
+                var search_nup = $('#search_nup').val();
+                var search_kode = $('#search_kode').val();
+
+                if (search_kode != '' && search_nup != '') {
+                  $('#example').DataTable().destroy();
+                  fill_table(search_kode, search_nup);
+                } else {
+                  
+                }
+                 
         });
      });
 

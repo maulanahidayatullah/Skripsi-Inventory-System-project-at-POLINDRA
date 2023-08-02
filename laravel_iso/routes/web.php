@@ -41,6 +41,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/barang_json', [DatatableController::class, 'barang_json']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -198,9 +199,6 @@ Route::get('/keranjang_rusak_luar/edit/{id_rusak}', [KeranjangrusakluarControlle
 Route::post('/keranjang_rusak_luar/update', [KeranjangrusakluarController::class, 'update']);
 Route::get('/keranjang_rusak_luar/hapus/{id_rusak}', [KeranjangrusakluarController::class, 'delete']);
 
-
-
-
 //Export
 Route::get('/peminjaman/export_excel', [PeminjamanController::class, 'export_excel']);
 Route::get('/barang_ruangan/export_excel', [InputruanganController::class, 'export_excel']);
@@ -222,7 +220,6 @@ Route::get('/inputrusakruangan', [KeranjangrusakruanganController::class, 'input
 Route::get('/inputrusakluar', [KeranjangrusakluarController::class, 'input']);
 
 //datatable
-Route::get('/barang_json', [DatatableController::class, 'barang_json']);
 Route::get('/input_ruangan_json', [DatatableController::class, 'input_ruangan_json']);
 Route::get('/keluar_json', [DatatableController::class, 'keluar_json']);
 Route::get('/masuk_json', [DatatableController::class, 'masuk_json']);
@@ -231,6 +228,7 @@ Route::get('/rusak_ruangan_json', [DatatableController::class, 'rusak_ruangan_js
 Route::get('/rusak_luar_json', [DatatableController::class, 'rusak_luar_json']);
 
 Route::get('/barang/qrcode/{id_barang}', [BarangController::class, 'qrcode']);
+
 Route::get('/lap_barang_masuk', [LaporanController::class, 'lap_barang_masuk']);
 Route::post('/lap_barang_masuk_input', [LaporanController::class, 'lap_barang_masuk']);
 Route::get('/lap_barang_keluar', [LaporanController::class, 'lap_barang_keluar']);
@@ -251,11 +249,8 @@ Route::get('/pembimbing', [PembimbingController::class, 'pembimbing']);
 Route::get('/input_rusak_dalam', [InputrusakController::class, 'index_dalam']);
 Route::post('/input_rusak_dalam/input', [InputrusakController::class, 'store_dalam']);
 
-
 Route::get('/input_rusak_luar', [InputrusakController::class, 'index_luar']);
 Route::post('/input_rusak_luar/input', [InputrusakController::class, 'store_luar']);
-
-
 
 Route::get('/get-state-list', [InputrusakController::class, 'getStateList']);
 

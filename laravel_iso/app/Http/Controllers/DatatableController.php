@@ -13,20 +13,21 @@ class DatatableController extends Controller
 {
 
 
-    public function barang_json()
+    public function barang_json(Request $request)
     {
-        //  $barang = DB::table('barangs')
-        //     ->join('kategori', function ($join) {
-        //         $join->on('barangs.kategori_id', '=', 'kategori.id_kategori');
-        //     })->get();
+
+        if (request()->ajax()) {
+            if (!empty($request->search_kode)) {
+                $data = Inventori::where("kode_barang", $request->search_kode)->where("kode_barang", $request->search_nup)->get();
+            } else {
+                $data = Inventori::get();
+            }
+        }
 
 
-        // return datatables()->of($barang)
-
-        return FacadesDataTables::of(Inventori::get())
+        return FacadesDataTables::of($data)
             ->addColumn('action', function ($value) {
                 return '<a href="/barang/edit/' . $value->id . '" class="btn btn-primary btn-sm ml-2"">Edit </a>
-                        <a href="/barang/qrcode/' . $value->id . '" class="btn btn-warning btn-sm ml-2"">QR Code </a>
             ';
             })
             ->addColumn('gedung', function ($value) {
@@ -37,13 +38,6 @@ class DatatableController extends Controller
             })
             ->addIndexColumn()
             ->make(true);
-
-        // ->addColumn('total', function ($u) {
-        //     return $u->jumlah + $u->jumlah_rusak;
-        // })
-        // ->make(true);
-
-        // return datatables()->of($barang)->make(true);
     }
 
     public function input_ruangan_json()

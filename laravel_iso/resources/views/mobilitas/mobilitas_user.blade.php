@@ -10,12 +10,18 @@
     <div class="card border-left-dark shadow h-100 py-2">
       <div class="card-body">
         <div class="row no-gutters align-items-center">
-          <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Data Mobilitas</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">{{$log_mobilitas}}</div>
-          </div>
+          
           <div class="col-auto">
-            <i class="fas fa fa-book fa-2x text-gray-300"></i>
+            <div class="form-group">
+            <label for="">Nama User</label>
+            <select class="myselect" id="user_select" name="user_id" style="width:100%;" >
+                <option></option>
+                @foreach ($user as $item)
+                  <option value="{{ $item->id }}">{{ $item->name }}</option>
+                @endforeach
+            </select>
+          </div>
+            {{-- <i class="fas fa fa-book fa-2x text-gray-300"></i> --}}
           </div>
         </div>
       </div>
@@ -25,10 +31,10 @@
  </div>
  <div class="card shadow mb-4">
 <div class="card-header py-3">
-  <h6 class="m-0 font-weight-bold text-dark">Data Mobilitas</h6>
+  <h6 class="m-0 font-weight-bold text-dark">Data Mobilitas User</h6>
 </div>
 
-<div class="card-body">
+<div class="card-body" id="card-table" style="display: none">
    
   <div class="row">
     <div class="col-6">
@@ -53,14 +59,6 @@
       <table id="mobilitas_table" class="table table-bordered js-basic-example dataTable" cellspacing="0">
           <thead>
             <tr>
-              {{-- <th rowspan="2">No</th>
-              <th rowspan="2">User</th>
-              <th rowspan="2">Nama Barang</th>
-              <th rowspan="2">Kode Barang</th>
-              <th rowspan="2">NUP</th>
-              <th rowspan="2">Tanggal</th>
-              <th colspan="2" class="text-center text-white bg-danger">Sebelum</th>
-              <th colspan="2" class="text-center text-white bg-success">Sesudah</th> --}}
               <th>No</th>
               <th>User</th>
               <th>Nama Barang</th>
@@ -78,17 +76,17 @@
 
 <script>
   $(document).ready( function () {
-    fill_table();
+//     fill_table();
 
-    function fill_table(search_kode = '', search_nup = '') {
+    function fill_table(user_id = '', search_kode = '', search_nup = '') {
 
       var Table = $('#mobilitas_table').DataTable({
            processing: true,
            serverSide: true,
            searching: false,
            ajax: {
-            url: "/mobilitas_json",
-            data: {search_kode:search_kode, search_nup:search_nup},
+            url: "/mobilitas_user_json",
+            data: {user_id:user_id, search_kode:search_kode, search_nup:search_nup, },
            },
            
            columns: [
@@ -103,19 +101,26 @@
                  ]
         });
   }
-    
-    
 
+      $('#user_select').on( 'change', function () {
+        var user_id = $('#user_select').val();
+        $('#card-table').css("display","block")
+            $('#mobilitas_table').DataTable().destroy();
+            fill_table(user_id);
+                    
+          });
+    
         $('#search_barang').on( 'click', function () {
-                var search_nup = $('#search_nup').val();
-                var search_kode = $('#search_kode').val();
-
-                if (search_kode != '' || search_nup != '') {
-                  $('#mobilitas_table').DataTable().destroy();
-                  fill_table(search_kode, search_nup);
-                } else {
+          var search_nup = $('#search_nup').val();
+          var search_kode = $('#search_kode').val();
+          var user_id = $('#user_select').val();
+          
+          if (search_kode != '' || search_nup != '') {
+            $('#mobilitas_table').DataTable().destroy();
+              fill_table(user_id, search_kode, search_nup);
+            } else {
                   
-                }
+            }
                  
         });
      });

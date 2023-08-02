@@ -78,8 +78,9 @@ Route::get('/ruangan/hapus/{id_ruangan}', [RuanganController::class, 'hapus']);
 
 // Mobilitas
 Route::get('/mobilitas', [MobilitasController::class, 'index']);
-Route::get('/mobilitas/user', [MobilitasController::class, 'user']);
+Route::get('/mobilitas_user', [MobilitasController::class, 'mobilitas_user']);
 Route::get('/mobilitas_json', [DatatableController::class, 'mobilitas_json']);
+Route::get('/mobilitas_user_json', [DatatableController::class, 'mobilitas_user_json']);
 
 
 // Kategori

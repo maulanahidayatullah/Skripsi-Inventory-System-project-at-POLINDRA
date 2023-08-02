@@ -130,8 +130,8 @@
         <div id="collapse_mob" class="collapse {{ (request()->is('mobilitas*')) ? 'show' : '' }} {{ (request()->is('mobilitas*')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data Mobilitas</h6>
-            <a class="collapse-item {{ (request()->is('mobilitas*')) ? 'active' : '' }} " href="{{url('mobilitas')}}">Riwayat Mobilitas</a>
-            <a class="collapse-item {{ (request()->is('user*')) ? 'active' : '' }} " href="{{url('mobilitas')}}">Berdasarkan User</a>
+            <a class="collapse-item {{ (request()->is('mobilitas')) ? 'active' : '' }} " href="{{url('mobilitas')}}">Riwayat Mobilitas</a>
+            <a class="collapse-item {{ (request()->is('mobilitas_user*')) ? 'active' : '' }} " href="{{url('mobilitas_user')}}">Berdasarkan User</a>
           </div>
         </div>
       </li>

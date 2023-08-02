@@ -305,7 +305,7 @@
                 var search_nup = $('#search_nup').val();
                 var search_kode = $('#search_kode').val();
 
-                if (search_kode != '' && search_nup != '') {
+                if (search_kode != '' || search_nup != '') {
                   $('#example').DataTable().destroy();
                   fill_table(search_kode, search_nup);
                 } else {

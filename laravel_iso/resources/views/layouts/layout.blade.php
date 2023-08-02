@@ -21,6 +21,7 @@
 
   <!-- Custom styles for this page -->
   <link href="{{url('assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+  <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
   
 
@@ -239,15 +240,15 @@
           </div>
         </li> -->
 
-       <li class="nav-item {{ (request()->is('lap_barang_masuk*')) ? 'active' : '' }} {{ (request()->is('lap_barang_keluar*')) ? 'active' : '' }} {{ (request()->is('lap_barang_ruangan*')) ? 'active' : '' }} {{ (request()->is('lap_peminjaman*')) ? 'active' : '' }} {{ (request()->is('lap_rusak_rusak*')) ? 'active' : '' }} {{ (request()->is('lap_rusak_dalam*')) ? 'active' : '' }}">
+       {{-- <li class="nav-item {{ (request()->is('lap_barang_masuk*')) ? 'active' : '' }} {{ (request()->is('lap_barang_keluar*')) ? 'active' : '' }} {{ (request()->is('lap_barang_ruangan*')) ? 'active' : '' }} {{ (request()->is('lap_peminjaman*')) ? 'active' : '' }} {{ (request()->is('lap_rusak_rusak*')) ? 'active' : '' }} {{ (request()->is('lap_rusak_dalam*')) ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-file"></i>
           <span>Laporan</span>
         </a>
-        <div id="collapse5" class="collapse {{ (request()->is('lap_barang_masuk*')) ? 'show' : '' }}{{ (request()->is('lap_barang_keluar*')) ? 'show' : '' }} {{ (request()->is('lap_barang_ruangan*')) ? 'show' : '' }} {{ (request()->is('lap_peminjaman*')) ? 'show' : '' }} {{ (request()->is('lap_rusak_luar*')) ? 'show' : '' }} {{ (request()->is('lap_rusak_dalam*')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapse5" class="collapse {{ (request()->is('lap_barang*')) ? 'show' : '' }}{{ (request()->is('lap_barang_keluar*')) ? 'show' : '' }} {{ (request()->is('lap_barang_ruangan*')) ? 'show' : '' }} {{ (request()->is('lap_peminjaman*')) ? 'show' : '' }} {{ (request()->is('lap_rusak_luar*')) ? 'show' : '' }} {{ (request()->is('lap_rusak_dalam*')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Laporan</h6>
-            <a class="collapse-item {{ (request()->is('lap_barang_masuk*')) ? 'active' : '' }}" href="{{url('lap_barang_masuk')}}">Barang Masuk</a>
+            <a class="collapse-item {{ (request()->is('lap_barang*')) ? 'active' : '' }}" href="{{url('lap_barang')}}">Barang </a>
             <a class="collapse-item {{ (request()->is('lap_barang_keluar*')) ? 'active' : '' }}" href="{{url('lap_barang_keluar')}}">Barang Keluar</a>
             <a class="collapse-item {{ (request()->is('lap_peminjaman*')) ? 'active' : '' }}" href="{{url('lap_peminjaman')}}">Data Peminjaman</a>
             <a class="collapse-item {{ (request()->is('lap_barang_ruangan*')) ? 'active' : '' }}" href="{{url('lap_barang_ruangan')}}">Barang Ruangan</a>
@@ -255,7 +256,7 @@
             <a class="collapse-item {{ (request()->is('lap_rusak_dalam*')) ? 'active' : '' }}" href="{{url('lap_rusak_dalam')}}">Barang Rusak Dalam</a>
           </div>
         </div>
-      </li>
+      </li> --}}
                 
      
 
@@ -429,7 +430,15 @@
 
   <!-- Page level plugins -->
   <script src="{{url('assets/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+  
   <script src="{{url('assets/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
   <!-- Page level custom scripts -->
   <script src="{{url('assets/js/demo/datatables-demo.js')}}"></script>

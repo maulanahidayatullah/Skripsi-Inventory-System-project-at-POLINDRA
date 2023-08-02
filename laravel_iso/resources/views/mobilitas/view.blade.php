@@ -53,14 +53,6 @@
       <table id="mobilitas_table" class="table table-bordered js-basic-example dataTable" cellspacing="0">
           <thead>
             <tr>
-              {{-- <th rowspan="2">No</th>
-              <th rowspan="2">User</th>
-              <th rowspan="2">Nama Barang</th>
-              <th rowspan="2">Kode Barang</th>
-              <th rowspan="2">NUP</th>
-              <th rowspan="2">Tanggal</th>
-              <th colspan="2" class="text-center text-white bg-danger">Sebelum</th>
-              <th colspan="2" class="text-center text-white bg-success">Sesudah</th> --}}
               <th>No</th>
               <th>User</th>
               <th>Nama Barang</th>
@@ -83,13 +75,38 @@
     function fill_table(search_kode = '', search_nup = '') {
 
       var Table = $('#mobilitas_table').DataTable({
-           processing: true,
-           serverSide: true,
-           searching: false,
-           ajax: {
+        
+          dom: 'Bftpl',
+          buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'Data Mobilitas',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                title: 'Data Mobilitas',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                }
+            },
+            {
+                extend: 'print',
+                title: 'Data Mobilitas',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                }
+            },
+        ],
+          processing: true,
+          serverSide: true,
+          searching: false,
+          ajax: {
             url: "/mobilitas_json",
             data: {search_kode:search_kode, search_nup:search_nup},
-           },
+          },
            
            columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', oderable: false, searchable: false },

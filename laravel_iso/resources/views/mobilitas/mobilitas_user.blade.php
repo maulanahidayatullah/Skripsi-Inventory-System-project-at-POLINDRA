@@ -81,6 +81,30 @@
     function fill_table(user_id = '', search_kode = '', search_nup = '') {
 
       var Table = $('#mobilitas_table').DataTable({
+        dom: 'Bftpl',
+          buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'Data Mobilitas',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                title: 'Data Mobilitas',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                }
+            },
+            {
+                extend: 'print',
+                title: 'Data Mobilitas',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+                }
+            },
+        ],
            processing: true,
            serverSide: true,
            searching: false,
@@ -114,7 +138,7 @@
           var search_nup = $('#search_nup').val();
           var search_kode = $('#search_kode').val();
           var user_id = $('#user_select').val();
-          
+
           if (search_kode != '' || search_nup != '') {
             $('#mobilitas_table').DataTable().destroy();
               fill_table(user_id, search_kode, search_nup);

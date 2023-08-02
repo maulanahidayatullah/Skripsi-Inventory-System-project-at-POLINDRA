@@ -32,8 +32,9 @@
    
   <div class="row">
     <div class="col-6">
-      <button class="btn btn-success mr-3" data-toggle="modal" data-target="#tambah">Tambah Data</button>
-      <button class="btn btn-warning" data-toggle="modal" data-target="#cetak">Cetak Kode QR</button>
+      <button class="btn btn-success mr-1" data-toggle="modal" data-target="#tambah">Tambah Data</button>
+      <button class="btn btn-warning mr-1" data-toggle="modal" data-target="#cetak">Filter Data</button>
+      <button class="btn btn-primary" data-toggle="modal" data-target="#cetak">Import Data</button>
     </div>
     <div class="col-2"></div>
     <div class="col-4">
@@ -85,28 +86,39 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Masukan Data</h4>
+          <h4 class="modal-title">Cetak Data Barang</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-        <form action="{{ route('barang.store') }}" method="post">
-          @csrf
           <div class="form-group">
-            <label for=""></label>
-            <select class="myselect" name="kondisi_barang" id="" style="width:100%">
+            <label for="">Berdasarkan</label>
+            <select class="myselect" name="kondisi_barang" id="filter" style="width:100%" required>
                 <option></option>
-              <option value="B">B</option>
-              <option value="RR">RR</option>
-              <option value="RB">RB</option>
+              <option value="uraian_akun">Uraian Akun</option>
+              <option value="nama_barang">Nama Barang</option>
+              <option value="tahun_perolehan">Tahun Perolehan</option>
+              <option value="merk_type">Merk/Type</option>
+              <option value="kuantitas">Kuantitas</option>
+              <option value="nilai_bmn">Nilai BMN</option>
+              <option value="kondisi_barang">Kondisi Barang</option>
+              <option value="keberadaan_barang">Keberadaan Barang</option>
+              <option value="pelabelan_kodefikasi">Pelabelan Kodefikasi</option>
+              <option value="pengguna">Pegawai Pengguna Barang</option>
+              <option value="gedung_id">Nama Gedung</option>
+              <option value="ruangan_id">Nama Ruangan</option>
+              <option value="status_psp">Status PSP</option>
             </select>
-          </div>        
+          </div>
+          <div class="form-group" id="form_inputan" style="display: none">
+            <label for="">Value</label>
+            <input type="text" name="input_filter" class="form-control" id="input_filter" required>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Simpan</button>
-        </form>
+          <button type="submit" id="btn_ok" data-dismiss="modal" class="btn btn-primary">OK</button>
         </div>
       </div>
     </div>
@@ -268,6 +280,30 @@
 
   function fill_table(search_kode = '', search_nup = '') {
     var Table = $('#example').DataTable({
+      dom: 'Bftpl',
+          buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'Data Barang',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                title: 'Data Barang',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
+                }
+            },
+            {
+                extend: 'print',
+                title: 'Data Barang',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
+                }
+            },
+        ],
            processing: true,
            serverSide: true,
            searching: false,
@@ -298,8 +334,6 @@
                  ]
         });
   }
-    
-    
 
         $('#search_barang').on( 'click', function () {
                 var search_nup = $('#search_nup').val();

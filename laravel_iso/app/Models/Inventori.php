@@ -10,6 +10,8 @@ class Inventori extends Model
     protected $table = 'inventori';
     protected $primaryKey = 'id';
 
+    protected $guarded = ['id'];
+
     public function Gedung()
     {
         return $this->hasOne(Gedung::class, 'id_gedung', 'gedung_id')->withDefault();

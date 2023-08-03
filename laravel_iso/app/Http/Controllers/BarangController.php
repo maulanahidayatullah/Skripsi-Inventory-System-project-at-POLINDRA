@@ -120,7 +120,9 @@ class BarangController extends Controller
 
         $request->file->move(public_path('assets/file/'), $namaFile);
 
-        Excel::import(new InventoriImport, \public_path('assets/file/' . $namaFile));
+        Excel::import(new InventoriImport, public_path('assets/file/' . $namaFile));
+
+        Alert::success('Success', 'Data Berhasil Di Import');
         return redirect()->back();
     }
 

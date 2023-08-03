@@ -249,10 +249,10 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Laporan</h6>
             <a class="collapse-item {{ (request()->is('lap_barang*')) ? 'active' : '' }}" href="{{url('lap_barang')}}">Barang </a>
-            <a class="collapse-item {{ (request()->is('lap_peminjaman*')) ? 'active' : '' }}" href="{{url('lap_peminjaman')}}">Data Peminjaman</a>
+            {{-- <a class="collapse-item {{ (request()->is('lap_peminjaman*')) ? 'active' : '' }}" href="{{url('lap_peminjaman')}}">Data Peminjaman</a>
             <a class="collapse-item {{ (request()->is('lap_barang_ruangan*')) ? 'active' : '' }}" href="{{url('lap_barang_ruangan')}}">Barang Ruangan</a>
             <a class="collapse-item {{ (request()->is('lap_rusak_luar*')) ? 'active' : '' }}" href="{{url('lap_rusak_luar')}}">Barang Rusak Luar</a>
-            <a class="collapse-item {{ (request()->is('lap_rusak_dalam*')) ? 'active' : '' }}" href="{{url('lap_rusak_dalam')}}">Barang Rusak Dalam</a>
+            <a class="collapse-item {{ (request()->is('lap_rusak_dalam*')) ? 'active' : '' }}" href="{{url('lap_rusak_dalam')}}">Barang Rusak Dalam</a> --}}
           </div>
         </div>
       </li>

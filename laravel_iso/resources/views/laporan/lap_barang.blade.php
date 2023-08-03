@@ -26,17 +26,17 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Tanggal Awal</label>
-                            <input type="date" name="awal" required class="form-control">
+                            <input type="date" name="awal" id="tgl_awal" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Tanggal Akhir</label>
-                            <input type="date" name="akhir" required class="form-control">
+                            <input type="date" name="akhir" id="tgl_akhir" class="form-control">
                         </div>
                     </div>
                 </div>
-                <center><input type="submit" class="btn btn-success"></center>
+                <center><input type="submit" id="btn_tahun" class="btn btn-success"></center>
             </div>
 
             <div class="form" id="form_gedung_ruangan" style="display: none">
@@ -58,8 +58,9 @@
                         </div>
                     </div>
                 </div>
-                <center><input type="submit" id="btn_submit" class="btn btn-success"></center>
+                <center><input type="submit" id="btn_gedung_ruangan" class="btn btn-success"></center>
             </div>
+            
             
       {{-- </form> --}}
 <br>
@@ -199,16 +200,27 @@
   }
             $('#filter').on( 'change', function () {
                 var filter = $('#filter').val();
+                $('#btn_submit').css('display', 'block');
 
                 if (filter == 'tahun') {
                     $('#form_gedung_ruangan').css('display', 'none');
-                    $('#form_tahun').css('display', 'block');                   
+                    $('#form_tahun').css('display', 'block');
+                    $('#btn_tahun').css('display', 'block');
+
+                    $('#btn_tahun').on( 'click', function () {
+                        $('#card-table').css('display', 'block');
+                        var tgl_awal = $('#tgl_awal').val();
+                        var tgl_akhir = $('#tgl_akhir').val();
+                        $('#example').DataTable().destroy();
+                        fill_table(filter, tgl_awal, tgl_akhir);
+                    });
+
                 } else if (filter == 'gedung_ruangan'){
                     $('#form_tahun').css('display', 'none');   
                     $('#form_gedung_ruangan').css('display', 'block');
 
-                    $('#btn_submit').on( 'click', function () {
-                    $('#card-table').css('display', 'block');
+                    $('#btn_gedung_ruangan').on( 'click', function () {
+                        $('#card-table').css('display', 'block');
                         var gedung_id = $('#gedung_id').val();
                         var ruangan_id = $('#ruangan_id').val();
 

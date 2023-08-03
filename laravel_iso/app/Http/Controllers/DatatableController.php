@@ -45,7 +45,7 @@ class DatatableController extends Controller
     {
 
         if (request()->ajax()) {
-            if (!empty($request->filter === "gedung_ruangan")) {
+            if ($request->filter === "gedung_ruangan") {
                 if (!empty($request->value_2)) {
                     $data = DB::table('inventori as inv')
                         ->join('gedung as gedung', 'inv.gedung_id', '=', 'gedung.id_gedung')
@@ -59,6 +59,12 @@ class DatatableController extends Controller
                         ->where('gedung.id_gedung', $request->value_1)
                         ->get();
                 }
+            } elseif ($request->filter === "tahun") {
+                $data = DB::table('inventori as inv')
+                    ->join('gedung as gedung', 'inv.gedung_id', '=', 'gedung.id_gedung')
+                    ->join('ruangan as ruangan', 'inv.ruangan_id', '=', 'ruangan.id_ruangan')
+                    ->whereBetween('inv.tahun_perolehan', [$request->value_1, $request->value_2])
+                    ->get();
             } else {
                 $data = DB::table('inventori as inv')
                     ->join('gedung as gedung', 'inv.gedung_id', '=', 'gedung.id_gedung')

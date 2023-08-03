@@ -90,25 +90,24 @@
               <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('import') }}" method="post" enctype="multipart/form-data">
           @csrf
           <div class="modal-body">
             <div class="form-group">
-              {{-- <label for=""></label> --}}
               <a href="/contoh_file" class="btn btn-info btn-sm"><i>-- Contoh File Excel --</i></a>
             </div>
             <div class="form-group">
               <label for="">Import Data</label>
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                <input type="file" name="file" class="custom-file-input" id="" required>
                 <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-                <div class="invalid-feedback">Example invalid custom file feedback</div>
+                {{-- <div class="invalid-feedback">Example invalid custom file feedback</div> --}}
               </div>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" id="btn_ok" data-dismiss="modal" class="btn btn-primary">OK</button>
+            <button type="submit" class="btn btn-primary">OK</button>
           </div>
         </form>
       </div>

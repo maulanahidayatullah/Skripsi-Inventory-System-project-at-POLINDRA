@@ -7,10 +7,12 @@ use auth;
 use DB;
 use Response;
 use Alert;
+use App\Imports\InventoriImport;
 use App\Models\Gedung;
 use App\Models\Inventori;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BarangController extends Controller
 {
@@ -106,11 +108,20 @@ class BarangController extends Controller
 
     public function contohFile()
     {
-        // return 'asd';
-        // $file = public_path() . "/downloads/info.pdf";
-        // $headers = array('Content-Type: application/pdf',);
-        // return Response::download($file, 'info.pdf', $headers);
         return response()->download(public_path('assets/file/contoh_file.xlsx'));
+    }
+
+    public function import(Request $request)
+    {
+        // return $request;
+        $data = $request->file('file');
+
+        $namaFile = $data->getClientOriginalName();
+
+        $request->file->move(public_path('assets/file/'), $namaFile);
+
+        Excel::import(new InventoriImport, \public_path('assets/file/' . $namaFile));
+        return redirect()->back();
     }
 
     /**

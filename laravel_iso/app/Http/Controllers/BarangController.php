@@ -63,10 +63,6 @@ class BarangController extends Controller
         $ruangan = Ruangan::get();
 
         return view('barang.edit', compact('inventori', 'gedung', 'ruangan'));
-
-
-
-        // return view('barang.edit', compact('barang', 'barang2', 'kategori'));
     }
 
 
@@ -75,7 +71,6 @@ class BarangController extends Controller
 
         $qrcode = DB::table('inventori')->where('id', $id)->first();
 
-        // return $qrcode;
         return view('barang.qrcode', compact('qrcode'));
     }
 
@@ -107,6 +102,15 @@ class BarangController extends Controller
         // alihkan halaman ke halaman pegawai
         Alert::success('Success', 'Data Telah Terupdate');
         return redirect('/barang');
+    }
+
+    public function contohFile()
+    {
+        // return 'asd';
+        // $file = public_path() . "/downloads/info.pdf";
+        // $headers = array('Content-Type: application/pdf',);
+        // return Response::download($file, 'info.pdf', $headers);
+        return response()->download(public_path('assets/file/contoh_file.xlsx'));
     }
 
     /**

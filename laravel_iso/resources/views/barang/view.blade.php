@@ -260,8 +260,43 @@
                     console.log(jqXHR);
                     Swal.fire('Data failed Approved!', '', 'error')
                 });
+    }
+    
 
+    function pelabelan(inventori_id){
       
+      var url = "{{ url('tambah_keranjang')}}";
+      var request = $.ajax({
+                    url: url,
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        _method: 'POST',
+                        inventori_id: inventori_id
+                    },
+                });
+
+          request.done(function(res) {
+            if (res == 1) {
+              swal(
+                'Data Berhasil Ditambahkan',
+                '',
+                'success'
+              )
+            } else {
+              swal(
+                'Data Sudah Pernah Ditambahkan',
+                '',
+                'error'
+              )
+            }
+          });
+
+          request.fail(function(jqXHR, textStatus) {
+              console.log(jqXHR);
+              // Swal.fire('Data failed Approved!', '', 'error')
+          });
     }
     
  $(document).ready( function () {
@@ -337,7 +372,13 @@
                 }
                  
         });
+
+        
      });
 
+     $('.btn_pelabelan').on( 'click', function () {
+          // alert('www');
+          console.log('asd');
+        });
 </script>
 @endsection

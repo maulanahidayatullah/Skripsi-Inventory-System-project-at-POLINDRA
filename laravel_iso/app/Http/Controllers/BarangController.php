@@ -10,6 +10,7 @@ use Alert;
 use App\Imports\InventoriImport;
 use App\Models\Gedung;
 use App\Models\Inventori;
+use App\Models\Pelabelan;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -76,13 +77,6 @@ class BarangController extends Controller
         return view('barang.qrcode', compact('qrcode'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Barang  $barang
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         DB::table('inventori')->where('id', $request->id_inventori)->update([
@@ -101,7 +95,6 @@ class BarangController extends Controller
             'status_psp' => $request->status_psp,
             'keterangan' => $request->keterangan,
         ]);
-        // alihkan halaman ke halaman pegawai
         Alert::success('Success', 'Data Telah Terupdate');
         return redirect('/barang');
     }
@@ -126,12 +119,6 @@ class BarangController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Barang  $barang
-     * @return \Illuminate\Http\Response
-     */
     public function delete($id)
     {
         DB::table('barangs')->where('id_barang', $id)->delete();
@@ -144,6 +131,39 @@ class BarangController extends Controller
         $ruangan = Ruangan::where('id_gedung', $request->id)->get();
 
         return response()->json($ruangan);
-        // return view('barang.card.ruangan_id', compact('ruangan'));
+    }
+
+    public function tambah_keranjang(Request $request)
+    {
+        // return 'asd';
+        $keranjang = Pelabelan::where('inventori_id', $request->inventori_id)->where('status', 'false')->first();
+
+        if (empty($keranjang)) {
+            DB::table('pelabelan')->insert([
+                'user_id'      => Auth::user()->id,
+                'inventori_id' => $request->inventori_id,
+                'status'       => 'false',
+            ]);
+
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function pelabelan_barang()
+    {
+        return view('pelabelan.view');
+    }
+
+    function response($content = '', $status = 200, array $headers = [])
+    {
+        $factory = app(ResponseFactory::class);
+
+        if (func_num_args() === 0) {
+            return $factory;
+        }
+
+        return $factory->make($content, $status, $headers);
     }
 }

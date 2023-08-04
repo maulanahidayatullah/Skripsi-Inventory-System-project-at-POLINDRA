@@ -59,6 +59,8 @@ Route::get('/barang/edit/{id_barang}', [BarangController::class, 'edit']);
 Route::post('/barang/update', [BarangController::class, 'update']);
 Route::get('/contoh_file', [BarangController::class, 'contohFile']);
 Route::post('/import', [BarangController::class, 'import'])->name('import');
+Route::get('/pelabelan_barang', [BarangController::class, 'pelabelan_barang']);
+Route::post('/tambah_keranjang', [BarangController::class, 'tambah_keranjang']);
 
 // gedung
 Route::get('/gedung', [GedungController::class, 'index']);

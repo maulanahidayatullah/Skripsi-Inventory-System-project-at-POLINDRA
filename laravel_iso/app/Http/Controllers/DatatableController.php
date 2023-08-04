@@ -28,7 +28,8 @@ class DatatableController extends Controller
 
         return FacadesDataTables::of($data)
             ->addColumn('action', function ($value) {
-                return '<a href="/barang/edit/' . $value->id . '" class="btn btn-primary btn-sm ml-2"">Edit </a>
+                return '<a href="/barang/edit/' . $value->id . '" class="btn btn-primary btn-sm ml-1"">Edit </a>
+                <div class="btn btn-warning btn-sm m-1 " onClick="pelabelan(' . $value->id . ')" > + Pelabelan </div>
             ';
             })
             ->addColumn('gedung', function ($value) {
@@ -93,11 +94,10 @@ class DatatableController extends Controller
                     ->join('ruangan as ruangan_sesudah', 'mobilitas_sesudah.ruangan_id', '=', 'ruangan_sesudah.id_ruangan')
 
                     ->join('users as user', 'mobilitas_sesudah.user_id', '=', 'user.id')
-                    ->join('pengguna as pengguna', 'user.id', '=', 'pengguna.user_id')
                     ->join('inventori as inventori', 'mobilitas_sesudah.inventori_id', '=', 'inventori.id')
                     ->where('inventori.kode_barang', 'like', '%' . $request->search_kode . "%")
 
-                    ->select('log.id as id', 'log.created_at as tanggal', 'pengguna.nama as user', 'inventori.nama_barang as nama_barang', 'inventori.kode_barang as kode_barang', 'inventori.nup as nup', 'gedung_sebelum.gedung as gedung_sebelum', 'ruangan_sebelum.ruangan as ruangan_sebelum', 'gedung_sesudah.gedung as gedung_sesudah', 'ruangan_sesudah.ruangan as ruangan_sesudah',)
+                    ->select('log.id as id', 'log.created_at as tanggal', 'user.name as user', 'inventori.nama_barang as nama_barang', 'inventori.kode_barang as kode_barang', 'inventori.nup as nup', 'gedung_sebelum.gedung as gedung_sebelum', 'ruangan_sebelum.ruangan as ruangan_sebelum', 'gedung_sesudah.gedung as gedung_sesudah', 'ruangan_sesudah.ruangan as ruangan_sesudah',)
                     ->get();
             } elseif (!empty($request->search_nup)) {
                 $log_mobilitas = DB::table('log_mobilitas as log')
@@ -110,11 +110,10 @@ class DatatableController extends Controller
                     ->join('ruangan as ruangan_sesudah', 'mobilitas_sesudah.ruangan_id', '=', 'ruangan_sesudah.id_ruangan')
 
                     ->join('users as user', 'mobilitas_sesudah.user_id', '=', 'user.id')
-                    ->join('pengguna as pengguna', 'user.id', '=', 'pengguna.user_id')
                     ->join('inventori as inventori', 'mobilitas_sesudah.inventori_id', '=', 'inventori.id')
                     ->where('inventori.nup', 'like', '%' . $request->search_nup . "%")
 
-                    ->select('log.id as id', 'log.created_at as tanggal', 'pengguna.nama as user', 'inventori.nama_barang as nama_barang', 'inventori.kode_barang as kode_barang', 'inventori.nup as nup', 'gedung_sebelum.gedung as gedung_sebelum', 'ruangan_sebelum.ruangan as ruangan_sebelum', 'gedung_sesudah.gedung as gedung_sesudah', 'ruangan_sesudah.ruangan as ruangan_sesudah',)
+                    ->select('log.id as id', 'log.created_at as tanggal', 'user.name as user', 'inventori.nama_barang as nama_barang', 'inventori.kode_barang as kode_barang', 'inventori.nup as nup', 'gedung_sebelum.gedung as gedung_sebelum', 'ruangan_sebelum.ruangan as ruangan_sebelum', 'gedung_sesudah.gedung as gedung_sesudah', 'ruangan_sesudah.ruangan as ruangan_sesudah',)
                     ->get();
             } else {
                 $log_mobilitas = DB::table('log_mobilitas as log')
@@ -127,10 +126,9 @@ class DatatableController extends Controller
                     ->join('ruangan as ruangan_sesudah', 'mobilitas_sesudah.ruangan_id', '=', 'ruangan_sesudah.id_ruangan')
 
                     ->join('users as user', 'mobilitas_sesudah.user_id', '=', 'user.id')
-                    ->join('pengguna as pengguna', 'user.id', '=', 'pengguna.user_id')
                     ->join('inventori as inventori', 'mobilitas_sesudah.inventori_id', '=', 'inventori.id')
 
-                    ->select('log.id as id', 'log.created_at as tanggal', 'pengguna.nama as user', 'inventori.nama_barang as nama_barang', 'inventori.kode_barang as kode_barang', 'inventori.nup as nup', 'gedung_sebelum.gedung as gedung_sebelum', 'ruangan_sebelum.ruangan as ruangan_sebelum', 'gedung_sesudah.gedung as gedung_sesudah', 'ruangan_sesudah.ruangan as ruangan_sesudah',)
+                    ->select('log.id as id', 'log.created_at as tanggal', 'user.name as user', 'inventori.nama_barang as nama_barang', 'inventori.kode_barang as kode_barang', 'inventori.nup as nup', 'gedung_sebelum.gedung as gedung_sebelum', 'ruangan_sebelum.ruangan as ruangan_sebelum', 'gedung_sesudah.gedung as gedung_sesudah', 'ruangan_sesudah.ruangan as ruangan_sesudah',)
                     ->get();
             }
         }

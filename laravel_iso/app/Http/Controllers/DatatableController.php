@@ -223,6 +223,24 @@ class DatatableController extends Controller
             ->make(true);
     }
 
+    public function pelabelan_json()
+    {
+        $data = DB::table('pelabelan as label')
+            ->join('users as user', 'label.user_id', '=', 'user.id')
+            ->join('inventori as inv', 'label.inventori_id', '=', 'inv.id')
+            ->where('status', 'false')
+
+            ->select('label.id as id', 'inv.nama_barang as nama_barang', 'inv.kode_barang as kode_barang', 'inv.nup as nup', 'inv.tahun_perolehan as tahun',)
+            ->get();
+
+        return FacadesDataTables::of($data)
+            ->addColumn('action', function ($value) {
+                return '<div class="btn btn-danger btn-sm m-1 " onClick="hapus(' . $value->id . ')" > Hapus </div>';
+            })
+            ->addIndexColumn()
+            ->make(true);
+    }
+
     public function input_ruangan_json()
     {
         $inputruangan = DB::table("input_ruangan")

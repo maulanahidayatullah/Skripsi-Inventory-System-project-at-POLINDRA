@@ -30,37 +30,19 @@
 
 <div class="card-body" id="card-table" >
    
-  <div class="row">
-    <div class="col-6">
-    </div>
-    <div class="col-2"></div>
-    <div class="col-4">
-        <div class="row">
-          <div class="col-5">
-            <input type="text" name="kode_barang" placeholder="Kode Barang" class="form-control float-right" id="search_kode" >
-          </div>
-          <div class="col-5">
-              <input type="text" name="nup" placeholder="NUP" class="form-control float-right" id="search_nup" >
-          </div>
-          <div class="col-2">
-            <button class="btn btn-info" id="search_barang">Search</button>
-          </div>
-        </div>
-    </div>
-  </div>
+  <center><a href="/print_qr"><div class="btn btn-info btn-lg">
+            <i class="fa fa-qrcode "></i> &nbsp; Print QR</div></a></center>
   <br>
   <div class="table-responsive">
-      <table id="mobilitas_table" class="table table-bordered js-basic-example dataTable" cellspacing="0">
+      <table id="example" class="table table-bordered js-basic-example dataTable" cellspacing="0">
           <thead>
             <tr>
               <th>No</th>
-              <th>User</th>
               <th>Nama Barang</th>
               <th>Kode Barang</th>
               <th>NUP</th>
-              <th>Tanggal</th>
-              <th class="text-white bg-danger">Sebelum</th>
-              <th class="text-white bg-success">Sesudah</th>
+              <th>Tahun Perolehan</th>
+              <th>Opsi</th>
           </tr>
         </thead>
     </table>
@@ -69,56 +51,58 @@
 </div>
 
 <script>
+  
+
+  function hapus(pelabelan_id){
+      var url = "{{ url('hapus_pelabelan')}}";
+      var request = $.ajax({
+                    url: url,
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        _method: 'POST',
+                        pelabelan_id: pelabelan_id
+                    },
+                });
+
+          request.done(function(res) {
+            // console.log(res);
+              swal(
+                'Data Berhasil Dihapus',
+                '',
+                'success'
+              )
+              $('#example').DataTable().clear().draw();
+              // Table.ajax.reload();
+              // fill_table();
+          });
+
+          request.fail(function(jqXHR, textStatus) {
+              console.log(jqXHR);
+          });
+    }
   $(document).ready( function () {
-//     fill_table();
 
-    function fill_table(user_id = '', search_kode = '', search_nup = '') {
-
-      var Table = $('#mobilitas_table').DataTable({
-        dom: 'Bftpl',
-          buttons: [
-            {
-                extend: 'excelHtml5',
-                title: 'Data Mobilitas',
-                exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                title: 'Data Mobilitas',
-                exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-                }
-            },
-            {
-                extend: 'print',
-                title: 'Data Mobilitas',
-                exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-                }
-            },
-        ],
-           processing: true,
-           serverSide: true,
-           searching: false,
-           ajax: {
-            url: "/mobilitas_user_json",
-            data: {user_id:user_id, search_kode:search_kode, search_nup:search_nup, },
-           },
+    var Table = $('#example').DataTable({
+        dom: 'tpl',
+        processing: true,
+        serverSide: true,
+        searching: false,
+        ajax: {
+          url: "/pelabelan_json",
+        },
            
            columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', oderable: false, searchable: false },
-                    { data: 'user', name: 'user' },
                     { data: 'nama_barang', name: 'nama_barang' },
                     { data: 'kode_barang', name: 'kode_barang' },
                     { data: 'nup', name: 'nup' },
-                    { data: 'tanggal', name: 'tanggal' },
-                    { data: 'sebelum', name: 'sebelum' },
-                    { data: 'sesudah', name: 'sesudah' },
+                    { data: 'tahun', name: 'tahun' },
+                    { data: 'action', name: 'action', orderable: false},
                  ]
         });
-  }
+    
 
       $('#user_select').on( 'change', function () {
         var user_id = $('#user_select').val();
@@ -141,6 +125,7 @@
             }
                  
         });
+    
      });
 
 </script>

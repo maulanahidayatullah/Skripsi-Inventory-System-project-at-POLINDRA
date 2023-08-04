@@ -135,7 +135,6 @@ class BarangController extends Controller
 
     public function tambah_keranjang(Request $request)
     {
-        // return 'asd';
         $keranjang = Pelabelan::where('inventori_id', $request->inventori_id)->where('status', 'false')->first();
 
         if (empty($keranjang)) {
@@ -144,7 +143,6 @@ class BarangController extends Controller
                 'inventori_id' => $request->inventori_id,
                 'status'       => 'false',
             ]);
-
             return 1;
         } else {
             return 0;
@@ -153,17 +151,26 @@ class BarangController extends Controller
 
     public function pelabelan_barang()
     {
-        return view('pelabelan.view');
+        $pelabelan = Pelabelan::get();
+        return view('pelabelan.view', compact('pelabelan'));
     }
 
-    function response($content = '', $status = 200, array $headers = [])
+    public function hapus_pelabelan(Request $request)
     {
-        $factory = app(ResponseFactory::class);
+        return DB::table('pelabelan')->where('id', $request->pelabelan_id)->delete();
+    }
 
-        if (func_num_args() === 0) {
-            return $factory;
+    public function print_qr()
+    {
+        $user_id = Auth::user()->id;
+        $pelabelan = Pelabelan::where('user_id', $user_id)->where('status', 'false')->get();
+
+        foreach ($pelabelan as $key => $value) {
+            Inventori::where('id', $value->inventori_id)->update([
+                'pelabelan_kodefikasi' => 'sudah'
+            ]);
         }
 
-        return $factory->make($content, $status, $headers);
+        return $pelabelan;
     }
 }

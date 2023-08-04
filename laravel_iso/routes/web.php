@@ -59,8 +59,14 @@ Route::get('/barang/edit/{id_barang}', [BarangController::class, 'edit']);
 Route::post('/barang/update', [BarangController::class, 'update']);
 Route::get('/contoh_file', [BarangController::class, 'contohFile']);
 Route::post('/import', [BarangController::class, 'import'])->name('import');
-Route::get('/pelabelan_barang', [BarangController::class, 'pelabelan_barang']);
 Route::post('/tambah_keranjang', [BarangController::class, 'tambah_keranjang']);
+
+// Pelabelan
+Route::get('/pelabelan_barang', [BarangController::class, 'pelabelan_barang']);
+Route::post('/hapus_pelabelan', [BarangController::class, 'hapus_pelabelan']);
+Route::get('/print_qr', [BarangController::class, 'print_qr']);
+
+Route::get('/pelabelan_json', [DatatableController::class, 'pelabelan_json']);
 
 // gedung
 Route::get('/gedung', [GedungController::class, 'index']);

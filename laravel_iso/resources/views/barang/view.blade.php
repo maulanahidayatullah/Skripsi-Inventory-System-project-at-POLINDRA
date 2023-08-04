@@ -295,7 +295,6 @@
 
           request.fail(function(jqXHR, textStatus) {
               console.log(jqXHR);
-              // Swal.fire('Data failed Approved!', '', 'error')
           });
     }
     
@@ -376,9 +375,5 @@
         
      });
 
-     $('.btn_pelabelan').on( 'click', function () {
-          // alert('www');
-          console.log('asd');
-        });
 </script>
 @endsection

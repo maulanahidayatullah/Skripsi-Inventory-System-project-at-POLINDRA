@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2023 at 08:05 AM
+-- Generation Time: Aug 05, 2023 at 06:44 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -75,7 +75,7 @@ CREATE TABLE `gedung` (
 INSERT INTO `gedung` (`id_gedung`, `gedung`, `created_at`, `updated_at`) VALUES
 (1, 'Gedung 1', NULL, NULL),
 (3, 'Gedung 2', NULL, NULL),
-(4, 'Gedung GSC', NULL, NULL);
+(4, 'Gedung Study Center', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -115,22 +115,22 @@ DELIMITER ;
 
 CREATE TABLE `inventori` (
   `id` int(11) NOT NULL,
-  `uraian_akun` varchar(255) NOT NULL,
-  `kode_barang` int(11) NOT NULL,
-  `nama_barang` varchar(255) NOT NULL,
+  `uraian_akun` varchar(255) DEFAULT NULL,
+  `kode_barang` varchar(11) DEFAULT NULL,
+  `nama_barang` varchar(255) DEFAULT NULL,
   `tahun_perolehan` date DEFAULT NULL,
-  `nup` int(11) NOT NULL,
-  `merk_type` varchar(255) NOT NULL,
-  `kuantitas` int(11) NOT NULL,
-  `nilai_bmn` int(255) NOT NULL,
-  `pengguna` varchar(255) NOT NULL,
-  `kondisi_barang` enum('B','RR','RB') NOT NULL,
-  `keberadaan_barang` enum('BD','BTD','Berlebih') NOT NULL,
-  `pelabelan_kodefikasi` enum('sudah','belum') NOT NULL,
-  `gedung_id` int(11) NOT NULL,
-  `ruangan_id` int(11) NOT NULL,
-  `status_psp` enum('sudah','belum') NOT NULL,
-  `keterangan` text NOT NULL,
+  `nup` varchar(11) DEFAULT NULL,
+  `merk_type` varchar(255) DEFAULT NULL,
+  `kuantitas` int(11) DEFAULT NULL,
+  `nilai_bmn` int(255) DEFAULT NULL,
+  `pengguna` varchar(255) DEFAULT NULL,
+  `kondisi_barang` enum('B','RR','RB') DEFAULT NULL,
+  `keberadaan_barang` enum('BD','BTD','Berlebih') DEFAULT NULL,
+  `pelabelan_kodefikasi` enum('sudah','belum') DEFAULT NULL,
+  `gedung_id` int(11) DEFAULT NULL,
+  `ruangan_id` int(11) DEFAULT NULL,
+  `status_psp` enum('sudah','belum') DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -140,9 +140,12 @@ CREATE TABLE `inventori` (
 --
 
 INSERT INTO `inventori` (`id`, `uraian_akun`, `kode_barang`, `nama_barang`, `tahun_perolehan`, `nup`, `merk_type`, `kuantitas`, `nilai_bmn`, `pengguna`, `kondisi_barang`, `keberadaan_barang`, `pelabelan_kodefikasi`, `gedung_id`, `ruangan_id`, `status_psp`, `keterangan`, `created_at`, `updated_at`) VALUES
-(3, 'Peralatan 123', 2147483647, 'PC Workstation', '2023-05-02', 157, 'LENOVO ThinkStation P350 Tower', 1, 35430010, 'TI', 'B', 'BD', 'belum', 4, 7, 'sudah', 'keterangan', '2023-04-04 03:42:43', '2023-05-26 09:30:45'),
-(4, '1', 1, '1', '2022-01-01', 1, '123', 1, 1231, 'TM', 'B', 'BD', 'sudah', 1, 1, 'sudah', '123', NULL, NULL),
-(5, 'Peralatan 123', 123, 'Kursi', '2022-01-01', 123, 'IKEA', 28, 2000, 'TP', 'B', 'BD', 'sudah', 4, 7, 'sudah', 'Ini Kursi', NULL, '2023-05-25 23:54:40');
+(3, 'Peralatan 123', '2147483647', 'PC Workstation', '2023-05-02', '157', 'LENOVO ThinkStation P350 Tower', 1, 35430010, 'TI', 'RR', 'BD', 'belum', 4, 7, 'sudah', 'keterangan', '2023-04-04 03:42:43', '2023-07-11 04:25:55'),
+(4, '1', '1', '1', '2022-01-01', '1', '123', 1, 1231, 'TM', 'B', 'BD', 'sudah', 1, 1, 'sudah', '123', NULL, NULL),
+(5, 'Peralatan 123', '123', 'Kursi', '2022-01-01', '123', 'IKEA', 28, 2000, 'TP', 'B', 'BD', 'sudah', 4, 7, 'sudah', 'Ini Kursi', NULL, '2023-05-25 23:54:40'),
+(36, 'Peralatan 123', '2147483647', 'PC Workstation', '1970-01-01', '157', 'LENOVO ThinkStation P350 Tower', 1, 35430010, 'TI', 'RR', 'BD', 'belum', 4, 7, 'sudah', 'keterangan', '2023-08-04 20:21:12', '2023-08-04 20:21:12'),
+(37, '1', '1', '1', '1970-01-01', '1', '123', 1, 1231, 'TM', 'B', 'BD', 'sudah', 1, 1, 'sudah', '123', '2023-08-04 20:21:12', '2023-08-04 20:21:12'),
+(38, 'Peralatan 123', '123', 'Kursi', '1970-01-01', '123', 'IKEA', 28, 2000, 'TP', 'B', 'BD', 'sudah', 4, 7, 'sudah', 'Ini Kursi', '2023-08-04 20:21:12', '2023-08-04 20:21:12');
 
 -- --------------------------------------------------------
 
@@ -324,7 +327,14 @@ INSERT INTO `log_mobilitas` (`id`, `user_id`, `mobilitas_id_sebelum`, `mobilitas
 (48, 2, 76, 77, 'true', '2023-05-29 00:54:36', '2023-05-29 00:54:41'),
 (49, 2, 78, 79, 'true', '2023-05-29 00:55:07', '2023-05-29 00:55:11'),
 (50, 2, 80, 81, 'true', '2023-05-29 00:56:22', '2023-05-29 00:56:25'),
-(51, 2, 82, 84, 'true', '2023-05-30 01:12:49', '2023-05-30 01:14:36');
+(51, 2, 82, 84, 'true', '2023-05-30 01:12:49', '2023-05-30 01:14:36'),
+(53, 2, 85, 86, 'true', '2023-06-22 14:00:48', '2023-06-23 22:54:03'),
+(54, 2, 87, 88, 'true', '2023-06-23 22:59:12', '2023-06-23 22:59:22'),
+(55, 2, 89, 90, 'true', '2023-06-23 22:59:41', '2023-06-23 23:00:17'),
+(56, 2, 91, 92, 'true', '2023-06-23 23:01:39', '2023-06-23 23:01:52'),
+(57, 2, 93, 94, 'true', '2023-06-23 23:06:41', '2023-06-23 23:06:58'),
+(61, 2, 98, 99, 'true', '2023-07-11 04:06:34', '2023-07-11 04:06:43'),
+(62, 2, 100, 101, 'true', '2023-07-11 04:25:38', '2023-07-11 04:25:55');
 
 -- --------------------------------------------------------
 
@@ -336,6 +346,22 @@ CREATE TABLE `log_pelabelan` (
   `id` int(11) NOT NULL,
   `inventori_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_peminjaman`
+--
+
+CREATE TABLE `log_peminjaman` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `peminjaman_id` int(11) NOT NULL,
+  `pengembalian_id` int(11) NOT NULL,
+  `selesai` enum('true','false') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -472,7 +498,21 @@ INSERT INTO `mobilitas` (`id`, `user_id`, `inventori_id`, `gedung_id`, `ruangan_
 (80, 2, 5, 4, 7, 'true', '2023-05-29 00:56:22', '2023-05-29 00:56:25'),
 (81, 2, 5, 4, 7, 'true', '2023-05-29 00:56:25', '2023-05-29 00:56:25'),
 (82, 2, 3, 4, 7, 'true', '2023-05-30 01:12:49', '2023-05-30 01:14:36'),
-(84, 2, 3, 4, 7, 'true', '2023-05-30 01:14:36', '2023-05-30 01:14:36');
+(84, 2, 3, 4, 7, 'true', '2023-05-30 01:14:36', '2023-05-30 01:14:36'),
+(85, 2, 3, 4, 7, 'true', '2023-06-22 14:00:48', '2023-06-23 22:54:03'),
+(86, 2, 3, 4, 7, 'true', '2023-06-23 22:54:03', '2023-06-23 22:54:03'),
+(87, 2, 3, 4, 7, 'true', '2023-06-23 22:59:12', '2023-06-23 22:59:22'),
+(88, 2, 3, 1, 1, 'true', '2023-06-23 22:59:22', '2023-06-23 22:59:22'),
+(89, 2, 3, 1, 1, 'true', '2023-06-23 22:59:41', '2023-06-23 23:00:16'),
+(90, 2, 3, 4, 7, 'true', '2023-06-23 23:00:17', '2023-06-23 23:00:17'),
+(91, 2, 3, 4, 7, 'true', '2023-06-23 23:01:39', '2023-06-23 23:01:52'),
+(92, 2, 3, 3, 5, 'true', '2023-06-23 23:01:52', '2023-06-23 23:01:52'),
+(93, 2, 3, 3, 5, 'true', '2023-06-23 23:06:41', '2023-06-23 23:06:57'),
+(94, 2, 3, 4, 7, 'true', '2023-06-23 23:06:58', '2023-06-23 23:06:58'),
+(98, 2, 3, 4, 7, 'true', '2023-07-11 04:06:34', '2023-07-11 04:06:43'),
+(99, 2, 3, 1, 4, 'true', '2023-07-11 04:06:43', '2023-07-11 04:06:43'),
+(100, 2, 3, 1, 4, 'true', '2023-07-11 04:25:38', '2023-07-11 04:25:55'),
+(101, 2, 3, 4, 7, 'true', '2023-07-11 04:25:55', '2023-07-11 04:25:55');
 
 -- --------------------------------------------------------
 
@@ -489,10 +529,87 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pegawai`
+-- Table structure for table `pelabelan`
 --
 
-CREATE TABLE `pegawai` (
+CREATE TABLE `pelabelan` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `inventori_id` int(11) NOT NULL,
+  `status` enum('true','false') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pelabelan`
+--
+
+INSERT INTO `pelabelan` (`id`, `user_id`, `inventori_id`, `status`, `created_at`, `updated_at`) VALUES
+(15, 1, 3, 'false', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `peminjaman`
+--
+
+CREATE TABLE `peminjaman` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `inventori_id` int(11) DEFAULT NULL,
+  `ruangan_id` int(11) DEFAULT NULL,
+  `kode_peminjaman` text DEFAULT NULL,
+  `kondisi_barang` enum('B','RR','RB') DEFAULT NULL,
+  `unit_kerja` varchar(255) DEFAULT NULL,
+  `nama_kegiatan` varchar(255) DEFAULT NULL,
+  `jumlah` int(11) DEFAULT NULL,
+  `satuan` int(11) DEFAULT NULL,
+  `keterangan` varchar(255) DEFAULT NULL,
+  `tgl_pinjam` datetime DEFAULT NULL,
+  `tgl_kembali` datetime DEFAULT NULL,
+  `tgl_persetujan` datetime DEFAULT NULL,
+  `persetujuan_wadir` enum('belum','setuju','tidak_setuju') DEFAULT NULL,
+  `persetujuan_pembimbing` enum('belum','setuju','tidak_setuju') DEFAULT NULL,
+  `status_persetujuan` enum('belum','setuju','tidak_setuju') DEFAULT NULL,
+  `keranjang` enum('true','false') NOT NULL,
+  `selesai` enum('true','false') DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `peminjaman`
+--
+
+INSERT INTO `peminjaman` (`id`, `user_id`, `inventori_id`, `ruangan_id`, `kode_peminjaman`, `kondisi_barang`, `unit_kerja`, `nama_kegiatan`, `jumlah`, `satuan`, `keterangan`, `tgl_pinjam`, `tgl_kembali`, `tgl_persetujan`, `persetujuan_wadir`, `persetujuan_pembimbing`, `status_persetujuan`, `keranjang`, `selesai`, `created_at`, `updated_at`) VALUES
+(2, 2, 3, NULL, 'Pol-P-2-230622', 'B', 'polindra', 'pembelajaran folafo', 1, 1, 'Pembelajaran rutin folafo', '2023-06-22 06:29:00', '2023-06-23 12:00:00', NULL, 'belum', 'belum', 'belum', 'false', 'true', '2023-06-22 05:27:52', '2023-06-22 11:29:54'),
+(5, 2, 3, NULL, NULL, 'B', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'true', NULL, '2023-06-24 09:29:46', '2023-06-24 09:29:46'),
+(6, 2, 5, NULL, NULL, 'B', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'true', NULL, '2023-06-26 01:19:20', '2023-06-26 01:19:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pengembalian`
+--
+
+CREATE TABLE `pengembalian` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `peminjaman_id` int(11) NOT NULL,
+  `tgl_kembali` datetime NOT NULL,
+  `kondisi_barang` enum('B','RR','RB') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pengguna`
+--
+
+CREATE TABLE `pengguna` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `nama` varchar(255) NOT NULL,
@@ -504,42 +621,11 @@ CREATE TABLE `pegawai` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `pegawai`
+-- Dumping data for table `pengguna`
 --
 
-INSERT INTO `pegawai` (`id`, `user_id`, `nama`, `alamat`, `jabatan`, `no_hp`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Maulana', 'Jatibarang', 'Mahasiswa', '08989876845', '2023-04-04 03:42:43', '2023-04-04 03:42:43');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `peminjaman`
---
-
-CREATE TABLE `peminjaman` (
-  `id_peminjaman` bigint(20) UNSIGNED NOT NULL,
-  `nama_peminjam` varchar(255) NOT NULL,
-  `id_barang` varchar(255) NOT NULL,
-  `jumlah_pinjam` varchar(255) NOT NULL,
-  `tanggal_pinjam` date NOT NULL,
-  `tanggal_kembali` date NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Triggers `peminjaman`
---
-DELIMITER $$
-CREATE TRIGGER `tg_pinjam` AFTER INSERT ON `peminjaman` FOR EACH ROW BEGIN
-                UPDATE barangs
-                SET jumlah = jumlah - NEW.jumlah_pinjam
-                WHERE
-                id_barang = NEW.id_barang;
-                END
-$$
-DELIMITER ;
+INSERT INTO `pengguna` (`id`, `user_id`, `nama`, `alamat`, `jabatan`, `no_hp`, `created_at`, `updated_at`) VALUES
+(1, 2, 'Maulana Hidayatullah', 'Jatibarang', 'Mahasiswa', '08989876845', '2023-04-04 03:42:43', '2023-04-04 03:42:43');
 
 -- --------------------------------------------------------
 
@@ -571,7 +657,14 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (5, 'App\\Models\\User', 2, 'auth_token', '54f634a16d34f23626398addb827722a8f1523aa2c6047960b505859d60edb17', '[\"*\"]', '2023-05-22 11:26:23', NULL, '2023-05-22 11:26:14', '2023-05-22 11:26:23'),
 (6, 'App\\Models\\User', 2, 'auth_token', '250e2d8b9151e4df3f7b32db3357f59dbe6ccaecbbf36d2c9001c2335644186d', '[\"*\"]', NULL, NULL, '2023-05-25 08:20:06', '2023-05-25 08:20:06'),
 (7, 'App\\Models\\User', 2, 'auth_token', 'fcbe403ab1e47d8b1fe12a3f5b8698f48b17d0cf192dedc1f7d20ea679f3790b', '[\"*\"]', NULL, NULL, '2023-05-25 08:53:46', '2023-05-25 08:53:46'),
-(8, 'App\\Models\\User', 2, 'auth_token', 'f0d4b38cc52c2064c0fb7236cdd29c2ce58fc43b5a1a21701fac578c19c404a4', '[\"*\"]', '2023-05-30 01:14:41', NULL, '2023-05-25 08:54:32', '2023-05-30 01:14:41');
+(8, 'App\\Models\\User', 2, 'auth_token', 'f0d4b38cc52c2064c0fb7236cdd29c2ce58fc43b5a1a21701fac578c19c404a4', '[\"*\"]', '2023-07-11 04:26:20', NULL, '2023-05-25 08:54:32', '2023-07-11 04:26:20'),
+(10, 'App\\Models\\User', 2, 'auth_token', '928c41f0343c690686a00bc479ddf97a03cc86dfcdbccef5c324d5769a5094d7', '[\"*\"]', NULL, NULL, '2023-06-26 02:15:24', '2023-06-26 02:15:24'),
+(11, 'App\\Models\\User', 2, 'auth_token', '7eca0935810f1c610b12a87be9f05e3ad2a193ba732efc2baa05da7ffdad003c', '[\"*\"]', NULL, NULL, '2023-07-11 03:09:03', '2023-07-11 03:09:03'),
+(12, 'App\\Models\\User', 2, 'auth_token', 'd99222254fbb86dde5af21b3562d97efa40673f8c96a648c458faa089eb200c2', '[\"*\"]', NULL, NULL, '2023-07-11 04:00:00', '2023-07-11 04:00:00'),
+(13, 'App\\Models\\User', 2, 'auth_token', '2cdb88fad9800644a9657864c9e316102946342a20a8487095dd87a6de94a0fd', '[\"*\"]', NULL, NULL, '2023-07-11 04:01:37', '2023-07-11 04:01:37'),
+(14, 'App\\Models\\User', 2, 'auth_token', '144c7588cc71449b17482548e8394733b606a5166a41d84a7e8f8fe1501ccf77', '[\"*\"]', NULL, NULL, '2023-07-11 04:04:07', '2023-07-11 04:04:07'),
+(15, 'App\\Models\\User', 2, 'auth_token', 'bf7407e857f7c2cb4d5c5c68ced21d25e60572bad57db02e37c48a08330deb2c', '[\"*\"]', NULL, NULL, '2023-07-11 04:17:50', '2023-07-11 04:17:50'),
+(16, 'App\\Models\\User', 2, 'auth_token', 'a5c6bbf7064dcc6e5f5c885fb3ff391b4de06555d4f3349f53e66974b5960695', '[\"*\"]', NULL, NULL, '2023-07-11 04:21:01', '2023-07-11 04:21:01');
 
 -- --------------------------------------------------------
 
@@ -787,6 +880,12 @@ ALTER TABLE `log_pelabelan`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `log_peminjaman`
+--
+ALTER TABLE `log_peminjaman`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `log_pencatatan`
 --
 ALTER TABLE `log_pencatatan`
@@ -817,16 +916,28 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indexes for table `pegawai`
+-- Indexes for table `pelabelan`
 --
-ALTER TABLE `pegawai`
+ALTER TABLE `pelabelan`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  ADD PRIMARY KEY (`id_peminjaman`);
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pengembalian`
+--
+ALTER TABLE `pengembalian`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pengguna`
+--
+ALTER TABLE `pengguna`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `personal_access_tokens`
@@ -893,7 +1004,7 @@ ALTER TABLE `input_ruangan`
 -- AUTO_INCREMENT for table `inventori`
 --
 ALTER TABLE `inventori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `kategori`
@@ -947,12 +1058,18 @@ ALTER TABLE `keranjang_rusak_ruangan`
 -- AUTO_INCREMENT for table `log_mobilitas`
 --
 ALTER TABLE `log_mobilitas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `log_pelabelan`
 --
 ALTER TABLE `log_pelabelan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `log_peminjaman`
+--
+ALTER TABLE `log_peminjaman`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -977,25 +1094,37 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `mobilitas`
 --
 ALTER TABLE `mobilitas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
--- AUTO_INCREMENT for table `pegawai`
+-- AUTO_INCREMENT for table `pelabelan`
 --
-ALTER TABLE `pegawai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `pelabelan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `id_peminjaman` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `pengembalian`
+--
+ALTER TABLE `pengembalian`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pengguna`
+--
+ALTER TABLE `pengguna`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `ruangan`

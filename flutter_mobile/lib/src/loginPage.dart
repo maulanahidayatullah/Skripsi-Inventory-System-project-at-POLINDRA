@@ -43,7 +43,6 @@ class _LoginPageState extends State<LoginPage> {
           animType: AnimType.scale,
           headerAnimationLoop: true,
           title: 'Bener',
-          // desc: 'Username atau Password Salah !',
           onDismissCallback: (type) {
             progressDialog.dismiss();
           },

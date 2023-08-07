@@ -106,7 +106,6 @@ class BarangController extends Controller
 
     public function import(Request $request)
     {
-        // return $request;
         $data = $request->file('file');
 
         $namaFile = $data->getClientOriginalName();

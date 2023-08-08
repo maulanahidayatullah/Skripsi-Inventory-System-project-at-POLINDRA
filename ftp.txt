@@ -1,0 +1,3 @@
+host : sip-polindra.my.id
+user : sippolin
+pass : @Polindra123

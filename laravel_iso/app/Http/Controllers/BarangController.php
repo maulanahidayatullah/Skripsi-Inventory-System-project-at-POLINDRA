@@ -50,7 +50,6 @@ class BarangController extends Controller
             'gedung_id' => $request->gedung_id,
             'ruangan_id' => $request->ruangan_id,
             'status_psp' => $request->status_psp,
-            'nama_sub_satker' => $request->nama_sub_satker,
             'keterangan' => $request->keterangan,
         ]);
 

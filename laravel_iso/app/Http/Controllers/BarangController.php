@@ -101,7 +101,7 @@ class BarangController extends Controller
 
     public function contohFile()
     {
-        return response()->download(public_path('assets/file/contoh_file.xlsx'));
+        return response()->download(public_path('assets/file/_Contoh File.xlsx'));
     }
 
     public function import(Request $request)

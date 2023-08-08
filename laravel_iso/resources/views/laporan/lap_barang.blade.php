@@ -71,6 +71,9 @@
   <h6 class="m-0 font-weight-bold text-dark">Laporan Data Barang</h6>
 </div>
 <div class="card-body" id="card-table" style="display: none">
+    <center><a href="/lap_barang_export"><div class="btn btn-info btn-lg" id="btn_export">
+            <i class="fa fa-table" aria-hidden="true"></i> &nbsp; Export Excel</div></a></center>
+            <br>
   <div class="table-responsive">
       <table id="example" class="table table-bordered js-basic-example dataTable" cellspacing="0">
           <thead>
@@ -135,39 +138,40 @@
                 request.fail(function(jqXHR, textStatus) {
                     console.log(jqXHR);
                     Swal.fire('Data failed Approved!', '', 'error')
-                });
-
-      
+                });      
     }
 
-        $(document).ready( function () {
-            fill_table();
+    // $('#btn_export').on( 'click', function () {
+    //     var filter = $('#filter').val();
+    //     var value_1 = '';
+    //     var value_2 = '';
+
+    //     if (filter == 'tahun') {
+    //         value_1 = $('#tgl_awal').val();
+    //         value_2 = $('#tgl_akhir').val();
+
+    //     } else if (filter == 'gedung_ruangan'){
+    //         value_1 = $('#gedung_id').val();
+    //         value_2 = $('#ruangan_id').val();
+    //     }
+
+    //     alert(value_1);
+
+    //     // $('#card-table').css('display', 'block');
+    //     // var gedung_id = $('#gedung_id').val();
+    //     // var ruangan_id = $('#ruangan_id').val();
+
+    //     // $('#example').DataTable().destroy();
+    //     // fill_table(filter, gedung_id, ruangan_id);
+    // });
+
+$(document).ready( function () {
+    fill_table();
 
   function fill_table(filter = '', value_1 = '', value_2 = '') {
     var Table = $('#example').DataTable({
       dom: 'Bftpl',
           buttons: [
-            {
-                extend: 'excelHtml5',
-                title: 'Data Barang',
-                exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                title: 'Data Barang',
-                exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
-                }
-            },
-            {
-                extend: 'print',
-                title: 'Data Barang',
-                exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
-                }
-            },
         ],
            processing: true,
            serverSide: true,

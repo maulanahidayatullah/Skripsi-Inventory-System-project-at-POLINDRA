@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Alert;
+use App\Exports\LaporanExport;
 use App\Exports\LaporanKeluar;
 use App\Exports\LaporanMasuk;
 use App\Exports\LaporanRuangan;
@@ -24,17 +25,14 @@ class LaporanController extends Controller
 
     public function lap_barang(Request $request)
     {
-        // $masuk = DB::table("masuk")->whereBetween('tanggal_masuk', [$request->awal, $request->akhir])
-        //     ->join('barangs', function ($join) {
-        //         $join->on('masuk.id_barang', '=', 'barangs.id_barang');
-        //     })->get();
-
-        // $hitung = count($masuk);
-        // $req1 = $request->awal;
-        // $req2 = $request->akhir;
         $gedung = Gedung::get();
 
         return view('laporan.lap_barang', compact('gedung'));
+    }
+
+    public function exportExcel(Request $request)
+    {
+        return Excel::download(new LaporanExport('gedung_ruangan', 1, 1), 'Data Barang.xlsx');
     }
 
 

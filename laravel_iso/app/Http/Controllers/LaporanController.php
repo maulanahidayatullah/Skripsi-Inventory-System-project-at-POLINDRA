@@ -32,7 +32,13 @@ class LaporanController extends Controller
 
     public function exportExcel(Request $request)
     {
-        return Excel::download(new LaporanExport('gedung_ruangan', 1, 1), 'Data Barang.xlsx');
+        // return $request;
+        if ($request->filter === 'gedung_ruangan') {
+            $value_1 = $request->gedung_id;
+            $value_2 = $request->ruangan_id;
+        }
+        return Excel::download(new LaporanExport($request->filter, $value_1, $value_2), 'Data Barang.xlsx', null, [\Maatwebsite\Excel\Excel::XLSX]);
+        // }
     }
 
 

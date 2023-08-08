@@ -7,11 +7,13 @@
         <h6 class="m-0 font-weight-bold text-dark">Laporan Data Barang</h6>
     </div>
     <div class="card-body">
+        <form action="/lap_barang_export" method="post">
+            @csrf
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="">Filter Berdasarkan</label>
-                    <select class="myselect" name="" id="filter" style="width:100%" required>
+                    <select class="myselect" name="filter" id="filter" style="width:100%" required>
                             <option></option>
                         <option value="tahun">Tahun</option>
                         <option value="gedung_ruangan">Gedung & Ruangan</option>
@@ -19,8 +21,7 @@
                 </div>
             </div>
         </div>
-        {{-- <form action="lap_barang_keluar_input" method="post">
-            @csrf --}}
+        
             <div class="form" id="form_tahun" style="display: none">
                 <div class="row">
                     <div class="col-md-6">
@@ -36,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <center><input type="submit" id="btn_tahun" class="btn btn-success"></center>
+                <center><div id="btn_tahun" class="btn btn-success"> Submit </div></center>
             </div>
 
             <div class="form" id="form_gedung_ruangan" style="display: none">
@@ -58,11 +59,10 @@
                         </div>
                     </div>
                 </div>
-                <center><input type="submit" id="btn_gedung_ruangan" class="btn btn-success"></center>
+                <center><div id="btn_gedung_ruangan" class="btn btn-success"> Submit </div></center>
             </div>
             
             
-      {{-- </form> --}}
 <br>
     </div>
 </div>
@@ -71,8 +71,10 @@
   <h6 class="m-0 font-weight-bold text-dark">Laporan Data Barang</h6>
 </div>
 <div class="card-body" id="card-table" style="display: none">
-    <center><a href="/lap_barang_export"><div class="btn btn-info btn-lg" id="btn_export">
-            <i class="fa fa-table" aria-hidden="true"></i> &nbsp; Export Excel</div></a></center>
+    <center><button type="submit" class="btn btn-info btn-lg">
+            <i class="fa fa-table" aria-hidden="true"></i> &nbsp; Export Excel</button></center>
+    
+    </form>
             <br>
   <div class="table-responsive">
       <table id="example" class="table table-bordered js-basic-example dataTable" cellspacing="0">
@@ -155,7 +157,34 @@
     //         value_2 = $('#ruangan_id').val();
     //     }
 
-    //     alert(value_1);
+    //     var url = "{{ url('/lap_barang_export')}}";
+    //     $.ajax({
+    //         url: url,
+    //         dataType: "json",
+    //         type: "GET",
+    //         data: {
+    //             'filter': filter,
+    //             'value_1': value_1,
+    //             'value_2': value_2,
+    //         },
+    //         success:function(data){
+    //             console.log(data);
+    //             // $('tbody').html(data);
+
+    //             },
+    //         error: function(data) {
+    //                 window.open(url, '_blank');
+    //             console.log(data);
+    //         }
+    //     });
+
+    //             // request.done(function(response) {
+    //             //     window.open(url, '_blank');
+    //             // });
+
+    //             // request.fail(function(jqXHR, textStatus) {
+    //             //     window.open(url, '_blank');
+    //             // }); 
 
     //     // $('#card-table').css('display', 'block');
     //     // var gedung_id = $('#gedung_id').val();

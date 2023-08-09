@@ -13,8 +13,10 @@ class Inventori {
       nama_sub_satker,
       nup,
       kode_barang,
+      kuantitas,
+      nilai_bmn,
       keterangan;
-  int? id, kuantitas, nilai_bmn;
+  int? id;
 
   bool? success;
 

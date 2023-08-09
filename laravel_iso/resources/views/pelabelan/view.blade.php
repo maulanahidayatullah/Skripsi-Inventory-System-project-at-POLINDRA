@@ -30,7 +30,7 @@
 
 <div class="card-body" id="card-table" >
    
-  <center><a href="/print_qr"><div class="btn btn-info btn-lg">
+  <center><a href="print_qr"><div class="btn btn-info btn-lg">
             <i class="fa fa-qrcode "></i> &nbsp; Print QR</div></a></center>
   <br>
   <div class="table-responsive">
@@ -45,6 +45,19 @@
               <th>Opsi</th>
           </tr>
         </thead>
+        <tbody>
+          @foreach ($pelabelan as $index => $value)
+              <tr>
+                <td>{{ $index+1 }}</td>
+                <td>{{ $value->Inventori->nama_barang }}</td>
+                <td>{{ $value->Inventori->kode_barang }}</td>
+                <td>{{ $value->Inventori->nup }}</td>
+                <td>{{ $value->inventori->tahun_perolehan }}</td>
+                <td><div class="btn btn-danger btn-sm m-1 " onClick="hapus('{{ $value->id }}')" > Hapus </div></td>
+              </tr>
+          @endforeach
+          
+        </tbody>
     </table>
           
   </div>
@@ -82,51 +95,51 @@
               console.log(jqXHR);
           });
     }
-  $(document).ready( function () {
+  // $(document).ready( function () {
 
-    var Table = $('#example').DataTable({
-        dom: 'tpl',
-        processing: true,
-        serverSide: true,
-        searching: false,
-        ajax: {
-          url: "/pelabelan_json",
-        },
+  //   var Table = $('#example').DataTable({
+  //       dom: 'tpl',
+  //       processing: true,
+  //       serverSide: true,
+  //       searching: false,
+  //       ajax: {
+  //         url: "/pelabelan_json",
+  //       },
            
-           columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex', oderable: false, searchable: false },
-                    { data: 'nama_barang', name: 'nama_barang' },
-                    { data: 'kode_barang', name: 'kode_barang' },
-                    { data: 'nup', name: 'nup' },
-                    { data: 'tahun', name: 'tahun' },
-                    { data: 'action', name: 'action', orderable: false},
-                 ]
-        });
+  //          columns: [
+  //                   { data: 'DT_RowIndex', name: 'DT_RowIndex', oderable: false, searchable: false },
+  //                   { data: 'nama_barang', name: 'nama_barang' },
+  //                   { data: 'kode_barang', name: 'kode_barang' },
+  //                   { data: 'nup', name: 'nup' },
+  //                   { data: 'tahun', name: 'tahun' },
+  //                   { data: 'action', name: 'action', orderable: false},
+  //                ]
+  //       });
     
 
-      $('#user_select').on( 'change', function () {
-        var user_id = $('#user_select').val();
-        $('#card-table').css("display","block")
-            $('#mobilitas_table').DataTable().destroy();
-            fill_table(user_id);
+  //     $('#user_select').on( 'change', function () {
+  //       var user_id = $('#user_select').val();
+  //       $('#card-table').css("display","block")
+  //           $('#mobilitas_table').DataTable().destroy();
+  //           fill_table(user_id);
                     
-          });
+  //         });
     
-        $('#search_barang').on( 'click', function () {
-          var search_nup = $('#search_nup').val();
-          var search_kode = $('#search_kode').val();
-          var user_id = $('#user_select').val();
+  //       $('#search_barang').on( 'click', function () {
+  //         var search_nup = $('#search_nup').val();
+  //         var search_kode = $('#search_kode').val();
+  //         var user_id = $('#user_select').val();
 
-          if (search_kode != '' || search_nup != '') {
-            $('#mobilitas_table').DataTable().destroy();
-              fill_table(user_id, search_kode, search_nup);
-            } else {
+  //         if (search_kode != '' || search_nup != '') {
+  //           $('#mobilitas_table').DataTable().destroy();
+  //             fill_table(user_id, search_kode, search_nup);
+  //           } else {
                   
-            }
+  //           }
                  
-        });
+  //       });
     
-     });
+  //    });
 
 </script>
 @endsection

@@ -71,8 +71,11 @@ class BarangController extends Controller
     public function qrcode($id)
     {
 
-        $qrcode = DB::table('inventori')->where('id', $id)->first();
+        // $qrcode = DB::table('inventori')->where('id', $id)->first();
 
+        $user_id = Auth::user()->id;
+
+        return $user_id;
         return view('barang.qrcode', compact('qrcode'));
     }
 
@@ -163,12 +166,17 @@ class BarangController extends Controller
         $user_id = Auth::user()->id;
         $pelabelan = Pelabelan::where('user_id', $user_id)->where('status', 'false')->get();
 
-        foreach ($pelabelan as $key => $value) {
-            Inventori::where('id', $value->inventori_id)->update([
-                'pelabelan_kodefikasi' => 'sudah'
-            ]);
-        }
+        // return $pelabelan;
+        return view('barang.qrcode', compact('pelabelan'));
+        // $user_id = Auth::user()->id;
+        // $pelabelan = Pelabelan::where('user_id', $user_id)->where('status', 'false')->get();
 
-        return $pelabelan;
+        // foreach ($pelabelan as $key => $value) {
+        //     Inventori::where('id', $value->inventori_id)->update([
+        //         'pelabelan_kodefikasi' => 'sudah'
+        //     ]);
+        // }
+
+        // return $pelabelan;
     }
 }

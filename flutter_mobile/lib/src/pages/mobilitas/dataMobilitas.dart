@@ -411,11 +411,11 @@ class _DataMobilitasState extends State<DataMobilitas> {
                                   _ruangan = [];
                                   gedung = value!;
                                   for (int i = 0; i < _gedung.length; i++) {
-                                    if (_gedung[i]["id_gedung"] ==
-                                        int.parse(value)) {
+                                    if (_gedung[i]["id_gedung"] == value) {
                                       _ruangan = _gedung[i]["ruangan"];
                                     }
                                   }
+                                  print(_ruangan);
                                   isGedungSelected = true;
                                 });
                               }),
@@ -424,6 +424,9 @@ class _DataMobilitasState extends State<DataMobilitas> {
                     SizedBox(
                       height: 8,
                     ),
+                    // if (isGedungSelected == false)
+                    //   const Center(child: CircularProgressIndicator())
+                    // else
                     Card(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -446,7 +449,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
                             onChanged: (value) {
                               setState(() {
                                 ruangan = value;
-                                // isGedungSelected = false;
+                                isGedungSelected = false;
                               });
                             }),
                       ),

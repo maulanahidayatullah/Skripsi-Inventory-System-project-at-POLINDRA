@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Inventori;
 use App\Models\Peminjaman;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PeminjamanController extends Controller
@@ -96,9 +97,11 @@ class PeminjamanController extends Controller
             ->where('user_id', $request->user_id)->where('keranjang', 'true')->first();
 
         if (!empty($peminjaman)) {
+            $instansi_id = User::where('id', $request->user_id)->first()->instansi_id;
             $barang_kembali = $request->tgl_kembali . ' ' . $request->jam_kembali;
 
             $peminjaman->kode_peminjaman        = $this->generate_code_pemnjaman($request->user_id);
+            $peminjaman->instansi_id            = $instansi_id;
             $peminjaman->unit_kerja             = $request->unit_kerja;
             $peminjaman->nama_kegiatan          = $request->nama_kegiatan;
             $peminjaman->jumlah                 = $request->jumlah;
@@ -140,18 +143,50 @@ class PeminjamanController extends Controller
 
     public function data_persetujuan(Request $request)
     {
-        $persetujuan = Peminjaman::where('user_id', $request->user_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->get();
+        $user = User::where('id', $request->user_id)->first();
 
-        if (!empty($persetujuan)) {
-            return response()->json([
-                'success' => true,
-                'data' => $persetujuan
-            ], 200);
+        if ($user->level == 'mbl_1') {
+            $persetujuan = Peminjaman::where('keranjang', 'false')->where('status_persetujuan', 'belum')->get();
+
+            if (!empty($persetujuan)) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $persetujuan
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'note' => 'Peminjaman Gagal'
+                ], 400);
+            }
+        } elseif ($user->level == 'mbl_2') {
+            $persetujuan = Peminjaman::where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->get();
+
+            if (!empty($persetujuan)) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $persetujuan
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'note' => 'Peminjaman Gagal'
+                ], 400);
+            }
         } else {
-            return response()->json([
-                'success' => false,
-                'note' => 'Peminjaman Gagal'
-            ], 400);
+            $persetujuan = Peminjaman::where('user_id', $request->user_id)->where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->get();
+
+            if (!empty($persetujuan)) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $persetujuan
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'note' => 'Peminjaman Gagal'
+                ], 400);
+            }
         }
     }
 
@@ -174,7 +209,7 @@ class PeminjamanController extends Controller
 
     public function generate_code_pemnjaman($user_id)
     {
-        $code = "Pol-" . "P-" . $user_id . '-' . date('ymd');
+        $code = "Pol-" . "P-" . $user_id . '-' . date('ymd-hi');
         return $code;
     }
 }

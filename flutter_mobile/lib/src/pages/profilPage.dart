@@ -104,7 +104,7 @@ class _ProfilPageState extends State<ProfilPage> {
               child: Column(
                 children: [
                   _card(Icons.person_2_outlined, "Nama :",
-                      profil.nama.toString()),
+                      profil.name.toString()),
                   _card(
                       Icons.email_outlined, "Email :", profil.email.toString()),
                   _card(Icons.home_outlined, "Alamat :",

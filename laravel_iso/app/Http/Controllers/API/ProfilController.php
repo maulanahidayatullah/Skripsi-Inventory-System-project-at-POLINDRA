@@ -11,7 +11,7 @@ class ProfilController extends Controller
 {
     public function index(Request $request)
     {
-        $profil = Pegawai::where('user_id', $request->user_id)->first();
+        $profil = User::where('id', $request->user_id)->first();
 
         if (!empty($profil)) {
             $email = User::where('id', $request->user_id)->first()->email;

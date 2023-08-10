@@ -43,7 +43,7 @@ class MobilitasController extends Controller
         if (count($mobilitas) !== 0) {
             foreach ($mobilitas as $key => $value) {
                 $mobilitas->success = 'success';
-                $mobilitas->user = $value->User->Pegawai;
+                $mobilitas->user = $value->User;
                 $mobilitas->inventori = $value->Inventori;
                 $mobilitas->gedung = $value->Gedung;
                 $mobilitas->ruangan = $value->Ruangan;

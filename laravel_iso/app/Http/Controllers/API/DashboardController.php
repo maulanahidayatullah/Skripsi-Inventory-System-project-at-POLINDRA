@@ -8,13 +8,14 @@ use App\Models\LogPeminjaman;
 use App\Models\Mobilitas;
 use App\Models\Pegawai;
 use App\Models\Peminjaman;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $nama = Pegawai::where('user_id', $request->user_id)->first()->nama;
+        $nama = User::where('id', $request->user_id)->first()->name;
 
         if (!empty($nama)) {
 

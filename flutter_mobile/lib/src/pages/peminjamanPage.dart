@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/pages/peminjaman/keranjangPeminjamanPage.dart';
 import 'package:flutter_mobile/src/api/model/inventori.dart';
+import 'package:flutter_mobile/src/pages/peminjaman/persetujuanPage.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
 import 'package:flutter_mobile/src/api/api.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -14,19 +15,49 @@ class peminjamanPage extends StatefulWidget {
 }
 
 class _peminjamanPageState extends State<peminjamanPage> {
+  Inventori inventori = new Inventori();
   @override
   Widget build(BuildContext context) {
-    Inventori inventori = Inventori();
-    return Container(
-      color: Colors.green,
-      height: MediaQuery.of(context).size.height,
-      padding: const EdgeInsets.symmetric(vertical: 30),
-      width: double.infinity,
-      child: Stack(
-        children: <Widget>[
-          //Container for top data
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.green,
+          toolbarHeight: 250,
+          bottom: TabBar(
+            indicatorColor: Colors.white,
+            tabs: [
+              Tab(
+                child: Text(
+                  "Persetujuan",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: Colors.white),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  "Proses",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: Colors.white),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  "Riwayat",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+          title: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -34,7 +65,7 @@ class _peminjamanPageState extends State<peminjamanPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      "Mobilitas",
+                      "Peminjaman",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 36,
@@ -154,133 +185,255 @@ class _peminjamanPageState extends State<peminjamanPage> {
               ],
             ),
           ),
-
-          //draggable sheet
-          DraggableScrollableSheet(
-            builder: (context, scrollController) {
-              return Container(
-                decoration: const BoxDecoration(
-                    color: Color.fromRGBO(243, 245, 248, 1),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40))),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 24,
+        ),
+        body: TabBarView(
+          children: [
+            Container(
+              color: Color.fromRGBO(243, 245, 248, 1),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PersetujuanPage()),
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Row(
+                        children: <Widget>[
+                          // Expanded(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Pol-P-2-230810",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.green[500]),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "Status Peminjaman : ",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.grey[600]),
+                              ),
+                              Text(
+                                "Belum Disetujui",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.red),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                  );
+                },
+                shrinkWrap: true,
+                itemCount: 2,
+                padding: EdgeInsets.all(0),
+                controller: ScrollController(keepScrollOffset: false),
+              ),
+            ),
+            Container(
+              color: Color.fromRGBO(243, 245, 248, 1),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Row(
+                      children: <Widget>[
+                        // Expanded(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "Riwayat Peminjaman",
+                              "Pol-P-2-230810",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 24,
-                                  color: Colors.black),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.green[500]),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Harap Dikembalikan Pada : ",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.grey[600]),
+                            ),
+                            Text(
+                              "2023-06-23 12:00",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.green),
                             ),
                           ],
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 32),
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-
-                      ListView.builder(
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 6),
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            child: Row(
-                              children: <Widget>[
-                                // Expanded(
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Lemari",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.grey[900]),
-                                    ),
-                                    Text(
-                                      "09-04-2023",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.grey[500]),
-                                    ),
-                                  ],
-                                ),
-                                // ),
-                                // Expanded(
-                                Spacer(),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey[100],
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(18))),
-                                  child: Icon(
-                                    Icons.date_range,
-                                    color: Colors.green[900],
-                                  ),
-                                  padding: EdgeInsets.all(12),
-                                ),
-                                Spacer(),
-                                // ),
-                                Flexible(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      Text(
-                                        "+\$500.5",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.lightGreen),
-                                      ),
-                                      Text(
-                                        "26 Jan",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.grey[500]),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
+                      ],
+                    ),
+                  );
+                },
+                shrinkWrap: true,
+                itemCount: 1,
+                padding: EdgeInsets.all(0),
+                controller: ScrollController(keepScrollOffset: false),
+              ),
+            ),
+            Container(
+              color: Color.fromRGBO(243, 245, 248, 1),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Row(
+                      children: <Widget>[
+                        // Expanded(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Pol-P-2-230810",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.green[500]),
                             ),
-                          );
-                        },
-                        shrinkWrap: true,
-                        itemCount: 2,
-                        padding: EdgeInsets.all(0),
-                        controller: ScrollController(keepScrollOffset: false),
-                      ),
-                      //now expense
-                    ],
-                  ),
-                  controller: scrollController,
-                ),
-              );
-            },
-            initialChildSize: 0.65,
-            minChildSize: 0.65,
-            maxChildSize: 1,
-          )
-        ],
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Status Peminjaman : ",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.grey[600]),
+                            ),
+                            Text(
+                              "Selesai",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.green),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                shrinkWrap: true,
+                itemCount: 2,
+                padding: EdgeInsets.all(0),
+                controller: ScrollController(keepScrollOffset: false),
+              ),
+            ),
+          ],
+        ),
       ),
     );
+
+    Widget _card() {
+      return ListView.builder(
+        itemBuilder: (context, index) {
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Row(
+              children: <Widget>[
+                // Expanded(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Lemari",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey[900]),
+                    ),
+                    Text(
+                      "09-04-2023",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey[500]),
+                    ),
+                  ],
+                ),
+                // ),
+                // Expanded(
+                Spacer(),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.all(Radius.circular(18))),
+                  child: Icon(
+                    Icons.date_range,
+                    color: Colors.green[900],
+                  ),
+                  padding: EdgeInsets.all(12),
+                ),
+                Spacer(),
+                // ),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        "+\$500.5",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.lightGreen),
+                      ),
+                      Text(
+                        "26 Jan",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.grey[500]),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+        shrinkWrap: true,
+        itemCount: 2,
+        padding: EdgeInsets.all(0),
+        controller: ScrollController(keepScrollOffset: false),
+      );
+    }
   }
 }

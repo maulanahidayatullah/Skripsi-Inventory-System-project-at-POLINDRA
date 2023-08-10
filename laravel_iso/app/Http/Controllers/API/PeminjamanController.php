@@ -115,7 +115,7 @@ class PeminjamanController extends Controller
                 return response()->json([
                     'success' => true,
                     'note' => 'Peminjaman Ditambahkan, Sliahkan menunggu Persetujuan '
-                ], 400);
+                ], 200);
             } else {
                 return response()->json([
                     'success' => false,
@@ -136,6 +136,40 @@ class PeminjamanController extends Controller
             ->where('user_id', $request->user_id)->where('keranjang', 'false')->get();
 
         return $peminjaman;
+    }
+
+    public function data_persetujuan(Request $request)
+    {
+        $persetujuan = Peminjaman::where('user_id', $request->user_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->get();
+
+        if (!empty($persetujuan)) {
+            return response()->json([
+                'success' => true,
+                'data' => $persetujuan
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'note' => 'Peminjaman Gagal'
+            ], 400);
+        }
+    }
+
+    public function proses_peminjaman(Request $request)
+    {
+        $persetujuan = Peminjaman::where('user_id', $request->user_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->get();
+
+        if (!empty($persetujuan)) {
+            return response()->json([
+                'success' => true,
+                'data' => $persetujuan
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'note' => 'Tidak ada data'
+            ], 400);
+        }
     }
 
     public function generate_code_pemnjaman($user_id)

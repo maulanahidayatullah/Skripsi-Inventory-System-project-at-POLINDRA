@@ -187,7 +187,7 @@ class API {
     if (response.statusCode == 200) {
       progressDialog.dismiss();
       return Profil(
-        nama: data_profil['nama'],
+        name: data_profil['name'],
         alamat: data_profil['alamat'],
         jabatan: data_profil['jabatan'],
         no_hp: data_profil['no_hp'],

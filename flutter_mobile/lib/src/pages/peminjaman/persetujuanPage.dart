@@ -6,15 +6,14 @@ import 'package:ndialog/ndialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
 import 'package:awesome_dialog/awesome_dialog.dart';
 
-class KeranjangPeminjamanPage extends StatefulWidget {
-  const KeranjangPeminjamanPage({super.key});
+class PersetujuanPage extends StatefulWidget {
+  const PersetujuanPage({super.key});
 
   @override
-  State<KeranjangPeminjamanPage> createState() =>
-      _KeranjangPeminjamanPageState();
+  State<PersetujuanPage> createState() => _PersetujuanPageState();
 }
 
-class _KeranjangPeminjamanPageState extends State<KeranjangPeminjamanPage> {
+class _PersetujuanPageState extends State<PersetujuanPage> {
   List<KeranjangPeminjaman> listKeranjang = [];
   API api = API();
 
@@ -50,47 +49,7 @@ class _KeranjangPeminjamanPageState extends State<KeranjangPeminjamanPage> {
     if (listKeranjang.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Keranjang Peminjaman'),
-          actions: <Widget>[
-            IconButton(
-              padding: new EdgeInsets.only(right: 10),
-              icon: const Icon(
-                Icons.add_circle,
-                size: 35,
-              ),
-              onPressed: () async {
-                String? nup = await Scanner.scan();
-                ProgressDialog progressDialog = ProgressDialog(
-                  context,
-                  blur: 10,
-                  message: Text("Mohon Tunggu..."),
-                );
-                progressDialog.show();
-                if (nup != null) {
-                  setState(() {
-                    try {
-                      API.tambahKeranjangPeminjaman(nup).then((value) async {
-                        AwesomeDialog(
-                          context: context,
-                          dialogType: DialogType.info,
-                          animType: AnimType.scale,
-                          headerAnimationLoop: true,
-                          title: value,
-                          btnOkOnPress: () {},
-                          onDismissCallback: (type) {
-                            progressDialog.dismiss();
-                          },
-                          btnOkIcon: Icons.cancel,
-                          btnOkColor: Colors.blue,
-                        ).show();
-                        getDataKeranjang();
-                      });
-                    } catch (e) {}
-                  });
-                }
-              },
-            ),
-          ],
+          title: Text('Persetujuan Peminjaman'),
           backgroundColor: Colors.green,
         ),
         body: Container(child: Text("Laka data")),
@@ -98,51 +57,86 @@ class _KeranjangPeminjamanPageState extends State<KeranjangPeminjamanPage> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Keranjang Peminjaman'),
-          actions: <Widget>[
-            IconButton(
-              padding: new EdgeInsets.only(right: 10),
-              icon: const Icon(
-                Icons.add_circle,
-                size: 35,
-              ),
-              onPressed: () async {
-                String? nup = await Scanner.scan();
-                ProgressDialog progressDialog = ProgressDialog(
-                  context,
-                  blur: 10,
-                  message: Text("Mohon Tunggu..."),
-                );
-                progressDialog.show();
-                if (nup != null) {
-                  setState(() {
-                    try {
-                      API.tambahKeranjangPeminjaman(nup).then((value) async {
-                        AwesomeDialog(
-                          context: context,
-                          dialogType: DialogType.info,
-                          animType: AnimType.scale,
-                          headerAnimationLoop: true,
-                          title: value,
-                          btnOkOnPress: () {},
-                          onDismissCallback: (type) {
-                            progressDialog.dismiss();
-                          },
-                          btnOkIcon: Icons.cancel,
-                          btnOkColor: Colors.blue,
-                        ).show();
-                        getDataKeranjang();
-                      });
-                    } catch (e) {}
-                  });
-                }
-              },
-            ),
-          ],
+          title: Text('Persetujuan Peminjaman'),
           backgroundColor: Colors.green,
         ),
         body: Column(
           children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: Row(
+                children: <Widget>[
+                  // Expanded(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Pol-P-2-230810",
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.green),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Peminjam : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.grey[600]),
+                      ),
+                      Text(
+                        "Ketua Folafo",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.green),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Nama Kegiatan : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.grey[600]),
+                      ),
+                      Text(
+                        "Pembelajaran Folafo",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.green),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Keterangan : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.grey[600]),
+                      ),
+                      Text(
+                        "Pembelajaran Rutin Folafo",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.green),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             Flexible(
               child: ListView.builder(
                 itemCount: listKeranjang.length,
@@ -171,7 +165,7 @@ class _KeranjangPeminjamanPageState extends State<KeranjangPeminjamanPage> {
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.all(20),
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 padding: EdgeInsets.symmetric(vertical: 15),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -194,7 +188,7 @@ class _KeranjangPeminjamanPageState extends State<KeranjangPeminjamanPage> {
               ),
             ),
             SizedBox(
-              height: 80,
+              height: 75,
             )
           ],
         ),
@@ -234,9 +228,6 @@ class _KeranjangPeminjamanPageState extends State<KeranjangPeminjamanPage> {
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     Text(merk_type.toString(), style: TextStyle(fontSize: 16)),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     // Text("Kode Barang & NUP : ",
                     //     style: TextStyle(
                     //         fontSize: 20, fontWeight: FontWeight.bold)),
@@ -245,61 +236,6 @@ class _KeranjangPeminjamanPageState extends State<KeranjangPeminjamanPage> {
                     // const SizedBox(
                     //   height: 10,
                     // ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                            child: SizedBox(
-                          height: 10,
-                        )),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              ProgressDialog progressDialog = ProgressDialog(
-                                context,
-                                blur: 10,
-                                message: Text("Mohon Tunggu..."),
-                              );
-                              progressDialog.show();
-                              setState(() {
-                                try {
-                                  API.hapusMobilitas(id).then((value) async {
-                                    AwesomeDialog(
-                                      context: context,
-                                      dialogType: DialogType.info,
-                                      animType: AnimType.scale,
-                                      headerAnimationLoop: true,
-                                      title: value,
-                                      btnOkOnPress: () {},
-                                      onDismissCallback: (type) {
-                                        progressDialog.dismiss();
-                                      },
-                                      btnOkIcon: Icons.cancel,
-                                      btnOkColor: Colors.blue,
-                                    ).show();
-                                    getDataKeranjang();
-                                  });
-                                } catch (e) {}
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(5)),
-                              padding: EdgeInsets.all(8),
-                              child: Text(
-                                "Hapus",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
                   ],
                 ),
               )

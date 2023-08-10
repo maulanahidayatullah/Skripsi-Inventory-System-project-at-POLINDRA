@@ -87,7 +87,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
     if (listMobilitas.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Mobilitas'),
+          title: Text('Keranjang Mobilitas'),
           actions: <Widget>[
             IconButton(
               padding: new EdgeInsets.only(right: 10),
@@ -130,12 +130,12 @@ class _DataMobilitasState extends State<DataMobilitas> {
           ],
           backgroundColor: Colors.pink,
         ),
-        body: Container(child: Text("Laka data")),
+        body: Container(child: Text("Tidak ada data")),
       );
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Mobilitas'),
+          title: Text('Keranjang Mobilitas'),
           actions: <Widget>[
             IconButton(
               padding: new EdgeInsets.only(right: 10),

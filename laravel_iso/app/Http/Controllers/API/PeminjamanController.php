@@ -117,6 +117,7 @@ class PeminjamanController extends Controller
                 $value->keranjang              = 'false';
                 $value->save();
             }
+
             return response()->json([
                 'success' => true,
                 'note' => 'Peminjaman Ditambahkan, Sliahkan menunggu Persetujuan '

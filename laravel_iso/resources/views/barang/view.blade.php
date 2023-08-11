@@ -141,7 +141,7 @@
           </div>
           <div class="form-group">
               <label for="">Tahun Perolehan</label>
-              <input type="text" name="tahun_perolehan" class="form-control"  required>
+              <input type="date" name="tahun_perolehan" class="form-control"  required>
           </div>
           <div class="form-group">
               <label for="">NUP</label>

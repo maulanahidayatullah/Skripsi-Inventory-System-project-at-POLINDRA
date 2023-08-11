@@ -93,42 +93,55 @@ class PeminjamanController extends Controller
 
     public function tambah_peminjaman(Request $request)
     {
-        $peminjaman = Peminjaman::where('inventori_id', $request->inventori_id)
-            ->where('user_id', $request->user_id)->where('keranjang', 'true')->first();
+        $peminjaman = Peminjaman::where('user_id', $request->user_id)->where('keranjang', 'true')->get();
 
-        if (!empty($peminjaman)) {
+        if (count($peminjaman) !== 0) {
+
             $instansi_id = User::where('id', $request->user_id)->first()->instansi_id;
             $barang_kembali = $request->tgl_kembali . ' ' . $request->jam_kembali;
 
-            $peminjaman->kode_peminjaman        = $this->generate_code_pemnjaman($request->user_id);
-            $peminjaman->instansi_id            = $instansi_id;
-            $peminjaman->unit_kerja             = $request->unit_kerja;
-            $peminjaman->nama_kegiatan          = $request->nama_kegiatan;
-            $peminjaman->jumlah                 = $request->jumlah;
-            $peminjaman->satuan                 = $request->satuan;
-            $peminjaman->keterangan             = $request->keterangan;
-            $peminjaman->tgl_pinjam             = date('y-m-d h:i');
-            $peminjaman->tgl_kembali            = $barang_kembali;
-            $peminjaman->persetujuan_wadir      = 'belum';
-            $peminjaman->persetujuan_pembimbing = 'belum';
-            $peminjaman->status_persetujuan     = 'belum';
-            $peminjaman->keranjang              = 'false';
-
-            if ($peminjaman->save()) {
-                return response()->json([
-                    'success' => true,
-                    'note' => 'Peminjaman Ditambahkan, Sliahkan menunggu Persetujuan '
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'note' => 'Peminjaman Gagal'
-                ], 400);
+            // return $peminjaman;
+            foreach ($peminjaman as $key => $value) {
+                $value->kode_peminjaman        = $this->generate_code_pemnjaman($request->user_id);
+                $value->instansi_id            = $instansi_id;
+                $value->unit_kerja             = $request->unit_kerja;
+                $value->nama_kegiatan          = $request->nama_kegiatan;
+                $value->jumlah                 = $request->jumlah;
+                $value->satuan                 = $request->satuan;
+                $value->keterangan             = $request->keterangan;
+                $value->tgl_pinjam             = date('y-m-d h:i');
+                $value->tgl_kembali            = $barang_kembali;
+                $value->persetujuan_wadir      = 'belum';
+                $value->persetujuan_pembimbing = 'belum';
+                $value->status_persetujuan     = 'belum';
+                $value->keranjang              = 'false';
+                $value->save();
             }
+            return response()->json([
+                'success' => true,
+                'note' => 'Peminjaman Ditambahkan, Sliahkan menunggu Persetujuan '
+            ], 200);
         } else {
             return response()->json([
                 'success' => false,
                 'note' => 'Belum ada Keranjang peminjaman'
+            ], 400);
+        }
+    }
+
+    public function detail_peminjaman(Request $request)
+    {
+        $detail = Peminjaman::where('kode_peminjaman', $request->kode_peminjaman)->get();
+
+        if (!empty($detail)) {
+            return response()->json([
+                'success' => true,
+                'data' => $detail
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'note' => 'Peminjaman Gagal'
             ], 400);
         }
     }
@@ -141,12 +154,12 @@ class PeminjamanController extends Controller
         return $peminjaman;
     }
 
-    public function data_persetujuan(Request $request)
+    public function persetujuan_data(Request $request)
     {
         $user = User::where('id', $request->user_id)->first();
 
         if ($user->level == 'mbl_1') {
-            $persetujuan = Peminjaman::where('keranjang', 'false')->where('status_persetujuan', 'belum')->get();
+            $persetujuan = Peminjaman::where('keranjang', 'false')->where('status_persetujuan', 'belum')->groupBy('kode_peminjaman')->get();
 
             if (!empty($persetujuan)) {
                 return response()->json([
@@ -160,7 +173,7 @@ class PeminjamanController extends Controller
                 ], 400);
             }
         } elseif ($user->level == 'mbl_2') {
-            $persetujuan = Peminjaman::where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->get();
+            $persetujuan = Peminjaman::where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->groupBy('kode_peminjaman')->get();
 
             if (!empty($persetujuan)) {
                 return response()->json([
@@ -174,7 +187,7 @@ class PeminjamanController extends Controller
                 ], 400);
             }
         } else {
-            $persetujuan = Peminjaman::where('user_id', $request->user_id)->where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->get();
+            $persetujuan = Peminjaman::where('user_id', $request->user_id)->where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->groupBy('kode_peminjaman')->get();
 
             if (!empty($persetujuan)) {
                 return response()->json([
@@ -190,26 +203,37 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function proses_peminjaman(Request $request)
+    public function persetujuan_wadir(Request $request)
     {
-        $persetujuan = Peminjaman::where('user_id', $request->user_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->get();
+        $peminjaman = Peminjaman::where('kode_peminjaman', $request->kode_peminjaman)->get();
 
-        if (!empty($persetujuan)) {
+        foreach ($peminjaman as $key => $value) {
+            $value->update(['persetujuan_wadir' => 'setuju']);
+        }
+
+        return 'success';
+    }
+
+    public function persetujuan_pembimbing(Request $request)
+    {
+        $peminjaman = Peminjaman::where('kode_peminjaman', $request->kode_peminjaman)->get();
+
+        if (!empty($peminjaman)) {
             return response()->json([
                 'success' => true,
-                'data' => $persetujuan
+                'data' => $peminjaman
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
-                'note' => 'Tidak ada data'
+                'note' => 'Peminjaman Gagal'
             ], 400);
         }
     }
 
     public function generate_code_pemnjaman($user_id)
     {
-        $code = "Pol-" . "P-" . $user_id . '-' . date('ymd-hi');
+        $code = "Pol-" . "P-" . $user_id . '-' . date('ymd');
         return $code;
     }
 }

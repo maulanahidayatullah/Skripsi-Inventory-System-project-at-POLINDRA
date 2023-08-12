@@ -47,6 +47,8 @@ Route::post('detail_peminjaman', [PeminjamanController::class, 'detail_peminjama
 Route::post('persetujuan_data', [PeminjamanController::class, 'persetujuan_data']);
 Route::post('persetujuan_wadir', [PeminjamanController::class, 'persetujuan_wadir']);
 Route::post('persetujuan_pembimbing', [PeminjamanController::class, 'persetujuan_pembimbing']);
+Route::post('proses_peminjaman', [PeminjamanController::class, 'proses_peminjaman']);
+Route::post('riwayat_peminjaman', [PeminjamanController::class, 'riwayat_peminjaman']);
 // Route::post('hapus_mobilitas', [PeminjamanController::class, 'hapus_mobilitas']);
 // Route::post('log_mobilitas', [PeminjamanController::class, 'log_mobilitas']);
 

@@ -107,6 +107,12 @@ Route::post('/store_pj', [UserController::class, 'store_pj']);
 Route::get('/pj/edit/{id}', [UserController::class, 'edit_pj']);
 Route::post('/user_pj/update/', [UserController::class, 'update_pj']);
 
+Route::get('/instansi', [UserController::class, 'instansi']);
+Route::post('/instansi/store', [UserController::class, 'instansi_store']);
+Route::get('/instansi/edit/{id}', [UserController::class, 'instansi_edit']);
+Route::post('/instansi/update', [UserController::class, 'instansi_update']);
+Route::get('/instansi/delete/{id}', [UserController::class, 'instansi_delete']);
+
 Route::get('/rayon', [UserController::class, 'rayon']);
 Route::post('/store_rayon', [UserController::class, 'store_rayon']);
 Route::get('/rayon/edit/{id}', [UserController::class, 'edit_rayon']);

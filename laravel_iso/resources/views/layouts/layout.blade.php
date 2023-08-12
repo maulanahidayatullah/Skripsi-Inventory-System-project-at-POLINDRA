@@ -66,15 +66,16 @@
       
 
 
-      <li class="nav-item {{ (request()->is('user*')) ? 'active' : '' }} {{ (request()->is('pj*')) ? 'active' : '' }} {{ (request()->is('rayon*')) ? 'active' : '' }} {{ (request()->is('bukan_pj*')) ? 'active' : '' }}">
+      <li class="nav-item {{ (request()->is('user*')) ? 'active' : '' }} {{ (request()->is('instansi*')) ? 'active' : '' }} {{ (request()->is('rayon*')) ? 'active' : '' }} {{ (request()->is('bukan_pj*')) ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse0" aria-expanded="true" aria-controls="collapse0">
           <i class="fas fa-fw fa-user"></i>
           <span>Data User</span>
         </a>
-        <div id="collapse0" class="collapse {{ (request()->is('user*')) ? 'show' : '' }} {{ (request()->is('pj*')) ? 'show' : '' }} {{ (request()->is('rayon*')) ? 'show' : '' }} {{ (request()->is('bukan_pj*')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapse0" class="collapse {{ (request()->is('user*')) ? 'show' : '' }} {{ (request()->is('instansi*')) ? 'show' : '' }} {{ (request()->is('rayon*')) ? 'show' : '' }} {{ (request()->is('bukan_pj*')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data User</h6>
             <a class="collapse-item {{ (request()->is('user*')) ? 'active' : '' }}" href="{{url('user')}}">User</a>
+            <a class="collapse-item {{ (request()->is('instansi*')) ? 'active' : '' }}" href="{{url('instansi')}}">Instansi</a>
 
             {{-- <a class="collapse-item {{ (request()->is('rayon*')) ? 'active' : '' }}" href="{{url('rayon')}}">Pembimbing</a>
             <a class="collapse-item {{ (request()->is('pj*')) ? 'active' : '' }}" href="{{url('pj')}}">Pj Ruangan</a>

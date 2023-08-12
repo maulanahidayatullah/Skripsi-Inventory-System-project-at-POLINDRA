@@ -6,6 +6,7 @@ use App\Models\User;
 use DB;
 use DataTables;
 use Alert;
+use App\Models\Instansi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,7 +26,6 @@ class UserController extends Controller
 
     public function index()
     {
-
 
         $user = DB::table("users")->get();
         return view('user.view', compact('user'));
@@ -148,6 +148,53 @@ class UserController extends Controller
         $user->delete();
         Alert::success('Success', 'Data Telah Terhapus');
         return redirect()->back();
+    }
+
+    // instansi
+
+    public function instansi()
+    {
+        $instansi = Instansi::get();
+        return view('instansi.view', compact('instansi'));
+    }
+
+    public function instansi_store(Request $request)
+    {
+        DB::table('instansi')->insert([
+            'nama' => $request->instansi,
+
+        ]);
+        // alihkan halaman ke halaman jenis
+        Alert::success('Success', 'Data Telah Terinput');
+        return redirect('/instansi');
+    }
+
+    public function instansi_edit($id)
+    {
+
+        $instansi = DB::table('instansi')->where('id', $id)->first();
+
+        return view('instansi.edit', compact('instansi'));
+    }
+
+    public function instansi_update(Request $request)
+    {
+        DB::table('instansi')->where('id', $request->id_instansi)->update([
+            'nama' => $request->instansi,
+        ]);
+
+        Alert::success('Success', 'Data Telah Terupdate');
+        return redirect('/instansi');
+    }
+
+    public function instansi_delete($id)
+    {
+        // menghapus data jenis berdasarkan id yang dipilih
+        DB::table('instansi')->where('id', $id)->delete();
+
+        // alihkan halaman ke halaman ruangan
+        Alert::success('Success', 'Data Telah Terhapus');
+        return redirect('/instansi');
     }
 
     //pj

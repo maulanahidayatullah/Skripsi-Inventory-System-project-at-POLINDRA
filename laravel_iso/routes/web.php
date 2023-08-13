@@ -125,10 +125,22 @@ Route::post('/user_bukan_pj/update/', [UserController::class, 'update_bukan_pj']
 
 // Peminjaman
 Route::get('/peminjaman', [PeminjamanController::class, 'index']);
+Route::get('/peminjaman_json', [DatatableController::class, 'peminjaman_json']);
+Route::get('/peminjaman/detail/{kode_peminjaman}', [PeminjamanController::class, 'detail']);
+
+// Pengembalian
+Route::get('/pengembalian', [PeminjamanController::class, 'pengembalian']);
+Route::post('/cek_kode', [PeminjamanController::class, 'cek_kode']);
+Route::get('/pengembalian_json', [DatatableController::class, 'pengembalian_json']);
+Route::get('/pengembalian/create/{kode_peminjaman}', [PeminjamanController::class, 'pengembalian_create']);
+Route::post('/pengembalian/store', [PeminjamanController::class, 'pengembalian_store']);
+
+Route::get('/pengembalian/detail/{kode_peminjaman}', [PeminjamanController::class, 'detail_pengembalian']);
+
+
 Route::post('/peminjaman/store', [PeminjamanController::class, 'store']);
 Route::get('/peminjaman/edit/{id_peminjaman}', [PeminjamanController::class, 'edit']);
 Route::get('/peminjaman/status/{id_peminjaman}/{id_barang}', [PeminjamanController::class, 'status']);
-Route::get('/peminjaman/detail/{id_peminjaman}', [PeminjamanController::class, 'detail']);
 Route::post('/peminjaman/update', [PeminjamanController::class, 'update']);
 Route::get('/peminjaman/delete/{id_peminjaman}', [PeminjamanController::class, 'delete']);
 
@@ -245,7 +257,6 @@ Route::get('/inputrusakluar', [KeranjangrusakluarController::class, 'input']);
 Route::get('/input_ruangan_json', [DatatableController::class, 'input_ruangan_json']);
 Route::get('/keluar_json', [DatatableController::class, 'keluar_json']);
 Route::get('/masuk_json', [DatatableController::class, 'masuk_json']);
-Route::get('/peminjaman_json', [DatatableController::class, 'peminjaman_json']);
 Route::get('/rusak_ruangan_json', [DatatableController::class, 'rusak_ruangan_json']);
 Route::get('/rusak_luar_json', [DatatableController::class, 'rusak_luar_json']);
 

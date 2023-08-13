@@ -144,11 +144,12 @@
           <i class="fas fa-fw fa-briefcase"></i>
           <span>Peminjaman</span>
         </a>
-        <div id="collapse1" class="collapse {{ (request()->is('keranjang_peminjaman*')) ? 'show' : '' }} {{ (request()->is('peminjaman*')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapse1" class="collapse {{ (request()->is('pengembalian*')) ? 'show' : '' }} {{ (request()->is('peminjaman*')) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data Peminjaman</h6>
-            <a class="collapse-item {{ (request()->is('keranjang_peminjaman*')) ? 'active' : '' }} " href="{{url('keranjang_peminjaman')}}">Keranjang Peminjaman</a>
-            <a class="collapse-item {{ (request()->is('peminjaman*')) ? 'active' : '' }}" href="{{url('peminjaman')}}">Data Peminjaman</a>
+            {{-- <a class="collapse-item {{ (request()->is('keranjang_peminjaman*')) ? 'active' : '' }} " href="{{url('keranjang_peminjaman')}}">Keranjang Peminjaman</a> --}}
+            <a class="collapse-item {{ (request()->is('peminjaman*')) ? 'active' : '' }}" href="{{url('peminjaman')}}">Peminjaman</a>
+            <a class="collapse-item {{ (request()->is('pengembalian*')) ? 'active' : '' }}" href="{{url('pengembalian')}}">Pengembalian</a>
           </div>
         </div>
       </li>

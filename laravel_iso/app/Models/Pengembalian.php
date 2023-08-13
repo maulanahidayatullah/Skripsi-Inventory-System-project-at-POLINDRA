@@ -11,4 +11,14 @@ class Pengembalian extends Model
     protected $primaryKey = 'id';
 
     protected $guarded = ['id'];
+
+    public function User()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id')->withDefault();
+    }
+
+    public function Peminjaman()
+    {
+        return $this->hasOne(Peminjaman::class, 'id', 'peminjaman_id');
+    }
 }

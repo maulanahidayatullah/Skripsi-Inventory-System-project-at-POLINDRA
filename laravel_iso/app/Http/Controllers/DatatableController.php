@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Inventori;
 use App\Models\LogMobilitas;
 use App\Models\Mobilitas;
+use App\Models\Peminjaman;
+use App\Models\Pengembalian;
 use Illuminate\Http\Request;
 use Redirect, Response, DB, Config;
 use Datatables;
@@ -241,6 +243,50 @@ class DatatableController extends Controller
             ->make(true);
     }
 
+    public function peminjaman_json()
+    {
+
+        $peminjaman = Peminjaman::where('keranjang', 'false')->groupBy('kode_peminjaman')->get();
+
+        return datatables()->of($peminjaman)
+            ->addColumn('pengguna', function ($value) {
+                return $value->User->name;
+            })
+            ->addColumn('status', function ($value) {
+                if ($value->selesai === 'false') {
+                    return '<div class="text-danger">Belum Dikembalikan</div>';
+                } else {
+                    return '<div class="text-primary">Sudah Dikembalikan</div>';
+                }
+                return $value->User->name;
+            })
+            ->addColumn('action', function ($value) {
+                return '<a href="/peminjaman/detail/' . $value->kode_peminjaman . '" class="btn btn-success btn-sm ml-2"">Detail </a>';
+            })
+            ->rawColumns(['status', 'action'])
+            ->make(true);
+
+        return datatables()->of($peminjaman)->make(true);
+    }
+
+    public function pengembalian_json()
+    {
+
+        $peminjaman = Pengembalian::groupBy('kode_peminjaman')->get();
+
+        return datatables()->of($peminjaman)
+            ->addColumn('pengguna', function ($value) {
+                return $value->User->name;
+            })
+            ->addColumn('action', function ($value) {
+                return '<a href="/pengembalian/detail/' . $value->kode_peminjaman . '" class="btn btn-success btn-sm ml-2"">Detail </a>';
+            })
+            ->rawColumns(['status', 'action'])
+            ->make(true);
+
+        return datatables()->of($peminjaman)->make(true);
+    }
+
     public function input_ruangan_json()
     {
         $inputruangan = DB::table("input_ruangan")
@@ -301,31 +347,7 @@ class DatatableController extends Controller
     }
 
 
-    public function peminjaman_json()
-    {
 
-        $peminjaman = DB::table("peminjaman")
-            ->join('barangs', function ($join) {
-                $join->on('peminjaman.id_barang', '=', 'barangs.id_barang');
-            })->get();
-
-        return datatables()->of($peminjaman)
-            ->addColumn('action', function ($u) {
-                if ($u->status == 'Belum Dikembalikan') {
-                    return '<a href="/peminjaman/edit/' . $u->id_peminjaman . '" class="btn btn-primary btn-sm ml-2"">Edit </a>
-                <a href="/peminjaman/detail/' . $u->id_peminjaman . '" class="btn btn-warning btn-sm ml-2"">Detail </a>
-                <a href="/peminjaman/status/' . $u->id_peminjaman . '/' . $u->id_barang . '" class="btn btn-success btn-sm ml-2"  onclick="return confirm("Apakah Anda Yakin ?")">Kembalikan </a>
-                
-            ';
-                } else {
-                    return '<a href="/peminjaman/detail/' . $u->id_peminjaman . '" class="btn btn-warning btn-sm ml-2"">Detail </a>
-            ';
-                }
-            })
-            ->make(true);
-
-        return datatables()->of($peminjaman)->make(true);
-    }
 
 
 

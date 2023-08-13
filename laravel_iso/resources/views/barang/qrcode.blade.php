@@ -10,13 +10,51 @@
     <div type="button"class="btn btn-primary btn-lg" onclick="printDiv(example);"> <i class="fa fa-qrcode "></i> &nbsp; Print QR </div>
   </center>
 </div>
-<div class="card-body text-center">
+<style>
+  table, tr, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
+<div class="card-body">
   <div id="example">
+    <div class="row">
     @foreach ($pelabelan as $value)
-      <h5>QR Code <br> {{$value->Inventori->nama_barang}}</h5>
+      <div class="col-4" style="border: 1px solid;">
+        <div class="row">
+          <div class="col-2 d-flex align-items-center justify-content-center" style="border: 1px solid"><img src="{{ asset('assets/img/logo.png') }}" style="width:30px;height:30px;"></div>
+          <div class="col-6" style="padding: 0; ">
+            <div class="col-12" style="border: 1px solid; font-size: 11px;">{{$value->Inventori->kode_barang}}</div>
+            <div class="col-12" style="border: 1px solid; font-size: 11px;">
+              @php
+                  echo substr($value->Inventori->nama_barang,0,22);
+              @endphp
+            </div>
+            <div class="col-12" style="border: 1px solid; font-size: 11px;">
+              @php
+                  echo substr($value->Inventori->merk_type,0,24);
+              @endphp
+            </div>
+          </div>
+          <div class="col-2" style="padding: 0">
+            <div class="col-12" style="border: 1px solid; font-size: 11px;">{{$value->Inventori->kuantitas}}</div>
+            <div class="col-12" style="border: 1px solid; font-size: 11px;">
+              @php
+                  echo date("Y", strtotime($value->Inventori->tahun_perolehan));
+              @endphp
+              {{-- {{$value->Inventori->tahun_perolehan}} --}}
+            </div>
+            <div class="col-12" style="border: 1px solid; font-size: 11px;">&nbsp;</div>
+          </div>
+          <div class="col-2 d-flex align-items-center justify-content-center" style="border: 1px solid">{!! QrCode::size(30)->generate($value->Inventori->nup); !!}</div>
+        </div>
+      </div>
+      {{-- <div class="col-4 bg-success">asd</div>
+      <div class="col-4 bg-danger">asd </div> --}}
         
-      {!! QrCode::size(100)->generate($value->Inventori->nup); !!}
+      
     @endforeach
+    </div>
     <br>
   </div>
         

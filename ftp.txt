@@ -1,3 +1,5 @@
 host : sip-polindra.my.id
 user : sippolin
 pass : @Polindra123
+
+$2y$10$XpKJVsm5g2LhURW1VEYwfea15kuZWq.7acSMBUrRRqZLJs4V7eShC

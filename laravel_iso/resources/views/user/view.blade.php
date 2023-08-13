@@ -1,7 +1,7 @@
 @extends('layouts.layout') @section('content')
 <title>Data Admin</title>
 <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-dark">Data Admin</h6>
+    <h6 class="m-0 font-weight-bold text-dark">Data User</h6>
 </div>
 <div class="card-body">
     <div class="table-responsive">
@@ -31,7 +31,9 @@
                     <th>Email</th>
                     <th>Username</th>
                     <th>Password</th>
-                    <th>Level</th>
+                    <th>Level / Jabatan</th>
+                    <th>Alamat</th>
+                    <th>No Hp</th>
                     <th>Opsi</th>
                 </tr>
             </thead>
@@ -43,7 +45,21 @@
                      <td class="align-middle name">{{ $u->email }}</td>
                     <td class="align-middle username">{{ $u->username }}</td>
                     <td class="align-middle password">Password Tidak Ditampilkan</td>
-                    <td class="align-middle level">{{ $u->level }}</td>
+                    <td class="align-middle level">
+                        @if ($u->level == 'user_1')
+                            Admin 1
+                        @elseif($u->level == 'user_2')
+                            Admin 2
+                        @elseif($u->level == 'user_3')
+                            Pegawai / Mahasiswa
+                        @elseif($u->level == 'user_4')
+                            Pembimbing Organisasi / Penanggung Jawab Instansi
+                        @else
+                            Wakil Direktur 2
+                        @endif
+                    </td>
+                    <td class="align-middle level">{{ $u->alamat }}</td>
+                    <td class="align-middle level">{{ $u->no_hp }}</td>
                    
                     <td>
                         <div class="row">
@@ -81,7 +97,6 @@
                     <div class="form-group">
                         <label for="">Email</label>
                         <input type="email" name="email" class="form-control" required placeholder="Masukan mail">
-                      
                     </div>
                     <div class="form-group">
                         <label for="">Username</label>
@@ -92,15 +107,34 @@
                         <label for="">Password</label>
                         <input type="password" name="password" class="form-control" required placeholder="Masukan Password">
                     </div>
-                    <input type="hidden" name="level" value="admin">
                     <div class="form-group">
-                        <label for="">Level User</label>
+                        <label for="">No HP</label>
+                        <input type="text" name="no_hp" class="form-control" required placeholder="Masukan No HP">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Alamat</label>
+                        <input type="text" name="alamat" class="form-control" required placeholder="Masukan Alamat">
+                    </div>
+                    {{-- <input type="hidden" name="level" value="admin"> --}}
+                    <div class="form-group">
+                        <label for="">Level / Jabatan User</label>
                         <select class="myselect" name="level" id="" style="width:100%">
                             <option></option>
-                        <option value="admin">Admin</option>
-                        <option value="user_1">user_1</option>
-                        <option value="user_2">user_2</option>
-                        <option value="user_3">user_3</option>
+                            <option value="user_1">Admin 1</option>
+                            <option value="user_2">Admin 2</option>
+                            <option value="user_3">Pegawai / Mahasiswa</option>
+                            <option value="user_4">Pembimbing Organisasi / Penanggung Jawab Instansi</option>
+                            <option value="user_5">Wakil Direktur 2</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Instansi / Organisasi</label>
+                        <select class="myselect" name="instansi_id" id="" style="width:100%">
+                            <option></option>
+                            @foreach ($instansi as $value)
+                                <option value="{{ $value->id }}">{{ $value->nama }}</option>
+                            @endforeach
                         </select>
                     </div>
                  

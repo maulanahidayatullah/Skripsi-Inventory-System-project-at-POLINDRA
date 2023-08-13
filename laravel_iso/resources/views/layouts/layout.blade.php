@@ -39,7 +39,8 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-book"></i>
+          {{-- <i class="fas fa-book"></i> --}}
+          <img src="{{ asset('assets/img/logo.png') }}" style="width:50px;height:50px;">
         </div>
         <div class="sidebar-brand-text mx-3">Inventory Polindra</div>
       </a>
@@ -373,7 +374,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+            <span>Copyright &copy; Sistem Inventori Polindra</span>
           </div>
         </div>
       </footer>

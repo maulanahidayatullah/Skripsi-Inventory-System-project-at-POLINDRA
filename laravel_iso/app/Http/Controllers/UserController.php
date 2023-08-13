@@ -26,9 +26,9 @@ class UserController extends Controller
 
     public function index()
     {
-
+        $instansi = Instansi::get();
         $user = DB::table("users")->get();
-        return view('user.view', compact('user'));
+        return view('user.view', compact('user', 'instansi'));
     }
 
     public function pj()
@@ -74,24 +74,28 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
+        // return $request;
+
         $request->validate([
             'email' => 'required|unique:users',
             'username' => 'required|unique:users',
         ]);
 
         $password = Hash::make($request->password);
-        $data = array_replace($request->all(), ['password' => $password]);
+        // $data = array_replace($request->all(), ['password' => $password]);
 
-
-        User::insert([
+        User::create([
             'name' => $request->name,
-            'email' => $request->kode_barang,
+            'email' => $request->email,
             'username' => $request->username,
             'password' => $password,
             'level' => $request->level,
+            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
+            'instansi_id' => $request->instansi_id,
         ]);
 
-        User::create($data);
+        // User::create($data);
         Alert::success('Success', 'Data Telah Terinput');
         return redirect()->back();
     }
@@ -109,12 +113,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user2 = DB::table('users')->where('id', $id)->first();
-        $user = DB::table('users')->get();
+        $user = DB::table('users')->where('id', $id)->first();
+        // $user = DB::table('users')->get();
+        $instansi = Instansi::get();
 
-        $ruangan = DB::table('ruangan')->get();
 
-        return view('user.edit', compact('user', 'ruangan', 'user2'));
+        return view('user.edit', compact('user', 'instansi'));
     }
 
     /**
@@ -126,12 +130,31 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        // return $request;
+        if (!empty($request->new_password)) {
+            $new_password = Hash::make($request->new_password);
+            DB::table('users')->where('id', $request->id)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'username' => $request->username,
+                'password' => $new_password,
+                'level' => $request->level,
+                'no_hp' => $request->no_hp,
+                'alamat' => $request->alamat,
+                'instansi_id' => $request->instansi_id,
+            ]);
+        } else {
+            DB::table('users')->where('id', $request->id)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'username' => $request->username,
+                'level' => $request->level,
+                'no_hp' => $request->no_hp,
+                'alamat' => $request->alamat,
+                'instansi_id' => $request->instansi_id,
+            ]);
+        }
 
-        DB::table('users')->where('id', $request->id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'username' => $request->username
-        ]);
 
         Alert::success('Success', 'Data Telah Terupdate');
         return redirect()->route('user.index');

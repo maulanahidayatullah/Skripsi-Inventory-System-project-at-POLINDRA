@@ -460,9 +460,7 @@ class _peminjamanPageState extends State<peminjamanPage> {
                                                 color: Colors.grey[600]),
                                           ),
                                           Text(
-                                            listRiwayat[index]
-                                                .status_peminjaman
-                                                .toString(),
+                                            'Selesai',
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w700,

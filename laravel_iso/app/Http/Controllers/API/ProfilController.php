@@ -14,8 +14,6 @@ class ProfilController extends Controller
         $profil = User::where('id', $request->user_id)->first();
 
         if (!empty($profil)) {
-            $email = User::where('id', $request->user_id)->first()->email;
-            $profil['email'] = $email;
 
             return response()->json([
                 'success' => true,

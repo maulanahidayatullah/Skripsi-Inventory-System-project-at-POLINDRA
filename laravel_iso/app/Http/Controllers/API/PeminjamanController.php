@@ -100,7 +100,6 @@ class PeminjamanController extends Controller
             $instansi_id = User::where('id', $request->user_id)->first()->instansi_id;
             $barang_kembali = $request->tgl_kembali . ' ' . $request->jam_kembali;
 
-            // return $peminjaman;
             foreach ($peminjaman as $key => $value) {
                 $value->kode_peminjaman        = $this->generate_code_pemnjaman($request->user_id);
                 $value->instansi_id            = $instansi_id;
@@ -134,7 +133,12 @@ class PeminjamanController extends Controller
     {
         $detail = Peminjaman::where('kode_peminjaman', $request->kode_peminjaman)->get();
 
-        if (!empty($detail)) {
+        if (count($detail) !== 0) {
+            foreach ($detail as $key => $value) {
+                $detail->success = 'success';
+                $detail->inventori = $value->Inventori;
+                $detail->user = $value->User;
+            }
             return response()->json([
                 'success' => true,
                 'data' => $detail
@@ -145,6 +149,28 @@ class PeminjamanController extends Controller
                 'note' => 'Peminjaman Gagal'
             ], 400);
         }
+
+        // $peminjaman = Peminjaman::where('user_id', $request->user_id)
+        //     ->where('keranjang', 'true')
+        //     ->get();
+
+        // // return $peminjaman[0]->User->Pegawai;
+        // if (count($peminjaman) !== 0) {
+        //     foreach ($peminjaman as $key => $value) {
+        //         $peminjaman->success = 'success';
+        //         $peminjaman->inventori = $value->Inventori;
+        //     }
+        //     return response()->json([
+        //         'success' => true,
+        //         'data' => $peminjaman
+        //     ], 200);
+        // } else {
+        //     $peminjaman->success = 'success';
+        //     return response()->json([
+        //         'success' => false,
+        //         'data' => $peminjaman
+        //     ], 400);
+        // }
     }
 
     public function status_peminjaman(Request $request)
@@ -159,7 +185,7 @@ class PeminjamanController extends Controller
     {
         $user = User::where('id', $request->user_id)->first();
 
-        if ($user->level == 'mbl_1') {
+        if ($user->level == 'user_3') {
             $persetujuan = Peminjaman::where('keranjang', 'false')->where('status_persetujuan', 'belum')->groupBy('kode_peminjaman')->get();
 
             if (count($persetujuan) !== 0) {
@@ -170,10 +196,11 @@ class PeminjamanController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'note' => 'Tidak ada data'
+                    'note' => 'Tidak ada data',
+                    'data' => $persetujuan
                 ], 400);
             }
-        } elseif ($user->level == 'mbl_2') {
+        } elseif ($user->level == 'user_4') {
             $persetujuan = Peminjaman::where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->groupBy('kode_peminjaman')->get();
 
             if (count($persetujuan) !== 0) {
@@ -184,7 +211,9 @@ class PeminjamanController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'note' => 'Tidak ada data'
+                    'note' =>
+                    'Tidak ada data',
+                    'data' => $persetujuan
                 ], 400);
             }
         } else {
@@ -198,7 +227,8 @@ class PeminjamanController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'note' => 'Tidak ada data'
+                    'note' => 'Tidak ada data',
+                    'data' => $persetujuan
                 ], 400);
             }
         }
@@ -270,22 +300,8 @@ class PeminjamanController extends Controller
     {
         $user = User::where('id', $request->user_id)->first();
 
-        if ($user->level == 'mbl_1') {
+        if ($user->level == 'user_3') {
             $persetujuan = Peminjaman::where('keranjang', 'false')->where('status_persetujuan', 'setuju')->where('selesai', 'false')->groupBy('kode_peminjaman')->get();
-
-            if (count($persetujuan) !== 0) {
-                return response()->json([
-                    'success' => true,
-                    'note' => 'Tidak ada data'
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'note' => 'Peminjaman Gagal'
-                ], 400);
-            }
-        } elseif ($user->level == 'mbl_2') {
-            $persetujuan = Peminjaman::where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'setuju')->where('selesai', 'false')->groupBy('kode_peminjaman')->get();
 
             if (count($persetujuan) !== 0) {
                 return response()->json([
@@ -295,7 +311,24 @@ class PeminjamanController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'note' => 'Tidak ada data'
+                    'note' => 'Peminjaman Gagal',
+                    'data' => $persetujuan
+                ], 400);
+            }
+        } elseif ($user->level == 'user_4') {
+            $persetujuan = Peminjaman::where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'setuju')->where('selesai', 'false')->groupBy('kode_peminjaman')->get();
+
+            if (count($persetujuan) !== 0) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $persetujuan,
+                    'data' => $persetujuan
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'note' => 'Tidak ada data',
+                    'data' => $persetujuan
                 ], 400);
             }
         } else {
@@ -309,7 +342,8 @@ class PeminjamanController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'note' => 'Tidak ada data'
+                    'note' => 'Tidak ada data',
+                    'data' => $persetujuan
                 ], 400);
             }
         }
@@ -319,7 +353,7 @@ class PeminjamanController extends Controller
     {
         $user = User::where('id', $request->user_id)->first();
 
-        if ($user->level == 'mbl_1') {
+        if ($user->level == 'user_3') {
             $persetujuan = Peminjaman::where('keranjang', 'false')->where('status_persetujuan', 'setuju')->where('selesai', 'true')->groupBy('kode_peminjaman')->get();
 
             if (count($persetujuan) !== 0) {
@@ -330,10 +364,11 @@ class PeminjamanController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'note' => 'Tidak ada data'
+                    'note' => 'Tidak ada data',
+                    'data' => $persetujuan
                 ], 400);
             }
-        } elseif ($user->level == 'mbl_2') {
+        } elseif ($user->level == 'user_4') {
             $persetujuan = Peminjaman::where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'setuju')->where('selesai', 'true')->groupBy('kode_peminjaman')->get();
 
             if (count($persetujuan) !== 0) {
@@ -344,7 +379,8 @@ class PeminjamanController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'note' => 'Tidak ada data'
+                    'note' => 'Tidak ada data',
+                    'data' => $persetujuan
                 ], 400);
             }
         } else {
@@ -358,7 +394,9 @@ class PeminjamanController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'note' => 'Tidak ada data'
+                    'note' =>
+                    'Tidak ada data',
+                    'data' => $persetujuan
                 ], 400);
             }
         }

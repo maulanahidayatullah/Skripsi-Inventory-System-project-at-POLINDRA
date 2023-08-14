@@ -46,7 +46,7 @@
             </div>
             <div class="col-12" style="border: 1px solid; font-size: 11px;">&nbsp;</div>
           </div>
-          <div class="col-2 d-flex align-items-center justify-content-center" style="border: 1px solid">{!! QrCode::size(30)->generate($value->Inventori->nup); !!}</div>
+          <div class="col-2 d-flex align-items-center justify-content-center" style="border: 1px solid">{!! QrCode::size(40)->generate($value->Inventori->nup); !!}</div>
         </div>
       </div>
       {{-- <div class="col-4 bg-success">asd</div>

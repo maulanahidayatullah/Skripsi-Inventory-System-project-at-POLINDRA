@@ -34,6 +34,7 @@ class AuthController extends Controller
 
         $success['token']   = $user->createToken('auth_token')->plainTextToken;
         $success['name']    = $user->name;
+        $success['level']   = $user->level;
 
         return response()->json([
             'success' => true,
@@ -49,6 +50,7 @@ class AuthController extends Controller
             $success['token'] = $auth->createToken('auth_token')->plainTextToken;
             $success['name'] = $auth->name;
             $success['email'] = $auth->email;
+            $success['level']   = $auth->level;
 
             return response()->json([
                 'success' => true,

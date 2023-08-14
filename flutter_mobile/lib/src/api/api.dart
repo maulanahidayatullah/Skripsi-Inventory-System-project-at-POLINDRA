@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_mobile/src/api/model/dashboard.dart';
+import 'package:flutter_mobile/src/api/model/detailPeminjaman.dart';
 import 'package:flutter_mobile/src/api/model/gedungRuangan.dart';
 import 'package:flutter_mobile/src/api/model/keranjangPeminjaman.dart';
 import 'package:flutter_mobile/src/api/model/logMobilitas.dart';
+import 'package:flutter_mobile/src/api/model/persetujuanPeminjaman.dart';
+import 'package:flutter_mobile/src/api/model/prosesPeminjaman.dart';
+import 'package:flutter_mobile/src/api/model/riwayatPeminjaman.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndialog/ndialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,16 +16,16 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import '../api/model/inventori.dart';
 import '../api/model/profil.dart';
 import '../api/model/mobilitas.dart';
+import 'package:flutter_mobile/src/api/api.dart';
 
 class API {
-  static String baseURL =
-      "https://sip-polindra.my.id/api/"; //emulator localhost
+  static String baseURL = "http://192.168.0.105:8000/api/"; //emulator localhost
   static Map<String, String> header = {"Content-Type": "application/json"};
 
   static Future<int> getUserId() async {
-    // String? token = await getToken();
+    String? token = await getToken();
 
-    String? token = "8|sFfNSCF29nSUri2Hy5dzXK5uZEWJqOUczHtk6Nl0";
+    // String? token = "8|sFfNSCF29nSUri2Hy5dzXK5uZEWJqOUczHtk6Nl0";
     Uri url = Uri.parse(baseURL + 'user');
 
     http.Response response = await http.get(
@@ -34,6 +38,27 @@ class API {
     );
 
     return json.decode(response.body)["id"];
+  }
+
+  static Future<int> getUserLevel() async {
+    String? token = await getToken();
+    Uri url = Uri.parse(baseURL + 'user');
+
+    http.Response response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    return json.decode(response.body)["level"];
+  }
+
+  static Future<String?> getToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
   }
 
   static void gagal(BuildContext context, ProgressDialog pDialog) {
@@ -50,11 +75,6 @@ class API {
       btnOkIcon: Icons.cancel,
       btnOkColor: Colors.red,
     ).show();
-  }
-
-  static Future<String?> getToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
   }
 
   static Future<http.Response> login(
@@ -79,6 +99,8 @@ class API {
       SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString(
           'token', json.decode(response.body)["data"]["token"].toString());
+      pref.setString(
+          'level', json.decode(response.body)["data"]["level"].toString());
     }
     return response;
   }
@@ -535,7 +557,6 @@ class API {
     );
 
     var data_keranjang = json.decode(response.body)['data'];
-    print(data_keranjang);
 
     Iterable it = data_keranjang;
     List<KeranjangPeminjaman> keranjang_peminjaman =
@@ -550,40 +571,229 @@ class API {
     }
   }
 
-  // static Future<String?> tambahMobilitas
+  static Future<String?> tambahPeminjaman(
+      String? unit_kerja,
+      String? nama_kegiatan,
+      String? keterangan,
+      String? tgl_kembali,
+      String? jam_kembali) async {
+    int? user_id = await getUserId();
 
-  // static Future getGedungRuangan(BuildContext context) async {
-  //   String? Gedung;
-  // ProgressDialog progressDialog = ProgressDialog(
-  //   context,
-  //   blur: 10,
-  //   message: Text("Mohon Tunggu..."),
-  // );
-  // Future.delayed(Duration.zero, () {
-  //   progressDialog.show();
-  // });
+    Map data = {
+      "user_id": user_id,
+      "unit_kerja": unit_kerja,
+      "nama_kegiatan": nama_kegiatan,
+      "keterangan": keterangan,
+      "tgl_kembali": tgl_kembali,
+      "jam_kembali": jam_kembali
+    };
 
-  // Uri url = Uri.parse(baseURL + 'get_gedung_ruangan');
+    var body = json.encode(data);
+    var url = Uri.parse(baseURL + 'tambah_peminjaman');
 
-  // http.Response response = await http.post(
-  //   url,
-  //   headers: header,
-  // );
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
 
-  // var data = json.decode(response.body)['data'];
+    var success = json.decode(response.body)['success'];
+    var note = json.decode(response.body)['note'];
 
-  // print(data);
+    if (success == false) {
+      return note;
+    }
+    return note;
+  }
 
-  // Iterable it = data;
-  // List<GedungRuangan> gedungRuangan =
-  //     it.map((e) => GedungRuangan.fromJson(e)).toList();
+  Future getPersetujuanPeminjaman(BuildContext context) async {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    Future.delayed(Duration.zero, () {
+      progressDialog.show();
+    });
 
-  // if (response.statusCode == 200) {
-  //   progressDialog.dismiss();
-  //   return gedungRuangan;
-  // } else {
-  //   progressDialog.dismiss();
-  //   return gedungRuangan;
-  // }
-  // }
+    Uri url = Uri.parse(baseURL + 'persetujuan_data');
+
+    int user_id = await getUserId();
+
+    Map data = {
+      "user_id": user_id,
+    };
+
+    var body = json.encode(data);
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var data_persetujuan = json.decode(response.body)['data'];
+
+    // print(data_persetujuan);
+
+    Iterable it = data_persetujuan;
+    List<PersetujuanPeminjaman> persetujuan =
+        it.map((e) => PersetujuanPeminjaman.fromJson(e)).toList();
+
+    if (response.statusCode == 200) {
+      progressDialog.dismiss();
+      return persetujuan;
+    } else {
+      progressDialog.dismiss();
+      return persetujuan;
+    }
+  }
+
+  Future getProsesPeminjaman(BuildContext context) async {
+    Uri url = Uri.parse(baseURL + 'proses_peminjaman');
+
+    int user_id = await getUserId();
+
+    Map data = {
+      "user_id": user_id,
+    };
+
+    var body = json.encode(data);
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var data_proses = json.decode(response.body)['data'];
+
+    Iterable it = data_proses;
+    List<ProsesPeminjaman> proses =
+        it.map((e) => ProsesPeminjaman.fromJson(e)).toList();
+
+    if (response.statusCode == 200) {
+      return proses;
+    } else {
+      return proses;
+    }
+  }
+
+  Future getRiwayatPeminjaman(BuildContext context) async {
+    Uri url = Uri.parse(baseURL + 'riwayat_peminjaman');
+
+    int user_id = await getUserId();
+
+    Map data = {
+      "user_id": user_id,
+    };
+
+    var body = json.encode(data);
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var data_riwayat = json.decode(response.body)['data'];
+
+    // print(data_persetujuan);
+
+    Iterable it = data_riwayat;
+    List<RiwayatPeminjaman> riwayat =
+        it.map((e) => RiwayatPeminjaman.fromJson(e)).toList();
+
+    if (response.statusCode == 200) {
+      return riwayat;
+    } else {
+      return riwayat;
+    }
+  }
+
+  Future getDetailPeminjaman(
+      BuildContext context, String? kode_peminjaman) async {
+    ProgressDialog progressDialog = ProgressDialog(
+      context,
+      blur: 10,
+      message: Text("Mohon Tunggu..."),
+    );
+    Future.delayed(Duration.zero, () {
+      progressDialog.show();
+    });
+
+    Uri url = Uri.parse(baseURL + 'detail_peminjaman');
+
+    Map data = {
+      "kode_peminjaman": kode_peminjaman,
+    };
+
+    var body = json.encode(data);
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var data_peminjaman = json.decode(response.body)['data'];
+
+    Iterable it = data_peminjaman;
+    List<DetailPeminjaman> peminjaman =
+        it.map((e) => DetailPeminjaman.fromJson(e)).toList();
+
+    if (response.statusCode == 200) {
+      progressDialog.dismiss();
+      return peminjaman;
+    } else {
+      progressDialog.dismiss();
+      return peminjaman;
+    }
+  }
+
+  static Future<String?> persetujuanWadir(String? kode_peminjaman) async {
+    Map data = {
+      "kode_peminjaman": kode_peminjaman,
+    };
+
+    var body = json.encode(data);
+    var url = Uri.parse(baseURL + 'persetujuan_wadir');
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var success = json.decode(response.body)['success'];
+    var note = json.decode(response.body)['note'];
+
+    if (success == false) {
+      return note;
+    }
+    return note;
+  }
+
+  static Future<String?> persetujuanPembimbing(String? kode_peminjaman) async {
+    Map data = {
+      "kode_peminjaman": kode_peminjaman,
+    };
+
+    var body = json.encode(data);
+    var url = Uri.parse(baseURL + 'persetujuan_pembimbing');
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+      body: body,
+    );
+
+    var success = json.decode(response.body)['success'];
+    var note = json.decode(response.body)['note'];
+
+    if (success == false) {
+      return note;
+    }
+    return note;
+  }
 }

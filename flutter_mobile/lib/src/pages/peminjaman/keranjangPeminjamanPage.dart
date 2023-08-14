@@ -5,6 +5,7 @@ import '../../api/model/keranjangPeminjaman.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter_mobile/src/pages/peminjaman/selesaiPeminjamanPage.dart';
 
 class KeranjangPeminjamanPage extends StatefulWidget {
   const KeranjangPeminjamanPage({super.key});
@@ -167,7 +168,11 @@ class _KeranjangPeminjamanPageState extends State<KeranjangPeminjamanPage> {
             ),
             InkWell(
               onTap: () async {
-                // _cardModal();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SelesaiPeminjamanPage()),
+                );
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
@@ -188,7 +193,7 @@ class _KeranjangPeminjamanPageState extends State<KeranjangPeminjamanPage> {
                         end: Alignment.centerRight,
                         colors: [Color(0xff85a7c7), Color(0xff4d87b7)])),
                 child: Text(
-                  'Selesai',
+                  'Selanjutnya',
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),

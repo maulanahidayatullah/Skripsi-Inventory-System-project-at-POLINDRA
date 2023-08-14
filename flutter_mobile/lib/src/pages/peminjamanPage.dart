@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/src/api/model/persetujuanPeminjaman.dart';
+import 'package:flutter_mobile/src/api/model/prosesPeminjaman.dart';
+import 'package:flutter_mobile/src/api/model/riwayatPeminjaman.dart';
 import 'package:flutter_mobile/src/pages/peminjaman/keranjangPeminjamanPage.dart';
 import 'package:flutter_mobile/src/api/model/inventori.dart';
-import 'package:flutter_mobile/src/pages/peminjaman/persetujuanPage.dart';
+import 'package:flutter_mobile/src/pages/peminjaman/detailPeminjamanPage.dart';
 import 'package:qrscan/qrscan.dart' as Scanner;
 import 'package:flutter_mobile/src/api/api.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -16,6 +19,34 @@ class peminjamanPage extends StatefulWidget {
 
 class _peminjamanPageState extends State<peminjamanPage> {
   Inventori inventori = new Inventori();
+  List<PersetujuanPeminjaman> listPersetujuan = [];
+  List<ProsesPeminjaman> listProses = [];
+  List<RiwayatPeminjaman> listRiwayat = [];
+  API api = API();
+
+  getDataPersetujuan() async {
+    listPersetujuan = await api.getPersetujuanPeminjaman(context);
+    setState(() {});
+  }
+
+  getDataProses() async {
+    listProses = await api.getProsesPeminjaman(context);
+    setState(() {});
+  }
+
+  getDataRiwayat() async {
+    listRiwayat = await api.getRiwayatPeminjaman(context);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getDataPersetujuan();
+    getDataProses();
+    getDataRiwayat();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -188,252 +219,276 @@ class _peminjamanPageState extends State<peminjamanPage> {
         ),
         body: TabBarView(
           children: [
-            Container(
-              color: Color.fromRGBO(243, 245, 248, 1),
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PersetujuanPage()),
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: Row(
-                        children: <Widget>[
-                          // Expanded(
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Pol-P-2-230810",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.green[500]),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                "Status Peminjaman : ",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.grey[600]),
-                              ),
-                              Text(
-                                "Belum Disetujui",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.red),
-                              ),
-                            ],
-                          ),
-                        ],
+            if (listPersetujuan.isEmpty) ...[
+              Container(
+                child: Center(
+                  child: Text(
+                    'Tidak Ada Data',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.green[300]),
+                  ),
+                ),
+              )
+            ] else ...[
+              Container(
+                color: Color.fromRGBO(243, 245, 248, 1),
+                child: Column(
+                  children: [
+                    Flexible(
+                      child: ListView.builder(
+                        itemCount: listPersetujuan.length,
+                        itemBuilder: (context, index) {
+                          return SingleChildScrollView(
+                              child: InkWell(
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 6),
+                                  padding: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  child: Row(
+                                    children: <Widget>[
+                                      // Expanded(
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            listPersetujuan[index]
+                                                .kode_peminjaman
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.green[500]),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            "Status Persetujuan : ",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          Text(
+                                            listPersetujuan[index]
+                                                .status_persetujuan
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.red),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailPeminjamanPage(
+                                    kode_peminjaman:
+                                        listPersetujuan[index].kode_peminjaman,
+                                  ),
+                                ),
+                              );
+                            },
+                          ));
+                        },
                       ),
                     ),
-                  );
-                },
-                shrinkWrap: true,
-                itemCount: 2,
-                padding: EdgeInsets.all(0),
-                controller: ScrollController(keepScrollOffset: false),
+                    SizedBox(
+                      height: 80,
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              color: Color.fromRGBO(243, 245, 248, 1),
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Row(
-                      children: <Widget>[
-                        // Expanded(
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Pol-P-2-230810",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.green[500]),
+            ],
+            if (listProses.isEmpty) ...[
+              Container(
+                child: Center(
+                  child: Text(
+                    'Tidak Ada Data',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.green[300]),
+                  ),
+                ),
+              )
+            ] else ...[
+              Container(
+                color: Color.fromRGBO(243, 245, 248, 1),
+                child: Column(
+                  children: [
+                    Flexible(
+                      child: ListView.builder(
+                        itemCount: listProses.length,
+                        itemBuilder: (context, index) {
+                          return SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 6),
+                                  padding: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  child: Row(
+                                    children: <Widget>[
+                                      // Expanded(
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            listProses[index]
+                                                .kode_peminjaman
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.green[500]),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            "Harap Dikembalikan Pada : ",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          Text(
+                                            listProses[index]
+                                                .tgl_kembali
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.blue),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Harap Dikembalikan Pada : ",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.grey[600]),
-                            ),
-                            Text(
-                              "2023-06-23 12:00",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.green),
-                            ),
-                          ],
-                        ),
-                      ],
+                          );
+                        },
+                      ),
                     ),
-                  );
-                },
-                shrinkWrap: true,
-                itemCount: 1,
-                padding: EdgeInsets.all(0),
-                controller: ScrollController(keepScrollOffset: false),
+                    SizedBox(
+                      height: 80,
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              color: Color.fromRGBO(243, 245, 248, 1),
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Row(
-                      children: <Widget>[
-                        // Expanded(
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Pol-P-2-230810",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.green[500]),
+            ],
+            if (listRiwayat.isEmpty) ...[
+              Container(
+                child: Center(
+                  child: Text(
+                    'Tidak Ada Data',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.green[300]),
+                  ),
+                ),
+              )
+            ] else ...[
+              Container(
+                color: Color.fromRGBO(243, 245, 248, 1),
+                child: Column(
+                  children: [
+                    Flexible(
+                      child: ListView.builder(
+                        itemCount: listRiwayat.length,
+                        itemBuilder: (context, index) {
+                          return SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 6),
+                                  padding: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  child: Row(
+                                    children: <Widget>[
+                                      // Expanded(
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            listRiwayat[index]
+                                                .kode_peminjaman
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.green[500]),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            "Status Peminjaman : ",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          Text(
+                                            listRiwayat[index]
+                                                .status_peminjaman
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.green),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Status Peminjaman : ",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.grey[600]),
-                            ),
-                            Text(
-                              "Selesai",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.green),
-                            ),
-                          ],
-                        ),
-                      ],
+                          );
+                        },
+                      ),
                     ),
-                  );
-                },
-                shrinkWrap: true,
-                itemCount: 2,
-                padding: EdgeInsets.all(0),
-                controller: ScrollController(keepScrollOffset: false),
+                    SizedBox(
+                      height: 80,
+                    )
+                  ],
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),
     );
-
-    Widget _card() {
-      return ListView.builder(
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            child: Row(
-              children: <Widget>[
-                // Expanded(
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Lemari",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey[900]),
-                    ),
-                    Text(
-                      "09-04-2023",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey[500]),
-                    ),
-                  ],
-                ),
-                // ),
-                // Expanded(
-                Spacer(),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.all(Radius.circular(18))),
-                  child: Icon(
-                    Icons.date_range,
-                    color: Colors.green[900],
-                  ),
-                  padding: EdgeInsets.all(12),
-                ),
-                Spacer(),
-                // ),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        "+\$500.5",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.lightGreen),
-                      ),
-                      Text(
-                        "26 Jan",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.grey[500]),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-        },
-        shrinkWrap: true,
-        itemCount: 2,
-        padding: EdgeInsets.all(0),
-        controller: ScrollController(keepScrollOffset: false),
-      );
-    }
   }
 }

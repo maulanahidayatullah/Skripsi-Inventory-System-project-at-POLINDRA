@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2023 at 07:07 AM
+-- Generation Time: Aug 14, 2023 at 01:33 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -619,7 +619,8 @@ CREATE TABLE `peminjaman` (
 
 INSERT INTO `peminjaman` (`id`, `user_id`, `instansi_id`, `inventori_id`, `ruangan_id`, `kode_peminjaman`, `kondisi_barang`, `unit_kerja`, `nama_kegiatan`, `jumlah`, `satuan`, `keterangan`, `tgl_pinjam`, `tgl_kembali`, `persetujuan_wadir`, `persetujuan_pembimbing`, `status_persetujuan`, `keranjang`, `selesai`, `created_at`, `updated_at`) VALUES
 (17, 2, 1, 5, NULL, 'Pol-P-2-230811', 'B', 'polindra', 'pembelajaran folafo', 1, 1, 'Pembelajaran rutin folafo', '2023-08-11 11:10:00', '2023-06-23 12:00:00', 'setuju', 'setuju', 'setuju', 'false', 'true', '2023-08-11 04:06:43', '2023-08-11 04:25:01'),
-(18, 2, 1, 3, NULL, 'Pol-P-2-230811', 'RR', 'polindra', 'pembelajaran folafo', 1, 1, 'Pembelajaran rutin folafo', '2023-08-11 11:10:00', '2023-06-23 12:00:00', 'setuju', 'setuju', 'setuju', 'false', 'true', '2023-08-11 04:10:43', '2023-08-11 04:25:01');
+(18, 2, 1, 3, NULL, 'Pol-P-2-230811', 'RR', 'polindra', 'pembelajaran folafo', 1, 1, 'Pembelajaran rutin folafo', '2023-08-11 11:10:00', '2023-06-23 12:00:00', 'setuju', 'setuju', 'setuju', 'false', 'true', '2023-08-11 04:10:43', '2023-08-11 04:25:01'),
+(21, 2, 1, 358, NULL, 'Pol-P-2-230814', 'B', 'Polindra', 'Kegiatan', NULL, NULL, 'keterangan', '2023-08-14 06:07:00', '2023-06-23 12:00:00', 'belum', 'belum', 'belum', 'false', NULL, '2023-08-13 23:06:55', '2023-08-13 23:07:49');
 
 -- --------------------------------------------------------
 
@@ -700,7 +701,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (5, 'App\\Models\\User', 2, 'auth_token', '54f634a16d34f23626398addb827722a8f1523aa2c6047960b505859d60edb17', '[\"*\"]', '2023-05-22 11:26:23', NULL, '2023-05-22 11:26:14', '2023-05-22 11:26:23'),
 (6, 'App\\Models\\User', 2, 'auth_token', '250e2d8b9151e4df3f7b32db3357f59dbe6ccaecbbf36d2c9001c2335644186d', '[\"*\"]', NULL, NULL, '2023-05-25 08:20:06', '2023-05-25 08:20:06'),
 (7, 'App\\Models\\User', 2, 'auth_token', 'fcbe403ab1e47d8b1fe12a3f5b8698f48b17d0cf192dedc1f7d20ea679f3790b', '[\"*\"]', NULL, NULL, '2023-05-25 08:53:46', '2023-05-25 08:53:46'),
-(8, 'App\\Models\\User', 2, 'auth_token', 'f0d4b38cc52c2064c0fb7236cdd29c2ce58fc43b5a1a21701fac578c19c404a4', '[\"*\"]', '2023-08-10 09:00:32', NULL, '2023-05-25 08:54:32', '2023-08-10 09:00:32'),
+(8, 'App\\Models\\User', 2, 'auth_token', 'f0d4b38cc52c2064c0fb7236cdd29c2ce58fc43b5a1a21701fac578c19c404a4', '[\"*\"]', '2023-08-13 18:08:01', NULL, '2023-05-25 08:54:32', '2023-08-13 18:08:01'),
 (10, 'App\\Models\\User', 2, 'auth_token', '928c41f0343c690686a00bc479ddf97a03cc86dfcdbccef5c324d5769a5094d7', '[\"*\"]', NULL, NULL, '2023-06-26 02:15:24', '2023-06-26 02:15:24'),
 (11, 'App\\Models\\User', 2, 'auth_token', '7eca0935810f1c610b12a87be9f05e3ad2a193ba732efc2baa05da7ffdad003c', '[\"*\"]', NULL, NULL, '2023-07-11 03:09:03', '2023-07-11 03:09:03'),
 (12, 'App\\Models\\User', 2, 'auth_token', 'd99222254fbb86dde5af21b3562d97efa40673f8c96a648c458faa089eb200c2', '[\"*\"]', NULL, NULL, '2023-07-11 04:00:00', '2023-07-11 04:00:00'),
@@ -717,13 +718,43 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (26, 'App\\Models\\User', 2, 'auth_token', '327be85ad8264b843e8d8d0a5bf8d4dce69a02ae000227520923d843f150b01f', '[\"*\"]', NULL, NULL, '2023-08-09 20:51:25', '2023-08-09 20:51:25'),
 (27, 'App\\Models\\User', 2, 'auth_token', '02b8169e11a02db7d959500cd0ddba720904a9d357a337389c5a8e1b0d3e89c4', '[\"*\"]', NULL, NULL, '2023-08-09 20:59:49', '2023-08-09 20:59:49'),
 (28, 'App\\Models\\User', 2, 'auth_token', '3b91f3a613829684c7463a306893319525503b68d0bd5833b2098a811dfeb4e2', '[\"*\"]', NULL, NULL, '2023-08-09 21:01:57', '2023-08-09 21:01:57'),
-(29, 'App\\Models\\User', 2, 'auth_token', '5230119409d3111b874eeabb823e21ffb13683b9eed1daef467c2ddad2af393a', '[\"*\"]', '2023-08-09 21:21:29', NULL, '2023-08-09 21:21:14', '2023-08-09 21:21:29'),
+(29, 'App\\Models\\User', 2, 'auth_token', '5230119409d3111b874eeabb823e21ffb13683b9eed1daef467c2ddad2af393a', '[\"*\"]', '2023-08-13 18:21:59', NULL, '2023-08-09 21:21:14', '2023-08-13 18:21:59'),
 (30, 'App\\Models\\User', 2, 'auth_token', 'cc51432b954e2363e14b8578adaf9aeeecc06ca0ff6782e4071fc77fda73c7f3', '[\"*\"]', NULL, NULL, '2023-08-09 21:58:21', '2023-08-09 21:58:21'),
 (31, 'App\\Models\\User', 2, 'auth_token', 'e458878a2879cf3386352834c242578f44f27d353bb689beb80d8fba389ba9f3', '[\"*\"]', NULL, NULL, '2023-08-09 22:00:51', '2023-08-09 22:00:51'),
 (32, 'App\\Models\\User', 2, 'auth_token', 'd163ca6d8fbe660b40b71db1658c0430f7ea94c56f89d36b39e50ea5af75a5b1', '[\"*\"]', NULL, NULL, '2023-08-09 22:13:11', '2023-08-09 22:13:11'),
 (33, 'App\\Models\\User', 2, 'auth_token', '7b410e1ba392e4741f74b0d04d643cb78ab901d6757afb73e674fbff81eff25e', '[\"*\"]', NULL, NULL, '2023-08-09 23:05:14', '2023-08-09 23:05:14'),
 (34, 'App\\Models\\User', 2, 'auth_token', '8ffe323ff281df8504f1c949845f1907afb013f505c456206a98d45cd97246fc', '[\"*\"]', NULL, NULL, '2023-08-09 23:37:20', '2023-08-09 23:37:20'),
-(35, 'App\\Models\\User', 2, 'auth_token', 'fae4d5fad2193a735049f31bd72f78f92beb0578d5a2e8fb7bfce426a2c2da97', '[\"*\"]', NULL, NULL, '2023-08-10 09:00:21', '2023-08-10 09:00:21');
+(35, 'App\\Models\\User', 2, 'auth_token', 'fae4d5fad2193a735049f31bd72f78f92beb0578d5a2e8fb7bfce426a2c2da97', '[\"*\"]', NULL, NULL, '2023-08-10 09:00:21', '2023-08-10 09:00:21'),
+(36, 'App\\Models\\User', 2, 'auth_token', '6f4afd61f0fd2afc5326bbbb6f6c88d6b660d2da38c83adffcb60ee9c064bb8a', '[\"*\"]', NULL, NULL, '2023-08-13 18:07:54', '2023-08-13 18:07:54'),
+(37, 'App\\Models\\User', 2, 'auth_token', '1062deb6fed5e8a28b5309b4c02a659ffa23cea3872743c4fb675f450ec29c5d', '[\"*\"]', NULL, NULL, '2023-08-13 18:19:16', '2023-08-13 18:19:16'),
+(38, 'App\\Models\\User', 2, 'auth_token', '3a04d058c0585eb98fd99615289db2f683be3e389345be6da34a651c5cfb8263', '[\"*\"]', NULL, NULL, '2023-08-13 18:22:52', '2023-08-13 18:22:52'),
+(39, 'App\\Models\\User', 2, 'auth_token', '723c9e468f12670ff46641040cc27eb4adc364651cb5ac0308dad3de6dbdb791', '[\"*\"]', '2023-08-13 18:26:40', NULL, '2023-08-13 18:22:57', '2023-08-13 18:26:40'),
+(40, 'App\\Models\\User', 2, 'auth_token', 'f672975ce0ca56b466b21b89acaeabfed1b0749a5a973d7bc35941169a33d3c1', '[\"*\"]', '2023-08-13 19:01:52', NULL, '2023-08-13 18:29:12', '2023-08-13 19:01:52'),
+(41, 'App\\Models\\User', 2, 'auth_token', '62af944d53241c54953f4df9f10e5a94b023b16ed525193e6cf6ddeaf394563e', '[\"*\"]', '2023-08-13 19:20:30', NULL, '2023-08-13 19:20:25', '2023-08-13 19:20:30'),
+(42, 'App\\Models\\User', 2, 'auth_token', '4cb288154c4bba88147d91b75b61237d4921529fae75fa2af5fff255713dbdf8', '[\"*\"]', '2023-08-13 19:22:35', NULL, '2023-08-13 19:22:31', '2023-08-13 19:22:35'),
+(43, 'App\\Models\\User', 2, 'auth_token', '95b26bc549e4eecd10a8243652bd255289ae16c549544104cb0f37ff19918a86', '[\"*\"]', '2023-08-13 19:27:19', NULL, '2023-08-13 19:27:14', '2023-08-13 19:27:19'),
+(44, 'App\\Models\\User', 2, 'auth_token', 'ee798266182a0413beb04d0cbd24bba5e748d0442a44eb67ab46b60d7c629e15', '[\"*\"]', '2023-08-13 19:30:53', NULL, '2023-08-13 19:30:49', '2023-08-13 19:30:53'),
+(45, 'App\\Models\\User', 2, 'auth_token', 'fbdc7346ac30fcec7dfa0281c61807575a267df37de9a608fcbad13f75b56608', '[\"*\"]', '2023-08-13 19:38:48', NULL, '2023-08-13 19:38:44', '2023-08-13 19:38:48'),
+(46, 'App\\Models\\User', 2, 'auth_token', '3a240ee0cb9a5e251925f973120aa783432a3cd339e6bb543454e7f67d43a8e5', '[\"*\"]', '2023-08-13 21:18:58', NULL, '2023-08-13 21:18:53', '2023-08-13 21:18:58'),
+(47, 'App\\Models\\User', 2, 'auth_token', '76768624e7bf47d767a736b3bb10ac759e6f5feb4365c0e49fd9ff64b1507620', '[\"*\"]', '2023-08-13 21:24:56', NULL, '2023-08-13 21:24:50', '2023-08-13 21:24:56'),
+(48, 'App\\Models\\User', 2, 'auth_token', '552293336f506f523023a092d57381b1f72cc164bca7487ba6b9792bea10140e', '[\"*\"]', '2023-08-13 21:30:14', NULL, '2023-08-13 21:30:09', '2023-08-13 21:30:14'),
+(49, 'App\\Models\\User', 2, 'auth_token', 'f8f058020eaab5a48e2d39a250f0314bd85be563223bdc8abb3159b7ac9279e2', '[\"*\"]', '2023-08-13 21:32:54', NULL, '2023-08-13 21:32:48', '2023-08-13 21:32:54'),
+(50, 'App\\Models\\User', 2, 'auth_token', 'af75a80ca156bd109888a57eba6085ee057b24447c502d82a17bbd424a81a2af', '[\"*\"]', '2023-08-13 22:40:53', NULL, '2023-08-13 22:40:48', '2023-08-13 22:40:53'),
+(51, 'App\\Models\\User', 2, 'auth_token', 'e0e73c34cb7d185f8504f1f925bf034f4a04f306bb6d78c1d71d5538b156a2e1', '[\"*\"]', '2023-08-13 22:44:04', NULL, '2023-08-13 22:43:58', '2023-08-13 22:44:04'),
+(52, 'App\\Models\\User', 2, 'auth_token', 'f4b5b0cd975b0524a36e4dc229ce6e1f92c02505892b5eff0bdb11e350f05181', '[\"*\"]', '2023-08-13 22:45:05', NULL, '2023-08-13 22:45:01', '2023-08-13 22:45:05'),
+(53, 'App\\Models\\User', 2, 'auth_token', '1ead5a1175cc1dfb517a2db08f188f2092d2e517fd63bba44cb58f79ada96c4b', '[\"*\"]', '2023-08-13 23:07:59', NULL, '2023-08-13 22:46:41', '2023-08-13 23:07:59'),
+(54, 'App\\Models\\User', 2, 'auth_token', '751ddaf4cbcb83a699a614e289347b9c5032d926295f4204f01a71581b7e962b', '[\"*\"]', '2023-08-13 23:09:57', NULL, '2023-08-13 23:09:52', '2023-08-13 23:09:57'),
+(55, 'App\\Models\\User', 2, 'auth_token', '7306038416e26ec9a18dc5d3a75e44ce93be7e6dc5d83fbe8d4165f1d6c6c89b', '[\"*\"]', '2023-08-13 23:11:50', NULL, '2023-08-13 23:11:44', '2023-08-13 23:11:50'),
+(56, 'App\\Models\\User', 2, 'auth_token', '478551f1d5cc16ad1f600a874f34a106818efaa7d96780b024569f65e65dbfaf', '[\"*\"]', '2023-08-13 23:18:35', NULL, '2023-08-13 23:18:29', '2023-08-13 23:18:35'),
+(57, 'App\\Models\\User', 2, 'auth_token', 'a9d22991481c426e0d7ade29ae022906fd4f7de61d73a9a60909f381cdb4ca36', '[\"*\"]', NULL, NULL, '2023-08-13 23:24:26', '2023-08-13 23:24:26'),
+(58, 'App\\Models\\User', 2, 'auth_token', '86153916f06d9cc6906752c529bbffeb7d848ce9a747106da7490b86b77d07ea', '[\"*\"]', NULL, NULL, '2023-08-13 23:24:29', '2023-08-13 23:24:29'),
+(59, 'App\\Models\\User', 2, 'auth_token', '30db256153fdb373dad9285cdf708a844f9351476320aff4de099a8503e21134', '[\"*\"]', NULL, NULL, '2023-08-13 23:24:57', '2023-08-13 23:24:57'),
+(60, 'App\\Models\\User', 2, 'auth_token', '2e84e26c26ca75a655ea43d99c5b92a0d63c47f8c88e3277e7922ebc77ecc6ef', '[\"*\"]', '2023-08-13 23:28:19', NULL, '2023-08-13 23:28:15', '2023-08-13 23:28:19'),
+(61, 'App\\Models\\User', 2, 'auth_token', '38f954cf91712fe29e3bd320ef0f170a2d38a83586a9d08885fb4fb73185d7cf', '[\"*\"]', '2023-08-13 23:30:18', NULL, '2023-08-13 23:29:44', '2023-08-13 23:30:18'),
+(62, 'App\\Models\\User', 2, 'auth_token', '0ba5e7d88088727d31a1bfad818b776c152e1ed115e5baeddd4ab202af8f0182', '[\"*\"]', '2023-08-13 23:32:13', NULL, '2023-08-13 23:32:08', '2023-08-13 23:32:13'),
+(63, 'App\\Models\\User', 2, 'auth_token', '10651ee744f4978029ff59eee0c3d56623b677f87a28186bb76dab9591f57a55', '[\"*\"]', '2023-08-13 23:33:11', NULL, '2023-08-13 23:33:06', '2023-08-13 23:33:11'),
+(64, 'App\\Models\\User', 2, 'auth_token', '388af545b0420e51221d657b205a5be9a90a95c7e470f690b07e737341958458', '[\"*\"]', '2023-08-13 23:35:09', NULL, '2023-08-13 23:35:05', '2023-08-13 23:35:09'),
+(65, 'App\\Models\\User', 2, 'auth_token', '47dde51f7ffd386ee5f8cf14e9868537314b10dae46e6bf959bb4391982ae341', '[\"*\"]', '2023-08-13 23:49:30', NULL, '2023-08-13 23:49:25', '2023-08-13 23:49:30');
 
 -- --------------------------------------------------------
 
@@ -829,10 +860,9 @@ CREATE TABLE `users` (
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `level` enum('admin','web_1','web_2','web_3','mbl_1','mbl_2','mbl_3') NOT NULL,
+  `level` enum('admin','user_1','user_2','user_3','user_4','user_5') NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `alamat` varchar(255) DEFAULT NULL,
-  `jabatan` varchar(255) DEFAULT NULL,
   `no_hp` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -842,10 +872,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `instansi_id`, `name`, `email`, `email_verified_at`, `username`, `password`, `level`, `remember_token`, `alamat`, `jabatan`, `no_hp`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'admin', 'admin@gmail.com', NULL, 'admin', '$2y$10$ZsIGuubGi8CBh3CQp7WqfOKKO3u9E8IliFd9VO3rsiZkB3P6BNXnK', 'admin', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 1, 'User', 'user@user.com', NULL, 'user', '$2y$10$F2gLEdvm32md0dUG3nA8g.Toq8Z3k1PGB2EHgKEKa.Rxe5XhSOHMa', 'mbl_3', NULL, 'Jatibarang', 'Mahasiswa', '0895636598234', '2023-05-22 10:36:04', '2023-05-22 10:36:04'),
-(3, NULL, 'coba 1', 'coba1@gmail.com', NULL, 'coba1', '$2y$10$Scspe3XUBdvIFg.e5a5E.eri2.qu4OuBtLVodR.e0Rc0T8QKCpOkW', '', NULL, NULL, NULL, NULL, '2023-05-22 10:39:23', '2023-05-22 10:39:23');
+INSERT INTO `users` (`id`, `instansi_id`, `name`, `email`, `email_verified_at`, `username`, `password`, `level`, `remember_token`, `alamat`, `no_hp`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'admin', 'admin@gmail.com', NULL, 'admin', '$2y$10$ZsIGuubGi8CBh3CQp7WqfOKKO3u9E8IliFd9VO3rsiZkB3P6BNXnK', 'admin', NULL, NULL, NULL, NULL, NULL),
+(2, 1, 'User', 'user@user.com', NULL, 'user', '$2y$10$2K0QfXWM4cMKwjUwLuO/SeWQbRj56gH48CqUqtA.Ict183b0rHjX.', 'user_3', NULL, 'Jatibarang', '0895636598234', '2023-05-22 10:36:04', '2023-05-22 10:36:04'),
+(4, 1, 'Maulana Hidayatullah 123', 'atomx361@gmail.com', NULL, 'lana', '$2y$10$XpKJVsm5g2LhURW1VEYwfea15kuZWq.7acSMBUrRRqZLJs4V7eShC', 'user_3', NULL, 'Jl. Lohbener lama kecamatan Lohbener kabupaten indramayu - Jawa barat Indonesia', '0895636598769', NULL, NULL),
+(5, NULL, 'isa', 'isa@isa.com', NULL, 'isa', '$2y$10$gT6y.IB2ry0bLUsEUGGP/eG8MSgsDRW/.mA713GvTjA3.7JYRmJ1G', 'user_3', NULL, NULL, NULL, '2023-08-14 04:31:34', '2023-08-14 04:31:34');
 
 --
 -- Indexes for dumped tables
@@ -1181,13 +1212,13 @@ ALTER TABLE `pelabelan`
 -- AUTO_INCREMENT for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `pengembalian`
 --
 ALTER TABLE `pengembalian`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
@@ -1199,7 +1230,7 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `ruangan`
@@ -1223,7 +1254,7 @@ ALTER TABLE `rusak_ruangan`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

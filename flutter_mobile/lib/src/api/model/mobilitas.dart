@@ -15,7 +15,7 @@ class Mobilitas {
   factory Mobilitas.fromJson(Map<String, dynamic> json) {
     return Mobilitas(
         id: json['id'],
-        user: json['user']['user']['name'],
+        user: json['user']['name'],
         kode_barang: json['inventori']['kode_barang'],
         nama_barang: json['inventori']['nama_barang'],
         merk_type: json['inventori']['merk_type'],

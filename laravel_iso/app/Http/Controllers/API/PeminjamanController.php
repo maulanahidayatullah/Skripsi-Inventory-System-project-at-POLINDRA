@@ -59,28 +59,37 @@ class PeminjamanController extends Controller
 
         if (!empty($inventori)) {
 
-            $peminjaman = Peminjaman::where('inventori_id', $inventori->id)->where('user_id', $request->user_id)
-                ->where('keranjang', 'true')->first();
+            $cek_peminjaman = Peminjaman::where('status_persetujuan', '!=', null)->where('selesai', '!=', null)->where('inventori_id', $inventori->id)->first();
 
-            if (empty($peminjaman)) {
+            if (empty($cek_peminjaman)) {
+                $peminjaman = Peminjaman::where('inventori_id', $inventori->id)->where('user_id', $request->user_id)
+                    ->where('keranjang', 'true')->first();
 
-                $data                       = new Peminjaman();
-                $data->user_id              = $request->user_id;
-                $data->inventori_id         = $inventori->id;
-                $data->kondisi_barang       = $inventori->kondisi_barang;
-                $data->keranjang            = 'true';
-                $data->save();
+                if (empty($peminjaman)) {
 
-                if ($data->save()) {
+                    $data                       = new Peminjaman();
+                    $data->user_id              = $request->user_id;
+                    $data->inventori_id         = $inventori->id;
+                    $data->kondisi_barang       = $inventori->kondisi_barang;
+                    $data->keranjang            = 'true';
+                    $data->save();
+
+                    if ($data->save()) {
+                        return response()->json([
+                            'success' => true,
+                            'note' => 'Barang berhasil ditambahkan'
+                        ], 200);
+                    }
+                } else {
                     return response()->json([
-                        'success' => true,
-                        'note' => 'Barang berhasil ditambahkan'
-                    ], 200);
+                        'success' => false,
+                        'note' => 'Barang sudah pernah ditambahkan'
+                    ], 400);
                 }
             } else {
                 return response()->json([
                     'success' => false,
-                    'note' => 'Barang sudah pernah ditambahkan'
+                    'note' => 'Barang sedang dalam peminjaman'
                 ], 400);
             }
         } else {
@@ -93,6 +102,7 @@ class PeminjamanController extends Controller
 
     public function tambah_peminjaman(Request $request)
     {
+        // return $this->generate_code_pemnjaman($request->user_id);
         $peminjaman = Peminjaman::where('user_id', $request->user_id)->where('keranjang', 'true')->get();
 
         if (count($peminjaman) !== 0) {
@@ -100,27 +110,85 @@ class PeminjamanController extends Controller
             $instansi_id = User::where('id', $request->user_id)->first()->instansi_id;
             $barang_kembali = $request->tgl_kembali . ' ' . $request->jam_kembali;
 
-            foreach ($peminjaman as $key => $value) {
-                $value->kode_peminjaman        = $this->generate_code_pemnjaman($request->user_id);
-                $value->instansi_id            = $instansi_id;
-                $value->unit_kerja             = $request->unit_kerja;
-                $value->nama_kegiatan          = $request->nama_kegiatan;
-                $value->jumlah                 = $request->jumlah;
-                $value->satuan                 = $request->satuan;
-                $value->keterangan             = $request->keterangan;
-                $value->tgl_pinjam             = date('y-m-d h:i');
-                $value->tgl_kembali            = $barang_kembali;
-                $value->persetujuan_wadir      = 'belum';
-                $value->persetujuan_pembimbing = 'belum';
-                $value->status_persetujuan     = 'belum';
-                $value->keranjang              = 'false';
-                $value->save();
-            }
+            $lvl_user = User::where('id', $request->user_id)->first()->level;
 
-            return response()->json([
-                'success' => true,
-                'note' => 'Peminjaman Ditambahkan, Sliahkan menunggu Persetujuan '
-            ], 200);
+            // return $lvl_user;
+            if ($lvl_user === 'user_3') {
+                Peminjaman::where('user_id', $request->user_id)->where('keranjang', 'true')->update([
+                    'kode_peminjaman'        => $this->generate_code_pemnjaman($request->user_id),
+                    'instansi_id'            => $instansi_id,
+                    'unit_kerja'             => $request->unit_kerja,
+                    'nama_kegiatan'          => $request->nama_kegiatan,
+                    'jumlah'                 => $request->jumlah,
+                    'satuan'                 => $request->satuan,
+                    'keterangan'             => $request->keterangan,
+                    'tgl_pinjam'             => date('y-m-d h:i'),
+                    'tgl_kembali'            => $barang_kembali,
+                    'persetujuan_wadir'      => 'belum',
+                    'persetujuan_pembimbing' => 'belum',
+                    'status_persetujuan'     => 'belum',
+                    'selesai'                => 'false',
+                    'keranjang'              => 'false',
+                ]);
+
+                Peminjaman::where('user_id', '!=', $request->user_id)->where('keranjang', 'true')->delete();
+
+
+                return response()->json([
+                    'success' => true,
+                    'note' => 'Peminjaman Ditambahkan, Sliahkan menunggu Persetujuan '
+                ], 200);
+            } elseif ($lvl_user === 'user_4') {
+                Peminjaman::where('user_id', $request->user_id)->where('keranjang', 'true')->update([
+                    'kode_peminjaman'        => $this->generate_code_pemnjaman($request->user_id),
+                    'instansi_id'            => $instansi_id,
+                    'unit_kerja'             => $request->unit_kerja,
+                    'nama_kegiatan'          => $request->nama_kegiatan,
+                    'jumlah'                 => $request->jumlah,
+                    'satuan'                 => $request->satuan,
+                    'keterangan'             => $request->keterangan,
+                    'tgl_pinjam'             => date('y-m-d h:i'),
+                    'tgl_kembali'            => $barang_kembali,
+                    'persetujuan_wadir'      => 'belum',
+                    'persetujuan_pembimbing' => 'setuju',
+                    'status_persetujuan'     => 'belum',
+                    'selesai'                => 'false',
+                    'keranjang'              => 'false',
+                ]);
+
+                Peminjaman::where('user_id', '!=', $request->user_id)->where('keranjang', 'true')->delete();
+
+
+                return response()->json([
+                    'success' => true,
+                    'note' => 'Peminjaman Ditambahkan, Sliahkan menunggu Persetujuan '
+                ], 200);
+            } elseif ($lvl_user === 'user_5') {
+                Peminjaman::where('user_id', $request->user_id)->where('keranjang', 'true')->update([
+                    'kode_peminjaman'        => $this->generate_code_pemnjaman($request->user_id),
+                    'instansi_id'            => $instansi_id,
+                    'unit_kerja'             => $request->unit_kerja,
+                    'nama_kegiatan'          => $request->nama_kegiatan,
+                    'jumlah'                 => $request->jumlah,
+                    'satuan'                 => $request->satuan,
+                    'keterangan'             => $request->keterangan,
+                    'tgl_pinjam'             => date('y-m-d h:i'),
+                    'tgl_kembali'            => $barang_kembali,
+                    'persetujuan_wadir'      => 'setuju',
+                    'persetujuan_pembimbing' => 'setuju',
+                    'status_persetujuan'     => 'setuju',
+                    'selesai'                => 'false',
+                    'keranjang'              => 'false',
+                ]);
+
+                Peminjaman::where('user_id', '!=', $request->user_id)->where('keranjang', 'true')->delete();
+
+
+                return response()->json([
+                    'success' => true,
+                    'note' => 'Peminjaman Ditambahkan'
+                ], 200);
+            }
         } else {
             return response()->json([
                 'success' => false,
@@ -149,28 +217,6 @@ class PeminjamanController extends Controller
                 'note' => 'Peminjaman Gagal'
             ], 400);
         }
-
-        // $peminjaman = Peminjaman::where('user_id', $request->user_id)
-        //     ->where('keranjang', 'true')
-        //     ->get();
-
-        // // return $peminjaman[0]->User->Pegawai;
-        // if (count($peminjaman) !== 0) {
-        //     foreach ($peminjaman as $key => $value) {
-        //         $peminjaman->success = 'success';
-        //         $peminjaman->inventori = $value->Inventori;
-        //     }
-        //     return response()->json([
-        //         'success' => true,
-        //         'data' => $peminjaman
-        //     ], 200);
-        // } else {
-        //     $peminjaman->success = 'success';
-        //     return response()->json([
-        //         'success' => false,
-        //         'data' => $peminjaman
-        //     ], 400);
-        // }
     }
 
     public function status_peminjaman(Request $request)
@@ -404,7 +450,7 @@ class PeminjamanController extends Controller
 
     public function generate_code_pemnjaman($user_id)
     {
-        $code = "Pol-" . "P-" . $user_id . '-' . date('ymd');
+        $code = "PJM-" . $user_id . date('ymd');
         return $code;
     }
 }

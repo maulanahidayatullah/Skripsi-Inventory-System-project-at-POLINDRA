@@ -279,9 +279,7 @@ class _peminjamanPageState extends State<peminjamanPage> {
                                                 color: Colors.grey[600]),
                                           ),
                                           Text(
-                                            listPersetujuan[index]
-                                                .status_persetujuan
-                                                .toString(),
+                                            'asd',
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w700,

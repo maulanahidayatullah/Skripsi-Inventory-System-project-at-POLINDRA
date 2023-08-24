@@ -1,5 +1,5 @@
 class Profil {
-  String? name, alamat, jabatan, no_hp, email;
+  String? name, alamat, jabatan, no_hp, email, instansi;
   bool? success;
 
   Profil(
@@ -8,5 +8,6 @@ class Profil {
       this.jabatan,
       this.no_hp,
       this.email,
+      this.instansi,
       this.success});
 }

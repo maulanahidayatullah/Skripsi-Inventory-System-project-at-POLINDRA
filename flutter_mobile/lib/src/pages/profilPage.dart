@@ -92,12 +92,14 @@ class _ProfilPageState extends State<ProfilPage> {
                 children: [
                   _card(Icons.person_2_outlined, "Nama :",
                       profil.name.toString()),
+                  _card(Icons.account_balance_rounded, "Instansi :",
+                      profil.instansi.toString()),
+                  _card(Icons.star_border, "Jabatan :",
+                      profil.jabatan.toString()),
                   _card(
                       Icons.email_outlined, "Email :", profil.email.toString()),
                   _card(Icons.home_outlined, "Alamat :",
                       profil.alamat.toString()),
-                  _card(Icons.star_border, "Jabatan :",
-                      profil.jabatan.toString()),
                   _card(
                       Icons.phone_outlined, "No HP :", profil.no_hp.toString()),
                   InkWell(

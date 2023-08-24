@@ -19,8 +19,7 @@ import '../api/model/mobilitas.dart';
 import 'package:flutter_mobile/src/api/api.dart';
 
 class API {
-  static String baseURL =
-      "https://sip-polindra.my.id/api/"; //emulator localhost
+  static String baseURL = "http://192.168.0.105:8000/api/"; //emulator localhost
   static Map<String, String> header = {"Content-Type": "application/json"};
 
   static Future<int> getUserId() async {
@@ -215,6 +214,7 @@ class API {
         jabatan: data_profil['jabatan'],
         no_hp: data_profil['no_hp'],
         email: data_profil['email'],
+        instansi: data_profil['instansi']['nama'],
         success: success,
       );
     } else {}

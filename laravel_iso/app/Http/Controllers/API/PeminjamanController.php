@@ -59,7 +59,7 @@ class PeminjamanController extends Controller
 
         if (!empty($inventori)) {
 
-            $peminjaman = Peminjaman::where('inventori_id', $inventori->id)
+            $peminjaman = Peminjaman::where('inventori_id', $inventori->id)->where('user_id', $request->user_id)
                 ->where('keranjang', 'true')->first();
 
             if (empty($peminjaman)) {

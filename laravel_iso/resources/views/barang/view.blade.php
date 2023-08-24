@@ -304,7 +304,6 @@
 
   function fill_table(search_kode = '', search_nup = '') {
     var Table = $('#example').DataTable({
-      // dom: 'Bftpl',
            processing: true,
            serverSide: true,
            searching: false,

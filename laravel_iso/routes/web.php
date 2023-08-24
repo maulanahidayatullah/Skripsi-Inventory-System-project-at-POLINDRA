@@ -53,7 +53,7 @@ Route::resource('user', UserController::class);
 Route::resource('barang', BarangController::class);
 
 
-Route::post('/barang/post', [BarangController::class, 'update']);
+// Route::post('/barang/post', [BarangController::class, 'update']);
 Route::get('/barang/delete/{id_barang}', [BarangController::class, 'delete']);
 Route::get('/barang/edit/{id_barang}', [BarangController::class, 'edit']);
 Route::post('/barang/update', [BarangController::class, 'update']);

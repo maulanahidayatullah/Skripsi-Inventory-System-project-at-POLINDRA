@@ -13,15 +13,6 @@
                     <input type="text" name="instansi" class="form-control" value="{{$instansi->nama}}" required placeholder="Masukan ruangan">
                     <input type="hidden" name="id_instansi" class="form-control" value="{{$instansi->id}}" required>
                   </div>
-            {{-- <div class="form-group">
-                <label for="">Pj</label>
-                <select name="id_pj" class="form-control" id="" >
-                  <option value="" selected disabled>Pilih Pj</option>
-                  @foreach ($pj as $b)
-                      <option value="{{$b->id}}" {{$b->id==$ruangan->id_pj ? 'selected' : ''}}>{{$b->name}}</option>
-                  @endforeach
-                </select>
-            </div> --}}
           </div>
                 </div>
                 

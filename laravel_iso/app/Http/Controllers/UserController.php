@@ -178,14 +178,15 @@ class UserController extends Controller
     public function instansi()
     {
         $instansi = Instansi::get();
+
         return view('instansi.view', compact('instansi'));
     }
 
     public function instansi_store(Request $request)
     {
+        // return $request;
         DB::table('instansi')->insert([
             'nama' => $request->instansi,
-
         ]);
         // alihkan halaman ke halaman jenis
         Alert::success('Success', 'Data Telah Terinput');
@@ -194,14 +195,16 @@ class UserController extends Controller
 
     public function instansi_edit($id)
     {
-
+        // return $id;
         $instansi = DB::table('instansi')->where('id', $id)->first();
 
+        // return $instansi;
         return view('instansi.edit', compact('instansi'));
     }
 
     public function instansi_update(Request $request)
     {
+        // return $request;
         DB::table('instansi')->where('id', $request->id_instansi)->update([
             'nama' => $request->instansi,
         ]);

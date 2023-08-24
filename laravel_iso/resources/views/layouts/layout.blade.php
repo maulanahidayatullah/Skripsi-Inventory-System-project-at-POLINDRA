@@ -37,7 +37,7 @@
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home">
         <div class="sidebar-brand-icon rotate-n-15">
           {{-- <i class="fas fa-book"></i> --}}
           <img src="{{ asset('assets/img/logo.png') }}" style="width:50px;height:50px;">
@@ -63,8 +63,6 @@
       <div class="sidebar-heading">
         Data - data
       </div>
-
-      
 
 
       <li class="nav-item {{ (request()->is('user*')) ? 'active' : '' }} {{ (request()->is('instansi*')) ? 'active' : '' }} {{ (request()->is('rayon*')) ? 'active' : '' }} {{ (request()->is('bukan_pj*')) ? 'active' : '' }}">

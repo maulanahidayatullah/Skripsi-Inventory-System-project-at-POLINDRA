@@ -26,10 +26,9 @@ class BarangController extends Controller
     public function index()
     {
         $barang = count(Inventori::get());
-        $lastNup = Inventori::orderBy('nup', 'DESC')->first();
         $gedung = Gedung::get();
 
-        return view('barang.view', compact('barang', 'lastNup', 'gedung'));
+        return view('barang.view', compact('barang', 'gedung'));
     }
 
     public function store(Request $request)

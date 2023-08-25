@@ -87,9 +87,12 @@ class PeminjamanController extends Controller
                     ], 400);
                 }
             } else {
+                $cek_peminjaman['user'] = $cek_peminjaman->User;
+
                 return response()->json([
                     'success' => false,
-                    'note' => 'Barang sedang dalam peminjaman'
+                    'note' => 'Barang sedang dalam peminjaman',
+                    'data' => $cek_peminjaman
                 ], 400);
             }
         } else {
@@ -231,7 +234,7 @@ class PeminjamanController extends Controller
     {
         $user = User::where('id', $request->user_id)->first();
 
-        if ($user->level == 'user_3') {
+        if ($user->level == 'user_5') {
             $persetujuan = Peminjaman::where('keranjang', 'false')->where('status_persetujuan', 'belum')->groupBy('kode_peminjaman')->get();
 
             if (count($persetujuan) !== 0) {
@@ -262,7 +265,7 @@ class PeminjamanController extends Controller
                     'data' => $persetujuan
                 ], 400);
             }
-        } else {
+        } elseif ($user->level == 'user_3') {
             $persetujuan = Peminjaman::where('user_id', $request->user_id)->where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'belum')->groupBy('kode_peminjaman')->get();
 
             if (count($persetujuan) !== 0) {
@@ -346,7 +349,7 @@ class PeminjamanController extends Controller
     {
         $user = User::where('id', $request->user_id)->first();
 
-        if ($user->level == 'user_3') {
+        if ($user->level == 'user_5') {
             $persetujuan = Peminjaman::where('keranjang', 'false')->where('status_persetujuan', 'setuju')->where('selesai', 'false')->groupBy('kode_peminjaman')->get();
 
             if (count($persetujuan) !== 0) {
@@ -399,7 +402,7 @@ class PeminjamanController extends Controller
     {
         $user = User::where('id', $request->user_id)->first();
 
-        if ($user->level == 'user_3') {
+        if ($user->level == 'user_5') {
             $persetujuan = Peminjaman::where('keranjang', 'false')->where('status_persetujuan', 'setuju')->where('selesai', 'true')->groupBy('kode_peminjaman')->get();
 
             if (count($persetujuan) !== 0) {
@@ -429,7 +432,7 @@ class PeminjamanController extends Controller
                     'data' => $persetujuan
                 ], 400);
             }
-        } else {
+        } elseif ($user->level == 'user_3') {
             $persetujuan = Peminjaman::where('user_id', $request->user_id)->where('instansi_id', $user->instansi_id)->where('keranjang', 'false')->where('status_persetujuan', 'setuju')->where('selesai', 'true')->groupBy('kode_peminjaman')->get();
 
             if (count($persetujuan) !== 0) {

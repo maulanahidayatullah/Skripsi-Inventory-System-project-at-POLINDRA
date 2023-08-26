@@ -193,6 +193,7 @@ class MobilitasController extends Controller
         } else {
             return response()->json([
                 'success' => false,
+                'data' => $log
             ], 400);
         }
     }

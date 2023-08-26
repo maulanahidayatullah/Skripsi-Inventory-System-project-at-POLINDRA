@@ -56,21 +56,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
       setState(() {
         _gedung = jsonResponse;
 
-        // _cardModal();
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.info,
-          animType: AnimType.scale,
-          headerAnimationLoop: true,
-          title: 'asd',
-          body: _cardModal(),
-          btnOkOnPress: () {},
-          onDismissCallback: (type) {
-            progressDialog.dismiss();
-          },
-          btnOkIcon: Icons.cancel,
-          btnOkColor: Colors.blue,
-        ).show();
+        _cardModal();
       });
     }
   }
@@ -368,7 +354,7 @@ class _DataMobilitasState extends State<DataMobilitas> {
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
                 ),
-                height: 280,
+                height: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -407,15 +393,19 @@ class _DataMobilitasState extends State<DataMobilitas> {
                               value: gedung,
                               onChanged: (value) {
                                 setState(() {
-                                  // ruangan = '';
                                   _ruangan = [];
-                                  gedung = value!;
+                                  gedung = value;
+                                  // Nggo cek type variabel
+                                  // print(value.runtimeType);
+                                  // print(_gedung[0]['id_gedung'].runtimeType);
                                   for (int i = 0; i < _gedung.length; i++) {
-                                    if (_gedung[i]["id_gedung"] == value) {
+                                    if (_gedung[i]["id_gedung"].toString() ==
+                                        value) {
+                                      // print(_gedung[i]['ruangan']);
                                       _ruangan = _gedung[i]["ruangan"];
+                                      // _ruangan = ;
                                     }
                                   }
-                                  print(_ruangan);
                                   isGedungSelected = true;
                                 });
                               }),

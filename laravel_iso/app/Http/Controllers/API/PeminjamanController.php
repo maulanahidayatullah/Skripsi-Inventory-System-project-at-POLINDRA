@@ -59,7 +59,7 @@ class PeminjamanController extends Controller
 
         if (!empty($inventori)) {
 
-            $cek_peminjaman = Peminjaman::where('status_persetujuan', '!=', null)->where('selesai', '!=', null)->where('inventori_id', $inventori->id)->first();
+            $cek_peminjaman = Peminjaman::where('status_persetujuan', '!=', null)->where('selesai', '!=', 'true')->where('inventori_id', $inventori->id)->first();
 
             if (empty($cek_peminjaman)) {
                 $peminjaman = Peminjaman::where('inventori_id', $inventori->id)->where('user_id', $request->user_id)

@@ -206,31 +206,48 @@ class _MobilitasPageState extends State<MobilitasPage> {
                         height: 10,
                       ),
 
-                      ListView.builder(
-                        itemCount: logMobilitas.length,
-                        itemBuilder: (context, index) {
-                          return SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                _card(
-                                    logMobilitas[index].id,
-                                    logMobilitas[index].nama_barang,
-                                    logMobilitas[index].gedung_sebelum,
-                                    logMobilitas[index].ruangan_sebelum,
-                                    logMobilitas[index].gedung_sesudah,
-                                    logMobilitas[index].ruangan_sesudah,
-                                    logMobilitas[index].date),
-                              ],
+                      if (logMobilitas.isEmpty) ...[
+                        SizedBox(
+                          height: 150,
+                        ),
+                        Container(
+                          child: Center(
+                            child: Text(
+                              'Tidak Ada Data',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black12),
                             ),
-                          );
-                        },
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(0),
-                        controller: ScrollController(keepScrollOffset: false),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
+                          ),
+                        )
+                      ] else ...[
+                        ListView.builder(
+                          itemCount: logMobilitas.length,
+                          itemBuilder: (context, index) {
+                            return SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  _card(
+                                      logMobilitas[index].id,
+                                      logMobilitas[index].nama_barang,
+                                      logMobilitas[index].gedung_sebelum,
+                                      logMobilitas[index].ruangan_sebelum,
+                                      logMobilitas[index].gedung_sesudah,
+                                      logMobilitas[index].ruangan_sesudah,
+                                      logMobilitas[index].date),
+                                ],
+                              ),
+                            );
+                          },
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(0),
+                          controller: ScrollController(keepScrollOffset: false),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                      ],
 
                       //now expense
                     ],

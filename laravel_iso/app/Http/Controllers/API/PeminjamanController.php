@@ -103,8 +103,22 @@ class PeminjamanController extends Controller
         }
     }
 
+    public function hapus_keranjang_peminjaman(Request $request)
+    {
+        $peminjaman = Peminjaman::where('id', $request->peminjaman_id)->where('keranjang', 'true')->first();
+        $peminjaman->delete();
+
+        return response()->json([
+            'success' => true,
+            'note' => 'Keranjang Peminjaman berhasil di Hapus'
+        ], 200);
+    }
+
     public function tambah_peminjaman(Request $request)
     {
+
+        // $barang_kembali = $request->tgl_kembali . ' ' . $request->jam_kembali;
+        // return date('Y-m-d H:i', strtotime($barang_kembali));
         // return $this->generate_code_pemnjaman($request->user_id);
         $peminjaman = Peminjaman::where('user_id', $request->user_id)->where('keranjang', 'true')->get();
 
@@ -114,6 +128,7 @@ class PeminjamanController extends Controller
             $barang_kembali = $request->tgl_kembali . ' ' . $request->jam_kembali;
 
             $lvl_user = User::where('id', $request->user_id)->first()->level;
+
 
             // return $lvl_user;
             if ($lvl_user === 'user_3') {
@@ -126,7 +141,7 @@ class PeminjamanController extends Controller
                     'satuan'                 => $request->satuan,
                     'keterangan'             => $request->keterangan,
                     'tgl_pinjam'             => date('y-m-d h:i'),
-                    'tgl_kembali'            => $barang_kembali,
+                    'tgl_kembali'            => date('Y-m-d H:i:s', strtotime($barang_kembali)),
                     'persetujuan_wadir'      => 'belum',
                     'persetujuan_pembimbing' => 'belum',
                     'status_persetujuan'     => 'belum',
@@ -151,7 +166,7 @@ class PeminjamanController extends Controller
                     'satuan'                 => $request->satuan,
                     'keterangan'             => $request->keterangan,
                     'tgl_pinjam'             => date('y-m-d h:i'),
-                    'tgl_kembali'            => $barang_kembali,
+                    'tgl_kembali'            => date('Y-m-d H:i:s', strtotime($barang_kembali)),
                     'persetujuan_wadir'      => 'belum',
                     'persetujuan_pembimbing' => 'setuju',
                     'status_persetujuan'     => 'belum',
@@ -176,7 +191,7 @@ class PeminjamanController extends Controller
                     'satuan'                 => $request->satuan,
                     'keterangan'             => $request->keterangan,
                     'tgl_pinjam'             => date('y-m-d h:i'),
-                    'tgl_kembali'            => $barang_kembali,
+                    'tgl_kembali'            => date('Y-m-d H:i:s', strtotime($barang_kembali)),
                     'persetujuan_wadir'      => 'setuju',
                     'persetujuan_pembimbing' => 'setuju',
                     'status_persetujuan'     => 'setuju',

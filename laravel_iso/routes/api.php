@@ -49,7 +49,7 @@ Route::post('persetujuan_wadir', [PeminjamanController::class, 'persetujuan_wadi
 Route::post('persetujuan_pembimbing', [PeminjamanController::class, 'persetujuan_pembimbing']);
 Route::post('proses_peminjaman', [PeminjamanController::class, 'proses_peminjaman']);
 Route::post('riwayat_peminjaman', [PeminjamanController::class, 'riwayat_peminjaman']);
-// Route::post('hapus_mobilitas', [PeminjamanController::class, 'hapus_mobilitas']);
+Route::post('hapus_keranjang_peminjaman', [PeminjamanController::class, 'hapus_keranjang_peminjaman']);
 // Route::post('log_mobilitas', [PeminjamanController::class, 'log_mobilitas']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

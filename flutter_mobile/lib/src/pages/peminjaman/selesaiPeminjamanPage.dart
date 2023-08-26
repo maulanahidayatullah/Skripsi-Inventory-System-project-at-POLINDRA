@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_mobile/src/Widget/menu.dart';
+import 'package:flutter_mobile/src/pages/peminjamanPage.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:flutter_mobile/src/api/api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SelesaiPeminjamanPage extends StatefulWidget {
   const SelesaiPeminjamanPage({Key? key}) : super(key: key);
@@ -12,16 +14,19 @@ class SelesaiPeminjamanPage extends StatefulWidget {
 }
 
 class _SelesaiPeminjamanPageState extends State<SelesaiPeminjamanPage> {
+  DateTime tglKembali = DateTime.now();
+  TimeOfDay jamKembali = TimeOfDay.now();
+
   String unitKerja = '';
   String namaKegiatan = '';
   String keterangan = '';
-  String tglKembali = '';
-  String jamKembali = '';
+  String strTglKembali = '';
+  String strJamKembali = '';
   var txUnitKerja = TextEditingController();
   var txNamaKegiatan = TextEditingController();
   var txKeterangan = TextEditingController();
-  var txTglKembali = TextEditingController();
-  var txJamKembali = TextEditingController();
+  var txTglKembali = TextEditingController(text: '');
+  var txJamKembali = TextEditingController(text: '');
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -137,6 +142,30 @@ class _SelesaiPeminjamanPageState extends State<SelesaiPeminjamanPage> {
                   padding: EdgeInsets.only(left: 20, right: 20),
                   child: TextFormField(
                     controller: txTglKembali,
+                    readOnly: true,
+                    showCursor: true,
+                    onTap: () {
+                      showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2025),
+                      ).then((value) {
+                        setState(() {
+                          tglKembali = value!;
+                          txTglKembali.text = tglKembali.day.toString() +
+                              '-' +
+                              tglKembali.month.toString() +
+                              '-' +
+                              tglKembali.year.toString();
+                        });
+                        strTglKembali = tglKembali.year.toString() +
+                            '-' +
+                            tglKembali.month.toString() +
+                            '-' +
+                            tglKembali.day.toString();
+                      });
+                    },
                     decoration: InputDecoration(
                       labelText: "Tanggal Kembali",
                       enabledBorder: OutlineInputBorder(
@@ -147,16 +176,6 @@ class _SelesaiPeminjamanPageState extends State<SelesaiPeminjamanPage> {
                           borderRadius: BorderRadius.circular(21),
                           borderSide: BorderSide(color: Colors.green)),
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Alamat tidak boleh Kosong";
-                      } else {
-                        return null;
-                      }
-                    },
-                    onChanged: (value) {
-                      tglKembali = value;
-                    },
                   ),
                 ),
                 SizedBox(
@@ -166,6 +185,26 @@ class _SelesaiPeminjamanPageState extends State<SelesaiPeminjamanPage> {
                   padding: EdgeInsets.only(left: 20, right: 20),
                   child: TextFormField(
                     controller: txJamKembali,
+                    readOnly: true,
+                    showCursor: true,
+                    onTap: () async {
+                      final TimeOfDay? waktuPilih = await showTimePicker(
+                          context: context,
+                          initialTime: jamKembali,
+                          initialEntryMode: TimePickerEntryMode.dial);
+                      if (waktuPilih != null) {
+                        setState(() {
+                          jamKembali = waktuPilih;
+                          txJamKembali.text = jamKembali.hour.toString() +
+                              ':' +
+                              jamKembali.minute.toString();
+
+                          strJamKembali = jamKembali.hour.toString() +
+                              ':' +
+                              jamKembali.minute.toString();
+                        });
+                      }
+                    },
                     decoration: InputDecoration(
                       labelText: "Jam Kembali",
                       enabledBorder: OutlineInputBorder(
@@ -176,16 +215,6 @@ class _SelesaiPeminjamanPageState extends State<SelesaiPeminjamanPage> {
                           borderRadius: BorderRadius.circular(21),
                           borderSide: BorderSide(color: Colors.green)),
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Pekerjaan tidak boleh Kosong";
-                      } else {
-                        return null;
-                      }
-                    },
-                    onChanged: (value) {
-                      jamKembali = value;
-                    },
                   ),
                 ),
                 SizedBox(
@@ -303,25 +332,48 @@ class _SelesaiPeminjamanPageState extends State<SelesaiPeminjamanPage> {
       progressDialog.show();
       try {
         API
-            .tambahPeminjaman(
-                unitKerja, namaKegiatan, keterangan, tglKembali, jamKembali)
+            .tambahPeminjaman(unitKerja, namaKegiatan, keterangan,
+                strTglKembali, strJamKembali)
             .then((value) async {
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.success,
-            animType: AnimType.scale,
-            headerAnimationLoop: true,
-            title: 'Peminjaman ditambahkan, Silahkan menunggu persetujuan',
-            btnOkOnPress: () {},
-            onDismissCallback: (type) {
-              progressDialog.dismiss();
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          var level = prefs.getString('level');
+          if (level == 'user_5') {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.success,
+              animType: AnimType.scale,
+              headerAnimationLoop: true,
+              title: 'Peminjaman Ditambahkan',
+              btnOkOnPress: () {},
+              onDismissCallback: (type) {
+                progressDialog.dismiss();
 
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Menu()));
-            },
-            btnOkIcon: Icons.cancel,
-            btnOkColor: Colors.blue,
-          ).show();
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => peminjamanPage()),
+                    (route) => false);
+              },
+              btnOkIcon: Icons.cancel,
+              btnOkColor: Colors.blue,
+            ).show();
+          } else {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.success,
+              animType: AnimType.scale,
+              headerAnimationLoop: true,
+              title: 'Peminjaman ditambahkan, Harap menunggu persetujuan',
+              btnOkOnPress: () {},
+              onDismissCallback: (type) {
+                progressDialog.dismiss();
+
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => peminjamanPage()),
+                    (route) => false);
+              },
+              btnOkIcon: Icons.cancel,
+              btnOkColor: Colors.blue,
+            ).show();
+          }
         });
       } catch (e) {}
     }

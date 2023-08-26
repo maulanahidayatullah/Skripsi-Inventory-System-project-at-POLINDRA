@@ -116,7 +116,17 @@ class _DataMobilitasState extends State<DataMobilitas> {
           ],
           backgroundColor: Colors.pink,
         ),
-        body: Container(child: Text("Tidak ada data")),
+        body: Container(
+          child: Center(
+            child: Text(
+              'Tidak Ada Data',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.green[300]),
+            ),
+          ),
+        ),
       );
     } else {
       return Scaffold(

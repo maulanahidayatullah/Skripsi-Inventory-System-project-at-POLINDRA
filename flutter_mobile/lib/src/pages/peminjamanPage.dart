@@ -272,14 +272,14 @@ class _peminjamanPageState extends State<peminjamanPage> {
                                             height: 20,
                                           ),
                                           Text(
-                                            "Status Persetujuan : ",
+                                            "Nama Kegiatan : ",
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w700,
                                                 color: Colors.grey[600]),
                                           ),
                                           Text(
-                                            'asd',
+                                            'Belum di setujui',
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w700,
@@ -379,7 +379,7 @@ class _peminjamanPageState extends State<peminjamanPage> {
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w700,
-                                                color: Colors.blue),
+                                                color: Colors.green),
                                           ),
                                         ],
                                       ),

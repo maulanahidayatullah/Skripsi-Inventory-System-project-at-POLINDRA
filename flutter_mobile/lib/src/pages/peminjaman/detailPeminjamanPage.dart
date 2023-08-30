@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/src/api/api.dart';
 import 'package:flutter_mobile/src/api/model/detailPeminjaman.dart';
+import 'package:flutter_mobile/src/pages/peminjamanPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api/model/keranjangPeminjaman.dart';
 import 'package:ndialog/ndialog.dart';
@@ -25,7 +26,6 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
 
   Future<String?> getLevel() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // print(prefs.getString('level'));
     level = prefs.getString('level')!;
   }
 
@@ -157,136 +157,124 @@ class _DetailPeminjamanPageState extends State<DetailPeminjamanPage> {
                 },
               ),
             ),
-            // if (level == 'user_4') ...[
-            //   InkWell(
-            //     onTap: () async {
-            //       ProgressDialog progressDialog = ProgressDialog(
-            //         context,
-            //         blur: 10,
-            //         message: Text("Mohon Tunggu..."),
-            //       );
-            //       progressDialog.show();
-            //       try {
-            //         API
-            //             .persetujuanPembimbing(widget.kode_peminjaman)
-            //             .then((value) async {
-            //           AwesomeDialog(
-            //             context: context,
-            //             dialogType: DialogType.success,
-            //             animType: AnimType.scale,
-            //             headerAnimationLoop: true,
-            //             title: 'Berhasil DiSetujui',
-            //             btnOkOnPress: () {},
-            //             onDismissCallback: (type) {
-            //               progressDialog.dismiss();
+            if (level == 'user_4') ...[
+              InkWell(
+                onTap: () async {
+                  ProgressDialog progressDialog = ProgressDialog(
+                    context,
+                    blur: 10,
+                    message: Text("Mohon Tunggu..."),
+                  );
+                  progressDialog.show();
+                  try {
+                    API
+                        .persetujuanPembimbing(widget.kode_peminjaman)
+                        .then((value) async {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.success,
+                        animType: AnimType.scale,
+                        headerAnimationLoop: true,
+                        title: 'Berhasil DiSetujui',
+                        btnOkOnPress: () {},
+                        onDismissCallback: (type) {
+                          progressDialog.dismiss();
 
-            //               Navigator.push(context,
-            //                   MaterialPageRoute(builder: (context) => Menu()));
-            //             },
-            //             btnOkIcon: Icons.cancel,
-            //             btnOkColor: Colors.blue,
-            //           ).show();
-            //         });
-            //       } catch (e) {}
-            //     },
-            //     child: Container(
-            //       width: MediaQuery.of(context).size.width,
-            //       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            //       padding: EdgeInsets.symmetric(vertical: 15),
-            //       alignment: Alignment.center,
-            //       decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.all(Radius.circular(5)),
-            //           boxShadow: <BoxShadow>[
-            //             BoxShadow(
-            //                 color: Colors.grey.shade200,
-            //                 offset: Offset(2, 4),
-            //                 blurRadius: 5,
-            //                 spreadRadius: 2)
-            //           ],
-            //           gradient: LinearGradient(
-            //               begin: Alignment.centerLeft,
-            //               end: Alignment.centerRight,
-            //               colors: [Color(0xff85a7c7), Color(0xff4d87b7)])),
-            //       child: Text(
-            //         'Setujui',
-            //         style: TextStyle(fontSize: 20, color: Colors.white),
-            //       ),
-            //     ),
-            //   ),
-            // ] else if (level == 'user_5') ...[
-            InkWell(
-              onTap: () async {
-                // ProgressDialog progressDialog = ProgressDialog(
-                //   context,
-                //   blur: 10,
-                //   message: Text("Mohon Tunggu..."),
-                // );
-                // progressDialog.show();
-                AwesomeDialog(
-                  context: context,
-                  dialogType: DialogType.success,
-                  animType: AnimType.scale,
-                  headerAnimationLoop: true,
-                  title: 'Berhasil Di Setujui',
-                  btnOkOnPress: () {},
-                  onDismissCallback: (type) {
-                    // progressDialog.dismiss();
-
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => Menu()));
-                  },
-                  btnOkIcon: Icons.cancel,
-                  btnOkColor: Colors.blue,
-                ).show();
-                // try {
-                //   API
-                //       .persetujuanWadir(widget.kode_peminjaman)
-                //       .then((value) async {
-                //     AwesomeDialog(
-                //       context: context,
-                //       dialogType: DialogType.success,
-                //       animType: AnimType.scale,
-                //       headerAnimationLoop: true,
-                //       title: 'Berhasil DiSetujui',
-                //       btnOkOnPress: () {},
-                //       onDismissCallback: (type) {
-                //         progressDialog.dismiss();
-
-                //         Navigator.push(context,
-                //             MaterialPageRoute(builder: (context) => Menu()));
-                //       },
-                //       btnOkIcon: Icons.cancel,
-                //       btnOkColor: Colors.blue,
-                //     ).show();
-                //   });
-                // } catch (e) {}
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                padding: EdgeInsets.symmetric(vertical: 15),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: Colors.grey.shade200,
-                          offset: Offset(2, 4),
-                          blurRadius: 5,
-                          spreadRadius: 2)
-                    ],
-                    gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [Color(0xff85a7c7), Color(0xff4d87b7)])),
-                child: Text(
-                  'Setujui',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => peminjamanPage()),
+                              (route) => false);
+                        },
+                        btnOkIcon: Icons.cancel,
+                        btnOkColor: Colors.blue,
+                      ).show();
+                    });
+                  } catch (e) {}
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.grey.shade200,
+                            offset: Offset(2, 4),
+                            blurRadius: 5,
+                            spreadRadius: 2)
+                      ],
+                      gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [Color(0xff85a7c7), Color(0xff4d87b7)])),
+                  child: Text(
+                    'Setujui',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-            // ] else
-            // ...[],
+            ] else if (level == 'user_5') ...[
+              InkWell(
+                onTap: () async {
+                  ProgressDialog progressDialog = ProgressDialog(
+                    context,
+                    blur: 10,
+                    message: Text("Mohon Tunggu..."),
+                  );
+                  progressDialog.show();
+                  try {
+                    API
+                        .persetujuanWadir(widget.kode_peminjaman)
+                        .then((value) async {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.success,
+                        animType: AnimType.scale,
+                        headerAnimationLoop: true,
+                        title: 'Berhasil DiSetujui',
+                        btnOkOnPress: () {},
+                        onDismissCallback: (type) {
+                          progressDialog.dismiss();
+
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => peminjamanPage()),
+                              (route) => false);
+                        },
+                        btnOkIcon: Icons.cancel,
+                        btnOkColor: Colors.blue,
+                      ).show();
+                    });
+                  } catch (e) {}
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.grey.shade200,
+                            offset: Offset(2, 4),
+                            blurRadius: 5,
+                            spreadRadius: 2)
+                      ],
+                      gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [Color(0xff85a7c7), Color(0xff4d87b7)])),
+                  child: Text(
+                    'Setujui',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ),
+              ),
+            ] else
+              ...[],
             SizedBox(
               height: 75,
             )

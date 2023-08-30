@@ -6,6 +6,7 @@ use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -70,8 +71,12 @@ class HomeController extends Controller
             $hitung_gedung = count(DB::table('gedung')->get());
             $hitung_ruangan = count(DB::table('gedung')->get());
 
+            // $hitung_belum_kembali = 
 
-            return view('user.home', compact('hitung_barang', 'hitung_gedung', 'hitung_ruangan', 'hitung_masuk', 'hitung_keluar', 'hitung_pinjam',  'hitung_dalam', 'hitung_luar'));
+            $peminjaman_blm_kembali = Peminjaman::where('selesai', 'false')->whereDate('tgl_kembali', '<=', Carbon::now())->groupBy('kode_peminjaman')->count();
+
+
+            return view('user.home', compact('hitung_barang', 'hitung_gedung', 'hitung_ruangan', 'hitung_masuk', 'hitung_keluar', 'hitung_pinjam',  'hitung_dalam', 'hitung_luar', 'peminjaman_blm_kembali'));
         } else {
             return view('pembimbing.dashboard_pem');
         }
